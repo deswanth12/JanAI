@@ -144,4 +144,4 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
-<p center>Built with ❤️ for Indian Citizens by Devanth & Team.</p>
+<p center>Built with ❤️ for Indian Citizens by Devanth .</p>
