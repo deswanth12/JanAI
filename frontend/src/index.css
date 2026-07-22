@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+body {
+  background: #0b1020;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Accessibility Modes */
+html.high-contrast {
+  filter: contrast(140%) brightness(110%);
+}
+
+html.high-contrast body {
+  background: #000000 !important;
+}
+
+html.text-size-large {
+  font-size: 110%;
+}
+
+html.text-size-xlarge {
+  font-size: 125%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b1020;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}

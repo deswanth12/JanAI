@@ -1,0 +1,16 @@
+{
+  "short_name": "JanAI",
+  "name": "JanAI — Indian Government Scheme & Student Assistance Platform",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0b1020",
+  "theme_color": "#22c55e",
+  "display": "standalone",
+  "orientation": "portrait"
+}
