@@ -9,6 +9,9 @@ import DigiLockerModal from "../components/DigiLockerModal"
 import AiCaseWorker from "../components/AiCaseWorker"
 import DocumentChecklist from "../components/DocumentChecklist"
 import AiExplainWhyPanel from "../components/AiExplainWhyPanel"
+import JanAiAutonomousAgent from "../components/JanAiAutonomousAgent"
+import AiGoalPlanner from "../components/AiGoalPlanner"
+import AiGroundingRagPanel from "../components/AiGroundingRagPanel"
 import GovernmentOfficeFinder from "../components/GovernmentOfficeFinder"
 import DocumentExpiryMonitor from "../components/DocumentExpiryMonitor"
 import CitizenLifetimeTimeline from "../components/CitizenLifetimeTimeline"
@@ -81,10 +84,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 1. AI Active Case Worker Guided Progress */}
+      {/* 🌟 1. THE APEX EVOLUTION: JanAI Autonomous Goal Agent */}
+      <JanAiAutonomousAgent />
+
+      {/* 2. AI Active Case Worker Guided Progress */}
       <AiCaseWorker onLaunchApply={() => setSelectedSchemeForApply(SCHEMES_DATABASE[0])} />
 
-      {/* 2. Total Household Benefit Impact Engine */}
+      {/* 3. Total Household Benefit Impact Engine */}
       <BenefitCalculator />
 
       {/* Quick Metrics */}
@@ -126,19 +132,25 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 3. AI Document Pre-Application Checklist */}
+      {/* 4. AI Goal Roadmap Planner */}
+      <AiGoalPlanner />
+
+      {/* 5. RAG Source Citation & Grounding Inspector */}
+      <AiGroundingRagPanel />
+
+      {/* 6. AI Document Pre-Application Checklist */}
       <DocumentChecklist schemeTitle="Post-Matric Scholarship & PM-Kisan" />
 
-      {/* 4. AI "Explain Why" Trust & Exclusion Panel */}
+      {/* 7. AI "Explain Why" Trust & Exclusion Panel */}
       <AiExplainWhyPanel userProfile={user} />
 
-      {/* 5. AI Document Expiry Monitor */}
+      {/* 8. AI Document Expiry Monitor */}
       <DocumentExpiryMonitor />
 
-      {/* 6. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
+      {/* 9. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
       <CitizenLifetimeTimeline />
 
-      {/* 7. Local Government Office Finder */}
+      {/* 10. Local Government Office Finder */}
       <GovernmentOfficeFinder />
 
       {/* Recommended Schemes */}
@@ -231,13 +243,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 8. JanAI Citizen Knowledge Base & Terms Explainer */}
+      {/* 11. JanAI Citizen Knowledge Base & Terms Explainer */}
       <JanAIKnowledgeBase />
 
-      {/* 9. B2B Partner Portal */}
+      {/* 12. B2B Partner Portal */}
       <PartnerPortal />
 
-      {/* 10. Security, Privacy & Consent Hub */}
+      {/* 13. Security, Privacy & Consent Hub */}
       <SecurityPrivacyHub />
 
       {/* Modals */}
