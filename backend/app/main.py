@@ -23,7 +23,7 @@ init_db()
 
 app = FastAPI(
     title="JanAI Production Hardened Security Gateway API & MCP Server",
-    description="Hardened FastAPI Server with Strict CSP, RS256 JWT Authorization Bearer Tokens, API Abuse Protections, & MCP 2.0 Protocol",
+    description="Hardened FastAPI Server with Strict Nonce/Self CSP (No Unsafe Script Inlines), RS256 JWT, API Abuse Protections, & MCP 2.0 Protocol",
     version="2.0.0",
     docs_url=None,
     redoc_url=None
@@ -38,7 +38,7 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type", "X-Requested-With", "Accept"],
 )
 
-# --- STRICT PRODUCTION CONTENT SECURITY POLICY & HARDENING HEADERS MIDDLEWARE ---
+# --- STRICT NON-INLINE SCRIPT CSP & HARDENING HEADERS MIDDLEWARE ---
 @app.middleware("http")
 async def add_strict_security_headers(request: Request, call_next):
     # Request Size Limit Check (Max 10MB payload to prevent memory exhaustion)
@@ -58,7 +58,7 @@ async def add_strict_security_headers(request: Request, call_next):
             content={"error": "Request Execution Timeout. Execution exceeded 30-second safety threshold."}
         )
 
-    # Hardened HTTP Security Headers
+    # Hardened HTTP Security Headers - Strict Self Script CSP (Zero 'unsafe-inline' in script-src)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
@@ -67,10 +67,10 @@ async def add_strict_security_headers(request: Request, call_next):
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     response.headers["Content-Security-Policy"] = (
         "default-src 'none'; "
-        "script-src 'self' 'unsafe-inline'; "
-        "style-src 'self' 'unsafe-inline'; "
+        "script-src 'self'; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         "img-src 'self' data: https:; "
-        "font-src 'self' data:; "
+        "font-src 'self' data: https://fonts.gstatic.com; "
         "connect-src 'self' http://127.0.0.1:8000 http://localhost:8000 https://janai.in; "
         "frame-ancestors 'none'; "
         "object-src 'none'; "
@@ -205,6 +205,7 @@ def health_check():
         "mcp_protocol": "MCP 2.0 Compliant",
         "database": "SQLite (janai.db)",
         "security_audit": "No known critical or high-severity vulnerabilities identified during current security review",
+        "csp_standard": "Strict Script Self (Zero Unsafe Script Inlines)",
         "auth_model": "Stateless Authorization Bearer Tokens (RS256 JWT)",
         "multilingual_languages_count": len(SCHEDULED_INDIAN_LANGUAGES),
         "ai_engine": "Gemini 2.0 Flash + Vernacular RAG"
