@@ -8,6 +8,7 @@ import BenefitCalculator from "../components/BenefitCalculator"
 import DigiLockerModal from "../components/DigiLockerModal"
 import AiCaseWorker from "../components/AiCaseWorker"
 import DocumentChecklist from "../components/DocumentChecklist"
+import AiExplainWhyPanel from "../components/AiExplainWhyPanel"
 import GovernmentOfficeFinder from "../components/GovernmentOfficeFinder"
 import DocumentExpiryMonitor from "../components/DocumentExpiryMonitor"
 import CitizenLifetimeTimeline from "../components/CitizenLifetimeTimeline"
@@ -128,13 +129,16 @@ export default function Dashboard() {
       {/* 3. AI Document Pre-Application Checklist */}
       <DocumentChecklist schemeTitle="Post-Matric Scholarship & PM-Kisan" />
 
-      {/* 4. AI Document Expiry Monitor */}
+      {/* 4. AI "Explain Why" Trust & Exclusion Panel */}
+      <AiExplainWhyPanel userProfile={user} />
+
+      {/* 5. AI Document Expiry Monitor */}
       <DocumentExpiryMonitor />
 
-      {/* 5. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
+      {/* 6. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
       <CitizenLifetimeTimeline />
 
-      {/* 6. Local Government Office Finder */}
+      {/* 7. Local Government Office Finder */}
       <GovernmentOfficeFinder />
 
       {/* Recommended Schemes */}
@@ -227,13 +231,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 7. JanAI Citizen Knowledge Base & Terms Explainer */}
+      {/* 8. JanAI Citizen Knowledge Base & Terms Explainer */}
       <JanAIKnowledgeBase />
 
-      {/* 8. B2B Partner Portal */}
+      {/* 9. B2B Partner Portal */}
       <PartnerPortal />
 
-      {/* 9. Security, Privacy & Consent Hub */}
+      {/* 10. Security, Privacy & Consent Hub */}
       <SecurityPrivacyHub />
 
       {/* Modals */}
