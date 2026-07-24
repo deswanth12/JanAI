@@ -6,6 +6,15 @@ import json
 
 from app.database import get_db, init_db
 from app.mcp_server import JanAIMCPRegistry, SCHEDULED_INDIAN_LANGUAGES, VERNACULAR_JARGON_DICTIONARY
+from auth import (
+    handle_user_register,
+    handle_user_login,
+    handle_google_auth,
+    handle_request_otp,
+    handle_verify_otp,
+    handle_forgot_password,
+    handle_reset_password
+)
 
 init_db()
 
@@ -65,6 +74,70 @@ class VernacularTranslateSchema(BaseModel):
     text: str
     targetLanguage: str = "hi"
     simplificationMode: str = "village_vernacular"
+
+# --- AUTHENTICATION ENDPOINTS ---
+
+@app.post("/api/auth/register")
+def register_user(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_user_register(payload, cursor, conn)
+    conn.close()
+    if "error" in res:
+        raise HTTPException(status_code=400, detail=res["error"])
+    return res
+
+@app.post("/api/auth/login")
+def login_user(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_user_login(payload, cursor, conn)
+    conn.close()
+    if "error" in res:
+        raise HTTPException(status_code=401, detail=res["error"])
+    return res
+
+@app.post("/api/auth/google")
+def google_auth(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_google_auth(payload, cursor, conn)
+    conn.close()
+    return res
+
+@app.post("/api/auth/otp/request")
+def request_otp(payload: Dict[str, Any]):
+    return handle_request_otp(payload)
+
+@app.post("/api/auth/otp/verify")
+def verify_otp(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_verify_otp(payload, cursor, conn)
+    conn.close()
+    if "error" in res:
+        raise HTTPException(status_code=400, detail=res["error"])
+    return res
+
+@app.post("/api/auth/forgot-password")
+def forgot_password(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_forgot_password(payload, cursor)
+    conn.close()
+    if "error" in res:
+        raise HTTPException(status_code=404, detail=res["error"])
+    return res
+
+@app.post("/api/auth/reset-password")
+def reset_password(payload: Dict[str, Any]):
+    conn = get_db()
+    cursor = conn.cursor()
+    res = handle_reset_password(payload, cursor, conn)
+    conn.close()
+    if "error" in res:
+        raise HTTPException(status_code=400, detail=res["error"])
+    return res
 
 # --- SYSTEM & HEALTH ENDPOINTS ---
 

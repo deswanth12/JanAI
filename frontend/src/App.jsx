@@ -11,6 +11,10 @@ import VoiceAssistant from "./components/VoiceAssistant"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
+import VerifyEmail from "./pages/VerifyEmail"
+import CompleteProfile from "./pages/CompleteProfile"
+import ForgotPassword from "./pages/ForgotPassword"
 import Dashboard from "./pages/Dashboard"
 import SchemeFinder from "./pages/SchemeFinder"
 import Eligibility from "./pages/Eligibility"
@@ -82,6 +86,10 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/complete-profile" element={<CompleteProfile />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/finder" element={<SchemeFinder />} />
             <Route path="/eligibility" element={<Eligibility />} />

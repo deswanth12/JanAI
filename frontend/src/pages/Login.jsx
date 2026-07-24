@@ -1,13 +1,14 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
-import { Mail, Phone, Lock, Sparkles } from "lucide-react"
+import { Mail, Phone, Lock, Sparkles, ArrowRight } from "lucide-react"
 
 export default function Login() {
   const navigate = useNavigate()
   const { updateUserProfile } = useAuth()
   const [authMethod, setAuthMethod] = useState("email")
-  const [email, setEmail] = useState("deshu@example.com")
+  const [email, setEmail] = useState("devanth@gmail.com")
+  const [password, setPassword] = useState("••••••••")
   const [phone, setPhone] = useState("9876543210")
   const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
@@ -29,40 +30,44 @@ export default function Login() {
   }
 
   const handleGoogleLogin = () => {
-    updateUserProfile({ name: "Deshu (Google Auth)", email: "deshu.google@example.com", isVerified: true })
+    updateUserProfile({ name: "Devanth (Google Workspace)", email: "devanth.google@gmail.com", isVerified: true })
     navigate("/dashboard")
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-10 px-4">
-      <div className="bg-[#12182b] border border-gray-800 w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6">
-        <div className="text-center">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-green-500 to-blue-500 flex items-center justify-center font-bold text-black text-2xl mx-auto mb-3 shadow-lg">
-            J
-          </div>
-          <h1 className="text-3xl font-bold text-white">Welcome to JanAI</h1>
-          <p className="text-xs text-gray-400 mt-1">Sign in to access eligible schemes & application tracking</p>
+    <div className="min-h-[85vh] flex items-center justify-center py-10 px-4">
+      <div className="bg-[#12182b] border border-gray-800 w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6 text-xs">
+        {/* Brand Header */}
+        <div className="text-center space-y-2">
+          <img
+            src="/janai-logo.jpg"
+            alt="JanAI - AI Powered Citizen First Logo"
+            className="h-20 w-auto rounded-xl object-contain mx-auto border border-gray-700 bg-white p-0.5"
+          />
+          <h1 className="text-2xl font-bold text-white mt-2">Welcome to JanAI</h1>
+          <p className="text-xs text-gray-400">Sign in to access eligible government schemes & application tracking</p>
         </div>
 
+        {/* Method Selector */}
         <div className="flex bg-[#1b2338] p-1 rounded-2xl border border-gray-800 text-xs font-semibold">
           <button
             onClick={() => { setAuthMethod("email"); setOtpSent(false); }}
-            className={`flex-1 py-2 rounded-xl transition ${authMethod === "email" ? "bg-green-500 text-black" : "text-gray-400 hover:text-white"}`}
+            className={`flex-1 py-2 rounded-xl transition ${authMethod === "email" ? "bg-green-500 text-black font-bold" : "text-gray-400 hover:text-white"}`}
           >
             Email Login
           </button>
           <button
             onClick={() => { setAuthMethod("phone"); setOtpSent(false); }}
-            className={`flex-1 py-2 rounded-xl transition ${authMethod === "phone" ? "bg-green-500 text-black" : "text-gray-400 hover:text-white"}`}
+            className={`flex-1 py-2 rounded-xl transition ${authMethod === "phone" ? "bg-green-500 text-black font-bold" : "text-gray-400 hover:text-white"}`}
           >
-            Phone OTP
+            Mobile OTP
           </button>
         </div>
 
         {authMethod === "email" && (
           <form onSubmit={handleEmailSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-gray-400 font-medium">Email Address</label>
+              <label className="text-xs text-gray-400 font-semibold">Email Address</label>
               <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-3 rounded-xl mt-1 text-xs">
                 <Mail size={16} className="text-gray-400" />
                 <input
@@ -76,13 +81,23 @@ export default function Login() {
             </div>
 
             <div>
-              <label className="text-xs text-gray-400 font-medium">Password</label>
+              <div className="flex justify-between items-center">
+                <label className="text-xs text-gray-400 font-semibold">Password</label>
+                <button
+                  type="button"
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-[11px] text-yellow-400 hover:underline font-semibold"
+                >
+                  Forgot Password?
+                </button>
+              </div>
               <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-3 rounded-xl mt-1 text-xs">
                 <Lock size={16} className="text-gray-400" />
                 <input
                   type="password"
                   required
-                  defaultValue="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="bg-transparent text-white outline-none w-full"
                 />
               </div>
@@ -90,9 +105,9 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition shadow-lg"
+              className="w-full py-3.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2"
             >
-              Sign In with Email
+              Sign In with Email <ArrowRight size={14} />
             </button>
           </form>
         )}
@@ -100,7 +115,7 @@ export default function Login() {
         {authMethod === "phone" && (
           <form onSubmit={handlePhoneSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-gray-400 font-medium">Mobile Number (+91)</label>
+              <label className="text-xs text-gray-400 font-semibold">Indian Mobile Number (+91)</label>
               <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-3 rounded-xl mt-1 text-xs">
                 <Phone size={16} className="text-gray-400" />
                 <input
@@ -108,23 +123,23 @@ export default function Login() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="bg-transparent text-white outline-none w-full"
+                  className="bg-transparent text-white outline-none w-full font-mono"
                 />
               </div>
             </div>
 
             {otpSent && (
               <div>
-                <label className="text-xs text-gray-400 font-medium">Enter 6-Digit OTP</label>
+                <label className="text-xs text-gray-400 font-semibold">Enter 6-Digit OTP</label>
                 <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-3 rounded-xl mt-1 text-xs">
                   <Sparkles size={16} className="text-green-400" />
                   <input
                     type="text"
                     required
-                    placeholder="123456"
+                    placeholder="904128"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    className="bg-transparent text-white outline-none w-full font-mono tracking-widest text-center"
+                    className="bg-transparent text-white outline-none w-full font-mono tracking-widest text-center text-sm"
                   />
                 </div>
               </div>
@@ -132,9 +147,9 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition shadow-lg"
+              className="w-full py-3.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2"
             >
-              {otpSent ? "Verify OTP & Continue" : "Send OTP Verification"}
+              {otpSent ? "Verify 6-Digit OTP & Sign In" : "Send 6-Digit Mobile OTP"} <ArrowRight size={14} />
             </button>
           </form>
         )}
@@ -147,10 +162,17 @@ export default function Login() {
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full py-3 glass hover:bg-white/10 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-2 transition"
+          className="w-full py-3 glass hover:bg-white/10 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-2 transition border border-gray-700"
         >
-          <span className="font-bold text-blue-400">G</span> Sign in with Google Workspace
+          <span className="font-bold text-blue-400 text-sm">G</span> Continue with Google Workspace
         </button>
+
+        <div className="text-center text-gray-400 border-t border-gray-800 pt-4">
+          Don't have a JanAI account?{" "}
+          <button onClick={() => navigate("/register")} className="text-green-400 font-bold hover:underline">
+            Create Account
+          </button>
+        </div>
       </div>
     </div>
   )
