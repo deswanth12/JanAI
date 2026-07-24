@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import json
 import logging
+import asyncio
 
 from app.database import get_db, init_db
 from app.mcp_server import JanAIMCPRegistry, SCHEDULED_INDIAN_LANGUAGES, VERNACULAR_JARGON_DICTIONARY
@@ -21,14 +22,14 @@ from auth import (
 init_db()
 
 app = FastAPI(
-    title="JanAI Production Hardened Backend API & MCP Server",
-    description="Zero-Vulnerability Hardened FastAPI Server with HTTP Security Headers, RS256 JWT, Rate Limiting & MCP 2.0 Protocol",
+    title="JanAI Production Hardened Security Gateway API & MCP Server",
+    description="Hardened FastAPI Server with Strict CSP, RS256 JWT Authorization Bearer Tokens, API Abuse Protections, & MCP 2.0 Protocol",
     version="2.0.0",
-    docs_url="/docs" if False else None,  # Hide OpenAPI docs in strict production
+    docs_url=None,
     redoc_url=None
 )
 
-# CORS Policy - Strict Allowed Origins
+# Strict CORS Policy
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "https://janai.in"],
@@ -37,10 +38,27 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type", "X-Requested-With", "Accept"],
 )
 
-# --- SECURITY HARDENING HEADERS MIDDLEWARE ---
+# --- STRICT PRODUCTION CONTENT SECURITY POLICY & HARDENING HEADERS MIDDLEWARE ---
 @app.middleware("http")
-async def add_security_headers(request: Request, call_next):
-    response: Response = await call_next(request)
+async def add_strict_security_headers(request: Request, call_next):
+    # Request Size Limit Check (Max 10MB payload to prevent memory exhaustion)
+    content_length = request.headers.get("content-length")
+    if content_length and int(content_length) > 10 * 1024 * 1024:
+        return JSONResponse(
+            status_code=413,
+            content={"error": "Payload Too Large. Maximum allowed request size is 10MB."}
+        )
+
+    try:
+        # Timeout Protection (30-second execution timeout per request)
+        response: Response = await asyncio.wait_for(call_next(request), timeout=30.0)
+    except asyncio.TimeoutError:
+        return JSONResponse(
+            status_code=540,
+            content={"error": "Request Execution Timeout. Execution exceeded 30-second safety threshold."}
+        )
+
+    # Hardened HTTP Security Headers
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
     response.headers["X-XSS-Protection"] = "1; mode=block"
@@ -48,11 +66,16 @@ async def add_security_headers(request: Request, call_next):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; "
-        "img-src 'self' data: https:; "
+        "default-src 'none'; "
         "script-src 'self' 'unsafe-inline'; "
         "style-src 'self' 'unsafe-inline'; "
-        "frame-ancestors 'none';"
+        "img-src 'self' data: https:; "
+        "font-src 'self' data:; "
+        "connect-src 'self' http://127.0.0.1:8000 http://localhost:8000 https://janai.in; "
+        "frame-ancestors 'none'; "
+        "object-src 'none'; "
+        "base-uri 'self'; "
+        "form-action 'self';"
     )
     return response
 
@@ -181,7 +204,8 @@ def health_check():
         "service": "JanAI Hardened Security Gateway & MCP Server",
         "mcp_protocol": "MCP 2.0 Compliant",
         "database": "SQLite (janai.db)",
-        "security_score": "100% Zero Known Vulnerabilities",
+        "security_audit": "No known critical or high-severity vulnerabilities identified during current security review",
+        "auth_model": "Stateless Authorization Bearer Tokens (RS256 JWT)",
         "multilingual_languages_count": len(SCHEDULED_INDIAN_LANGUAGES),
         "ai_engine": "Gemini 2.0 Flash + Vernacular RAG"
     }

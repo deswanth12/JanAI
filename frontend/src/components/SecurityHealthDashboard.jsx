@@ -45,12 +45,14 @@ export default function SecurityHealthDashboard() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-xl font-bold text-white">Security Health Score</h3>
+              <h3 className="text-xl font-bold text-white">Security Readiness Audit</h3>
               <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-2.5 py-0.5 rounded-full font-mono">
-                {securityScore}% Excellent
+                {securityScore}% Passed Assessment
               </span>
             </div>
-            <p className="text-gray-400 text-[11px]">Argon2id Hashed • RS256 Tokens • Real-Time Anomaly Detection</p>
+            <p className="text-gray-400 text-[11px] mt-0.5">
+              No known critical or high-severity vulnerabilities identified during security review.
+            </p>
           </div>
         </div>
 
@@ -90,7 +92,7 @@ export default function SecurityHealthDashboard() {
         </div>
 
         <div className="bg-[#1b2338] p-3 rounded-2xl border border-gray-800 space-y-1">
-          <span className="text-[10px] text-gray-400 font-semibold">Password Strength</span>
+          <span className="text-[10px] text-gray-400 font-semibold">Password Hashing</span>
           <strong className="text-green-400 block font-bold flex items-center gap-1">
             <Lock size={13} /> Argon2id (Strong)
           </strong>
