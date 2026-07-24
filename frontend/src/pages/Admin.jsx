@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import { SCHEMES_DATABASE } from "../api/schemesData"
 import { fetchMcpTools } from "../api/backendApi"
+import FeatureFlagManager from "../components/FeatureFlagManager"
+import HumanReviewEscalationModal from "../components/HumanReviewEscalationModal"
 import {
   ShieldCheck,
   FileSpreadsheet,
@@ -10,7 +12,8 @@ import {
   BarChart3,
   Server,
   Globe,
-  Code
+  Code,
+  UserCheck
 } from "lucide-react"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
 
@@ -19,6 +22,7 @@ export default function Admin() {
   const [schemesList] = useState(SCHEMES_DATABASE)
   const [csvStatus, setCsvStatus] = useState("")
   const [mcpToolsList, setMcpToolsList] = useState([])
+  const [showHumanEscalation, setShowHumanEscalation] = useState(false)
 
   useEffect(() => {
     fetchMcpTools().then(res => {
@@ -67,18 +71,27 @@ export default function Admin() {
           </h1>
         </div>
 
-        <div className="flex bg-[#12182b] p-1 rounded-2xl border border-gray-800 text-xs font-bold">
-          {["Super Admin", "Content Manager", "Moderator", "Data Analyst"].map((role) => (
-            <button
-              key={role}
-              onClick={() => setAdminRole(role)}
-              className={`px-3 py-2 rounded-xl transition ${
-                adminRole === role ? "bg-green-500 text-black shadow-md" : "text-gray-400 hover:text-white"
-              }`}
-            >
-              {role}
-            </button>
-          ))}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowHumanEscalation(true)}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition"
+          >
+            <UserCheck size={16} /> Human Review Queue
+          </button>
+
+          <div className="flex bg-[#12182b] p-1 rounded-2xl border border-gray-800 text-xs font-bold">
+            {["Super Admin", "Content Manager", "Moderator", "Data Analyst"].map((role) => (
+              <button
+                key={role}
+                onClick={() => setAdminRole(role)}
+                className={`px-3 py-2 rounded-xl transition ${
+                  adminRole === role ? "bg-green-500 text-black shadow-md" : "text-gray-400 hover:text-white"
+                }`}
+              >
+                {role}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -105,6 +118,9 @@ export default function Admin() {
           <p className="text-[10px] text-pink-400 font-bold">Ground truth verified</p>
         </div>
       </div>
+
+      {/* Feature Flag Controller */}
+      <FeatureFlagManager />
 
       {/* MCP Server Registry Section */}
       <div className="glass p-6 rounded-3xl border border-blue-500/30 space-y-4">
@@ -260,6 +276,11 @@ export default function Admin() {
           </tbody>
         </table>
       </div>
+
+      <HumanReviewEscalationModal
+        isOpen={showHumanEscalation}
+        onClose={() => setShowHumanEscalation(false)}
+      />
     </div>
   )
 }

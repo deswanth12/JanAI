@@ -6,12 +6,13 @@ import {
   Compass,
   CheckCircle2,
   Sparkles,
-  ArrowRight,
+  ExternalLink,
   FileText,
   Clock,
   ShieldCheck,
   Zap,
-  Target
+  Target,
+  AlertCircle
 } from "lucide-react"
 
 export default function JanAiAutonomousAgent() {
@@ -39,8 +40,8 @@ export default function JanAiAutonomousAgent() {
       setAgentPlan({
         goalTitle: target,
         matchingSchemes: [
-          { scheme: SCHEMES_DATABASE[0], role: "100% Tuition Fee Waiver & Annual Stipend" },
-          { scheme: SCHEMES_DATABASE[2], role: "Low-Interest Collateral-Free Education Loan" }
+          { scheme: SCHEMES_DATABASE[0], role: "100% Tuition Fee Waiver & Annual Stipend", officialPortal: "https://scholarships.gov.in" },
+          { scheme: SCHEMES_DATABASE[2], role: "Low-Interest Collateral-Free Education Loan", officialPortal: "https://www.vidyalakshmi.co.in" }
         ],
         missingDocuments: [
           { name: "Income Certificate (Below ₹2.5L)", estDays: 2 },
@@ -49,7 +50,7 @@ export default function JanAiAutonomousAgent() {
         autoActionsTaken: [
           "Scanned 25+ Gazette Schemes using RAG Vector DB",
           "Scrutinized Devanth's Household Income (₹1.8L) & OBC Category",
-          "Generated Pre-Filled Common Application Form PDF",
+          "Generated Pre-Filled Common Application Package PDF",
           "Set Automated SMS/WhatsApp Reminders for Cut-off Date (Aug 15)"
         ],
         estimatedAnnualBenefit: "₹75,000 / year"
@@ -57,7 +58,7 @@ export default function JanAiAutonomousAgent() {
     }, 1800)
   }
 
-  const handleAutoApplyAll = () => {
+  const handlePrepareSubmissionPackage = () => {
     if (!agentPlan) return
     agentPlan.matchingSchemes.forEach(item => {
       submitNewApplication({
@@ -66,10 +67,11 @@ export default function JanAiAutonomousAgent() {
         applicantName: user.name,
         relation: "Self",
         probabilityScore: 96,
-        status: "Submitted to Nodal Officer"
+        status: "Pre-Filled Package Ready (Official Portal Handoff)"
       })
     })
-    alert("🚀 JanAI Autonomous Agent successfully executed multi-scheme application for your goal!")
+    alert("📄 Pre-filled Application Package generated! Opening official government portal link...")
+    window.open(agentPlan.matchingSchemes[0].officialPortal, "_blank")
   }
 
   return (
@@ -87,7 +89,7 @@ export default function JanAiAutonomousAgent() {
           <h2 className="text-2xl font-bold text-white mt-1 flex items-center gap-2">
             <Compass className="text-green-400 animate-spin-slow" size={26} /> JanAI Autonomous Goal Agent
           </h2>
-          <p className="text-xs text-gray-400">Tell JanAI your life goal — the AI will discover schemes, verify eligibility, resolve missing documents, fill forms & track deadlines automatically.</p>
+          <p className="text-xs text-gray-400">Tell JanAI your life goal — the AI will discover schemes, verify eligibility, resolve missing documents, pre-fill packages & guide official portal submission.</p>
         </div>
       </div>
 
@@ -201,16 +203,24 @@ export default function JanAiAutonomousAgent() {
             </div>
           </div>
 
+          {/* Integration Realism Clarification Banner */}
+          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center gap-2 text-blue-300 text-[11px]">
+            <AlertCircle size={16} className="shrink-0 text-blue-400" />
+            <p>
+              <strong>Submission Workflow Notice:</strong> JanAI pre-fills your official application package and provides direct deep-linking to official government portals (e.g. <code>scholarships.gov.in</code>). Direct 1-click submission is performed where official government REST APIs are enabled.
+            </p>
+          </div>
+
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-800 pt-4">
             <p className="text-gray-400 text-[11px] flex items-center gap-1">
               <Clock size={14} className="text-green-400" /> JanAI Autonomous Agent is tracking application cutoffs on your behalf.
             </p>
 
             <button
-              onClick={handleAutoApplyAll}
+              onClick={handlePrepareSubmissionPackage}
               className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-400 text-black font-extrabold rounded-xl text-xs hover:opacity-90 transition flex items-center justify-center gap-2"
             >
-              1-Click Apply All Matched Goal Schemes <ArrowRight size={14} />
+              Get Pre-Filled Package & Open Official Portal <ExternalLink size={14} />
             </button>
           </div>
         </div>
