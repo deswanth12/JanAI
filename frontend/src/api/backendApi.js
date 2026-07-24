@@ -10,6 +10,48 @@ export async function fetchHealthStatus() {
   }
 }
 
+// --- MODEL CONTEXT PROTOCOL (MCP) CLIENT CALLS ---
+
+export async function fetchMcpTools() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/mcp/v1/tools`)
+    if (res.ok) return await res.json()
+  } catch (err) {
+    console.warn("MCP Server offline:", err)
+  }
+  return { tools: [] }
+}
+
+export async function callMcpTool(name, args) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/mcp/v1/call`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, arguments: args })
+    })
+    if (res.ok) return await res.json()
+  } catch (err) {
+    console.warn(`MCP Tool '${name}' execution error:`, err)
+  }
+  return null
+}
+
+export async function simplifyVernacularApi(text, targetLanguage, mode = "village_vernacular") {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/multilingual/simplify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, targetLanguage, simplificationMode: mode })
+    })
+    if (res.ok) return await res.json()
+  } catch (err) {
+    console.warn("Failed vernacular simplification:", err)
+  }
+  return null
+}
+
+// --- CITIZEN & HOUSEHOLD API CALLS ---
+
 export async function fetchUserProfile() {
   try {
     const res = await fetch(`${BACKEND_URL}/api/user`)
