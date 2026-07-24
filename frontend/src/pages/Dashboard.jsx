@@ -20,6 +20,7 @@ import PartnerPortal from "../components/PartnerPortal"
 import SecurityPrivacyHub from "../components/SecurityPrivacyHub"
 import FormValidationModal from "../components/FormValidationModal"
 import SchemeMetadataBadge from "../components/SchemeMetadataBadge"
+import PolicyChangeTimeline from "../components/PolicyChangeTimeline"
 import {
   Search,
   Users,
@@ -87,11 +88,11 @@ export default function Dashboard() {
       </div>
 
       {/* Official Source Grounded Disclaimer Banner */}
-      <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-between gap-3 text-xs text-blue-300">
+      <div className="p-3.5 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-between gap-3 text-xs text-blue-300">
         <div className="flex items-center gap-2">
           <Info size={16} className="text-blue-400 shrink-0" />
           <p>
-            <strong>Official-Source Grounded:</strong> Information is derived from government portals and gazette notifications and includes the source, data version, and last verification timestamp.
+            <strong>Official-Source Grounded:</strong> Information is derived from government portals and gazette notifications, including source citations, versioning, and last verification timestamp.
           </p>
         </div>
         <span className="text-[10px] bg-blue-500/20 text-blue-300 font-mono px-2.5 py-1 rounded-xl font-bold shrink-0">
@@ -153,19 +154,22 @@ export default function Dashboard() {
       {/* 5. RAG Source Citation & Grounding Inspector */}
       <AiGroundingRagPanel />
 
-      {/* 6. AI Document Pre-Application Checklist */}
+      {/* 6. Historical Policy Change Timeline */}
+      <PolicyChangeTimeline schemeTitle="PM Mudra Yojana & PM-Kisan" />
+
+      {/* 7. AI Document Pre-Application Checklist */}
       <DocumentChecklist schemeTitle="Post-Matric Scholarship & PM-Kisan" />
 
-      {/* 7. AI "Explain Why" Trust & Exclusion Panel */}
+      {/* 8. AI "Explain Why" Trust & Exclusion Panel */}
       <AiExplainWhyPanel userProfile={user} />
 
-      {/* 8. AI Document Expiry Monitor */}
+      {/* 9. AI Document Expiry Monitor */}
       <DocumentExpiryMonitor />
 
-      {/* 9. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
+      {/* 10. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
       <CitizenLifetimeTimeline />
 
-      {/* 10. Local Government Office Finder */}
+      {/* 11. Local Government Office Finder */}
       <GovernmentOfficeFinder />
 
       {/* Recommended Schemes */}
@@ -199,8 +203,8 @@ export default function Dashboard() {
                 <p className="text-xs text-gray-400 mt-1 line-clamp-2">{scheme.shortDescription}</p>
               </div>
 
-              {/* Scheme Metadata Badge */}
-              <SchemeMetadataBadge metadata={scheme.metadata} officialUrl={scheme.officialUrl} state={scheme.state} />
+              {/* Scheme Metadata Badge with Separated Data Verification & AI Confidence */}
+              <SchemeMetadataBadge metadata={scheme.metadata} officialUrl={scheme.officialUrl} schemeTitle={scheme.title} />
 
               <div className="flex items-center justify-between border-t border-gray-800 pt-3">
                 <span className="text-xs font-bold text-pink-400">{scheme.benefitAmount}</span>
@@ -256,13 +260,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 11. JanAI Citizen Knowledge Base & Terms Explainer */}
+      {/* 12. JanAI Citizen Knowledge Base & Terms Explainer */}
       <JanAIKnowledgeBase />
 
-      {/* 12. B2B Partner Portal */}
+      {/* 13. B2B Partner Portal */}
       <PartnerPortal />
 
-      {/* 13. Security, Privacy & Consent Hub */}
+      {/* 14. Security, Privacy & Consent Hub */}
       <SecurityPrivacyHub />
 
       {/* Modals */}

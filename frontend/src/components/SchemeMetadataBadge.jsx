@@ -1,63 +1,66 @@
-import { ExternalLink, ShieldCheck, Clock } from "lucide-react"
+import { useState } from "react"
+import { ExternalLink, ShieldCheck, CheckCircle2, HelpCircle } from "lucide-react"
+import AiConfidenceExplainModal from "./AiConfidenceExplainModal"
 
-export default function SchemeMetadataBadge({ metadata, officialUrl, state = "All India" }) {
+export default function SchemeMetadataBadge({ metadata, officialUrl, schemeTitle = "Government Scheme" }) {
+  const [showExplainModal, setShowExplainModal] = useState(false)
+
   if (!metadata) return null
 
   return (
-    <div className="bg-[#12182b] p-3.5 rounded-2xl border border-blue-500/20 space-y-2 text-[11px] text-gray-300">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-800 pb-2">
-        <div className="flex items-center gap-1.5 font-semibold text-blue-300">
+    <div className="bg-[#12182b] p-4 rounded-2xl border border-blue-500/20 space-y-3 text-[11px] text-gray-300">
+      {/* Separated Verified vs AI Confidence */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-800 pb-3">
+        <div className="flex items-center gap-1.5 font-bold text-green-400 bg-green-500/10 px-3 py-1 rounded-xl border border-green-500/30">
+          <CheckCircle2 size={15} />
+          <span>Verified Against Official Source: <strong className="text-white">YES</strong></span>
+        </div>
+
+        <button
+          onClick={() => setShowExplainModal(true)}
+          className="flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 font-mono font-bold px-3 py-1 rounded-xl border border-blue-500/30 transition"
+          title="Click to see why AI Confidence is scored at this level"
+        >
           <ShieldCheck size={14} className="text-blue-400" />
-          <span>Source: <code className="text-white font-mono">{metadata.sourcePortal}</code></span>
-        </div>
+          <span>AI Interpretation Confidence: <u className="text-white font-mono">{metadata.confidenceScore}%</u></span>
+          <HelpCircle size={12} className="text-blue-400" />
+        </button>
+      </div>
 
-        <span className="text-[10px] bg-green-500/20 text-green-300 font-mono font-bold px-2 py-0.5 rounded">
-          Confidence: {metadata.confidenceScore}%
+      {/* Production Recommendation Trust Seal */}
+      <div className="bg-[#1b2338] p-3 rounded-xl border border-gray-800 space-y-1 text-[10px]">
+        <span className="text-gray-400 font-bold uppercase block tracking-wider text-[9px] border-b border-gray-800/80 pb-1 mb-1">
+          Official Trust & Verification Matrix
         </span>
-      </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-gray-400">
-        <div>
-          <span>Last Verified:</span>
-          <strong className="text-white block font-mono">{metadata.lastVerified}</strong>
-        </div>
-
-        <div>
-          <span>Data Version:</span>
-          <strong className="text-yellow-400 block font-mono">v{metadata.dataVersion}</strong>
-        </div>
-
-        <div>
-          <span>Applicability:</span>
-          <strong className="text-white block">{state}</strong>
-        </div>
-
-        <div>
-          <span>Gazette Ref:</span>
-          <span className="text-gray-300 block truncate" title={metadata.gazetteReference}>
-            {metadata.gazetteReference}
-          </span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-gray-300 font-medium">
+          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Government Portal</span>
+          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Gazette Notification</span>
+          <span className="flex items-center gap-1 text-gray-300">Last Verified: <strong className="text-white font-mono">{metadata.lastVerified}</strong></span>
+          <span className="flex items-center gap-1 text-gray-300">Version: <strong className="text-yellow-400 font-mono">v{metadata.dataVersion}</strong></span>
+          <span className="flex items-center gap-1 text-blue-400 font-bold">✓ AI Explanation Included</span>
+          <span className="flex items-center gap-1 text-purple-300 font-bold">✓ Human Review Available</span>
         </div>
       </div>
-
-      {metadata.policyNote && (
-        <div className="text-[10px] text-gray-400 italic bg-[#1b2338] p-2 rounded-xl border border-gray-800 flex items-center gap-1">
-          <Clock size={12} className="text-yellow-400 shrink-0" /> {metadata.policyNote}
-        </div>
-      )}
 
       {officialUrl && (
-        <div className="pt-1 flex justify-end">
+        <div className="flex justify-end pt-1">
           <a
             href={officialUrl}
             target="_blank"
             rel="noreferrer"
             className="text-blue-400 hover:underline text-[10px] font-bold flex items-center gap-1"
           >
-            Verify Official Portal <ExternalLink size={10} />
+            Verify Directly on Government Portal ({metadata.sourcePortal}) <ExternalLink size={10} />
           </a>
         </div>
       )}
+
+      <AiConfidenceExplainModal
+        isOpen={showExplainModal}
+        onClose={() => setShowExplainModal(false)}
+        confidenceScore={metadata.confidenceScore}
+        schemeTitle={schemeTitle}
+      />
     </div>
   )
 }

@@ -39,21 +39,24 @@ export default function Navbar({ onOpenVoice }) {
   return (
     <header className="sticky top-0 z-40 bg-[#0b1020]/90 backdrop-blur-md border-b border-gray-800 px-4 md:px-8 py-3 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-green-500 to-blue-500 flex items-center justify-center font-bold text-black text-xl shadow-lg">
-            J
-          </div>
+        {/* Official Brand Logo */}
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
+          <img
+            src="/janai-logo.jpg"
+            alt="JanAI - AI Powered Citizen First Logo"
+            className="h-10 w-auto rounded-xl object-contain shadow-md border border-gray-700/50 bg-white p-0.5"
+          />
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-green-400 to-blue-400 text-transparent bg-clip-text">
+              <h1 className="text-xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-amber-400 text-transparent bg-clip-text">
                 JanAI
               </h1>
               <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20 font-mono font-bold flex items-center gap-1">
                 <Server size={10} /> {mcpStatus}
               </span>
             </div>
-            <span className="text-[10px] text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-500/20 font-medium">
-              22 Languages Vernacular AI
+            <span className="text-[10px] text-green-400 font-bold tracking-tight block">
+              AI POWERED. CITIZEN FIRST.
             </span>
           </div>
         </div>
