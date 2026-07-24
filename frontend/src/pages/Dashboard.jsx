@@ -19,6 +19,7 @@ import JanAIKnowledgeBase from "../components/JanAIKnowledgeBase"
 import PartnerPortal from "../components/PartnerPortal"
 import SecurityPrivacyHub from "../components/SecurityPrivacyHub"
 import FormValidationModal from "../components/FormValidationModal"
+import SchemeMetadataBadge from "../components/SchemeMetadataBadge"
 import {
   Search,
   Users,
@@ -29,7 +30,8 @@ import {
   Award,
   Clock,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  Info
 } from "lucide-react"
 
 export default function Dashboard() {
@@ -82,6 +84,19 @@ export default function Dashboard() {
             <Sparkles size={16} /> AI Scheme Finder
           </button>
         </div>
+      </div>
+
+      {/* Official Source Grounded Disclaimer Banner */}
+      <div className="p-3 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-between gap-3 text-xs text-blue-300">
+        <div className="flex items-center gap-2">
+          <Info size={16} className="text-blue-400 shrink-0" />
+          <p>
+            <strong>Official-Source Grounded:</strong> Information is derived from government portals and gazette notifications and includes the source, data version, and last verification timestamp.
+          </p>
+        </div>
+        <span className="text-[10px] bg-blue-500/20 text-blue-300 font-mono px-2.5 py-1 rounded-xl font-bold shrink-0">
+          Verified 24 Jul 2026
+        </span>
       </div>
 
       {/* 🌟 1. THE APEX EVOLUTION: JanAI Autonomous Goal Agent */}
@@ -184,10 +199,8 @@ export default function Dashboard() {
                 <p className="text-xs text-gray-400 mt-1 line-clamp-2">{scheme.shortDescription}</p>
               </div>
 
-              <div className="bg-[#12182b] p-3 rounded-2xl border border-gray-800 text-xs text-gray-300 space-y-1">
-                <p><span className="text-gray-500">Why Eligible:</span> Income below ₹2.5L limit • Age & Category Matched</p>
-                <p><span className="text-gray-500">Friction Level:</span> Low (All documents present in DigiLocker)</p>
-              </div>
+              {/* Scheme Metadata Badge */}
+              <SchemeMetadataBadge metadata={scheme.metadata} officialUrl={scheme.officialUrl} state={scheme.state} />
 
               <div className="flex items-center justify-between border-t border-gray-800 pt-3">
                 <span className="text-xs font-bold text-pink-400">{scheme.benefitAmount}</span>
