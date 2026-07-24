@@ -27,33 +27,28 @@ export default function SchemeMetadataBadge({ metadata, officialUrl, schemeTitle
         </button>
       </div>
 
-      {/* Production Recommendation Trust Seal */}
-      <div className="bg-[#1b2338] p-3 rounded-xl border border-gray-800 space-y-1 text-[10px]">
-        <span className="text-gray-400 font-bold uppercase block tracking-wider text-[9px] border-b border-gray-800/80 pb-1 mb-1">
-          Official Trust & Verification Matrix
+      {/* Expanded 8-Point Production Trust Matrix */}
+      <div className="bg-[#1b2338] p-3 rounded-xl border border-gray-800 space-y-2 text-[10px]">
+        <span className="text-gray-400 font-bold uppercase block tracking-wider text-[9px] border-b border-gray-800/80 pb-1">
+          Official Source & Verification Matrix
         </span>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-gray-300 font-medium">
-          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Government Portal</span>
-          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Gazette Notification</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-gray-300 font-medium">
+          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Official Govt Portal</span>
+          <span className="flex items-center gap-1 text-green-400 font-bold">✓ Gazette / Notification</span>
           <span className="flex items-center gap-1 text-gray-300">Last Verified: <strong className="text-white font-mono">{metadata.lastVerified}</strong></span>
-          <span className="flex items-center gap-1 text-gray-300">Version: <strong className="text-yellow-400 font-mono">v{metadata.dataVersion}</strong></span>
+          <span className="flex items-center gap-1 text-gray-300">Data Version: <strong className="text-yellow-400 font-mono">v{metadata.dataVersion}</strong></span>
           <span className="flex items-center gap-1 text-blue-400 font-bold">✓ AI Explanation Included</span>
           <span className="flex items-center gap-1 text-purple-300 font-bold">✓ Human Review Available</span>
+          <span className="flex items-center gap-1 text-yellow-300 font-bold">✓ Policy Change History</span>
+          {officialUrl ? (
+            <a href={officialUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-blue-400 font-bold hover:underline">
+              ✓ Official Direct Link <ExternalLink size={10} />
+            </a>
+          ) : (
+            <span className="flex items-center gap-1 text-gray-400">✓ Official Link Provided</span>
+          )}
         </div>
       </div>
-
-      {officialUrl && (
-        <div className="flex justify-end pt-1">
-          <a
-            href={officialUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-400 hover:underline text-[10px] font-bold flex items-center gap-1"
-          >
-            Verify Directly on Government Portal ({metadata.sourcePortal}) <ExternalLink size={10} />
-          </a>
-        </div>
-      )}
 
       <AiConfidenceExplainModal
         isOpen={showExplainModal}

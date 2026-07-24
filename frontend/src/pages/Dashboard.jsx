@@ -21,6 +21,7 @@ import SecurityPrivacyHub from "../components/SecurityPrivacyHub"
 import FormValidationModal from "../components/FormValidationModal"
 import SchemeMetadataBadge from "../components/SchemeMetadataBadge"
 import PolicyChangeTimeline from "../components/PolicyChangeTimeline"
+import DataFreshnessEngine from "../components/DataFreshnessEngine"
 import {
   Search,
   Users,
@@ -87,6 +88,9 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* 🌟 1. THE MISSING INVESTOR METRIC: Data Freshness Engine */}
+      <DataFreshnessEngine />
+
       {/* Official Source Grounded Disclaimer Banner */}
       <div className="p-3.5 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-between gap-3 text-xs text-blue-300">
         <div className="flex items-center gap-2">
@@ -100,13 +104,13 @@ export default function Dashboard() {
         </span>
       </div>
 
-      {/* 🌟 1. THE APEX EVOLUTION: JanAI Autonomous Goal Agent */}
+      {/* 2. THE APEX EVOLUTION: JanAI Autonomous Goal Agent */}
       <JanAiAutonomousAgent />
 
-      {/* 2. AI Active Case Worker Guided Progress */}
+      {/* 3. AI Active Case Worker Guided Progress */}
       <AiCaseWorker onLaunchApply={() => setSelectedSchemeForApply(SCHEMES_DATABASE[0])} />
 
-      {/* 3. Total Household Benefit Impact Engine */}
+      {/* 4. Total Household Benefit Impact Engine */}
       <BenefitCalculator />
 
       {/* Quick Metrics */}
@@ -148,28 +152,28 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 4. AI Goal Roadmap Planner */}
+      {/* 5. AI Goal Roadmap Planner */}
       <AiGoalPlanner />
 
-      {/* 5. RAG Source Citation & Grounding Inspector */}
+      {/* 6. RAG Source Citation & Grounding Inspector */}
       <AiGroundingRagPanel />
 
-      {/* 6. Historical Policy Change Timeline */}
+      {/* 7. Historical Policy Change Audit Trail */}
       <PolicyChangeTimeline schemeTitle="PM Mudra Yojana & PM-Kisan" />
 
-      {/* 7. AI Document Pre-Application Checklist */}
+      {/* 8. AI Document Pre-Application Checklist */}
       <DocumentChecklist schemeTitle="Post-Matric Scholarship & PM-Kisan" />
 
-      {/* 8. AI "Explain Why" Trust & Exclusion Panel */}
+      {/* 9. AI "Explain Why" Trust & Exclusion Panel */}
       <AiExplainWhyPanel userProfile={user} />
 
-      {/* 9. AI Document Expiry Monitor */}
+      {/* 10. AI Document Expiry Monitor */}
       <DocumentExpiryMonitor />
 
-      {/* 10. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
+      {/* 11. Citizen 5-Year Lifetime Welfare Timeline (2026-2030) */}
       <CitizenLifetimeTimeline />
 
-      {/* 11. Local Government Office Finder */}
+      {/* 12. Local Government Office Finder */}
       <GovernmentOfficeFinder />
 
       {/* Recommended Schemes */}
@@ -260,14 +264,19 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 12. JanAI Citizen Knowledge Base & Terms Explainer */}
+      {/* 13. JanAI Citizen Knowledge Base & Terms Explainer */}
       <JanAIKnowledgeBase />
 
-      {/* 13. B2B Partner Portal */}
+      {/* 14. B2B Partner Portal */}
       <PartnerPortal />
 
-      {/* 14. Security, Privacy & Consent Hub */}
+      {/* 15. Security, Privacy & Consent Hub */}
       <SecurityPrivacyHub />
+
+      {/* Legal & Branding Disclaimer */}
+      <div className="text-center text-[10px] text-gray-500 pt-4 border-t border-gray-800/60 leading-relaxed">
+        JanAI is an independent civic technology platform. JanAI is not affiliated with or an official organ of any government ministry. Official government seals/emblems are used solely for informational grounding and citation purposes.
+      </div>
 
       {/* Modals */}
       <ApplicationWizard
