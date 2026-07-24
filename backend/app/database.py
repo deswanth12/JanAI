@@ -1,6 +1,7 @@
 import sqlite3
 import json
 import os
+import time
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "janai.db")
 
@@ -13,14 +14,19 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
 
-    # Users Table
+    # Extended Users Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id TEXT PRIMARY KEY,
+            full_name TEXT,
             name TEXT,
-            email TEXT,
+            email TEXT UNIQUE,
             phone TEXT,
-            role TEXT,
+            password_hash TEXT,
+            google_id TEXT,
+            role TEXT DEFAULT 'Citizen',
+            is_verified INTEGER DEFAULT 0,
+            profile_completed INTEGER DEFAULT 0,
             age INTEGER,
             gender TEXT,
             state TEXT,
@@ -30,7 +36,25 @@ def init_db():
             education TEXT,
             caste TEXT,
             disability TEXT,
-            land_ownership TEXT
+            land_ownership TEXT,
+            created_at TEXT,
+            updated_at TEXT,
+            last_login TEXT,
+            failed_login_attempts INTEGER DEFAULT 0,
+            account_locked_until TEXT,
+            refresh_token_version INTEGER DEFAULT 1
+        )
+    ''')
+
+    # Audit Logs Table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS audit_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
+            action TEXT,
+            ip_address TEXT,
+            timestamp TEXT,
+            details TEXT
         )
     ''')
 
@@ -69,11 +93,18 @@ def init_db():
     ''')
 
     # Reset/Update user profile
+    now = time.strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute("DELETE FROM users WHERE id = 'user-1'")
     cursor.execute('''
-        INSERT INTO users (id, name, email, phone, role, age, gender, state, district, occupation, annual_income, education, caste, disability, land_ownership)
-        VALUES ('user-1', 'Devanth', 'devanth@example.com', '+91 9876543210', 'Student', 21, 'Male', 'Andhra Pradesh', 'Visakhapatnam', 'Student', '180000', 'Undergraduate (B.Tech)', 'OBC', 'No', '2.5')
-    ''')
+        INSERT INTO users (id, full_name, name, email, phone, role, is_verified, profile_completed, age, gender, state, district, occupation, annual_income, education, caste, disability, land_ownership, created_at, updated_at, last_login, failed_login_attempts, refresh_token_version)
+        VALUES ('user-1', 'Devanth Baskar', 'Devanth', 'devanth@example.com', '+91 9876543210', 'Citizen', 1, 1, 21, 'Male', 'Andhra Pradesh', 'Visakhapatnam', 'Student', '180000', 'Undergraduate (B.Tech)', 'OBC', 'No', '2.5', ?, ?, ?, 0, 1)
+    ''', (now, now, now))
+
+    # Log initial system seed
+    cursor.execute('''
+        INSERT INTO audit_logs (user_id, action, ip_address, timestamp, details)
+        VALUES ('user-1', 'SYSTEM_SEED', '127.0.0.1', ?, 'Initialized production security schema and user account.')
+    ''', (now,))
 
     # Reset/Update family profiles
     cursor.execute("DELETE FROM family_members WHERE user_id = 'user-1'")
@@ -108,4 +139,4 @@ def init_db():
 
 if __name__ == "__main__":
     init_db()
-    print("Database updated with Devanth's household profile successfully!")
+    print("Database updated with Devanth's production audit & security schema successfully!")

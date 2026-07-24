@@ -22,6 +22,7 @@ import FormValidationModal from "../components/FormValidationModal"
 import SchemeMetadataBadge from "../components/SchemeMetadataBadge"
 import PolicyChangeTimeline from "../components/PolicyChangeTimeline"
 import DataFreshnessEngine from "../components/DataFreshnessEngine"
+import GuestModeBanner from "../components/GuestModeBanner"
 import {
   Search,
   Users,
@@ -48,6 +49,9 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8 pb-12">
+      {/* Anonymous Guest Exploration Banner */}
+      <GuestModeBanner isGuest={false} />
+
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass p-6 md:p-8 rounded-3xl border border-gray-800">
         <div>
@@ -88,7 +92,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* 🌟 1. THE MISSING INVESTOR METRIC: Data Freshness Engine */}
+      {/* Data Freshness Engine */}
       <DataFreshnessEngine />
 
       {/* Official Source Grounded Disclaimer Banner */}
