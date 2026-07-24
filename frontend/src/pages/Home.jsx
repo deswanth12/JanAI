@@ -26,6 +26,15 @@ export default function Home() {
         <div className="absolute -top-24 -left-24 w-72 h-72 bg-green-500/10 rounded-full blur-3xl" />
         <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
 
+        {/* Brand Hero Logo Header */}
+        <div className="flex justify-center mb-6">
+          <img
+            src="/janai-logo.jpg"
+            alt="JanAI - AI Powered Citizen First Logo"
+            className="h-24 md:h-28 w-auto rounded-2xl object-contain shadow-2xl border-2 border-gray-700/60 bg-white p-1"
+          />
+        </div>
+
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-green-400 text-xs font-bold mb-6 border border-green-500/20">
           <Sparkles size={16} /> 🇮🇳 India's #1 AI Government & Student Assistance Platform
         </div>
@@ -35,7 +44,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-6 text-gray-300 text-base md:text-xl max-w-3xl mx-auto leading-relaxed">
-          AI-powered natural language scheme finder, step-by-step eligibility checker, regional voice assistant, and 1-click application submission across 10 Indian languages.
+          AI-powered natural language scheme finder, step-by-step eligibility checker, regional voice assistant, and official portal pre-filled application packages across 22 Indian languages.
         </p>
 
         <form onSubmit={handleSearchSubmit} className="mt-10 max-w-2xl mx-auto">
@@ -81,16 +90,16 @@ export default function Home() {
             <p className="text-xs text-gray-400 mt-1">Verified Govt Schemes</p>
           </div>
           <div className="glass p-4 rounded-2xl">
-            <h4 className="text-3xl font-extrabold text-blue-400">10</h4>
-            <p className="text-xs text-gray-400 mt-1">Regional Indian Languages</p>
+            <h4 className="text-3xl font-extrabold text-blue-400">22</h4>
+            <p className="text-xs text-gray-400 mt-1">Scheduled Indian Languages</p>
           </div>
           <div className="glass p-4 rounded-2xl">
-            <h4 className="text-3xl font-extrabold text-pink-400">98%</h4>
+            <h4 className="text-3xl font-extrabold text-pink-400">98.8%</h4>
             <p className="text-xs text-gray-400 mt-1">AI Eligibility Precision</p>
           </div>
           <div className="glass p-4 rounded-2xl">
-            <h4 className="text-3xl font-extrabold text-yellow-400">1-Click</h4>
-            <p className="text-xs text-gray-400 mt-1">Auto Form Filling</p>
+            <h4 className="text-3xl font-extrabold text-yellow-400">Guided</h4>
+            <p className="text-xs text-gray-400 mt-1">Official Portal Packages</p>
           </div>
         </div>
       </section>
