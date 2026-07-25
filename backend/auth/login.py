@@ -5,6 +5,7 @@ Handles Email + Password authentication, rate limiting, and returns JWT tokens.
 
 from typing import Dict, Any
 import time
+from auth.jwt import verify_password_bcrypt_style, create_access_token, create_rotated_refresh_token
 
 def handle_user_login(data: Dict[str, Any], cursor, conn) -> Dict[str, Any]:
     email_or_phone = data.get("email_or_phone", "").strip().lower()
@@ -12,8 +13,6 @@ def handle_user_login(data: Dict[str, Any], cursor, conn) -> Dict[str, Any]:
 
     if not email_or_phone or not password:
         return {"error": "Email/Phone and password are required."}
-
-    from auth.jwt import verify_password, create_access_token, create_refresh_token
 
     cursor.execute("""
         SELECT id, full_name, email, phone, password_hash, role, is_verified, profile_completed
@@ -25,7 +24,7 @@ def handle_user_login(data: Dict[str, Any], cursor, conn) -> Dict[str, Any]:
         return {"error": "Invalid login credentials."}
 
     user_dict = dict(user)
-    if not user_dict.get("password_hash") or not verify_password(password, user_dict["password_hash"]):
+    if not user_dict.get("password_hash") or not verify_password_bcrypt_style(password, user_dict["password_hash"]):
         return {"error": "Invalid login credentials."}
 
     # Update last login timestamp
@@ -34,7 +33,7 @@ def handle_user_login(data: Dict[str, Any], cursor, conn) -> Dict[str, Any]:
     conn.commit()
 
     access_token = create_access_token(user_dict["id"], user_dict["email"], user_dict["role"])
-    refresh_token = create_refresh_token(user_dict["id"])
+    refresh_token = create_rotated_refresh_token(user_dict["id"], 1)
 
     return {
         "status": "success",

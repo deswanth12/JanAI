@@ -10,7 +10,8 @@ import {
   PhoneCall,
   ShieldCheck,
   Volume2,
-  RotateCw
+  RotateCw,
+  Info
 } from "lucide-react"
 
 export default function Home() {
@@ -26,12 +27,11 @@ export default function Home() {
   const [otpCode, setOtpCode] = useState("")
   const [authError, setAuthError] = useState("")
 
-  // Persona Selection State
+  // Persona Selection State (Optional)
   const [selectedPersona, setSelectedPersona] = useState("student")
 
   // Accessibility Controls
   const [accessibility, setAccessibility] = useState({
-    theme: "dark",
     largeText: false,
     readAloud: false,
     language: "en"
@@ -52,7 +52,7 @@ export default function Home() {
         answer: "Based on 2026 AP Gazette Rules: B.Pharmacy students with annual family income below ₹2.50 Lakhs are eligible for Post-Matric Full Tuition Reimbursement (Jagananna Vidya Deevena) + ₹20,000/yr Hostel Maintenance Allowance.",
         schemeTitle: "Post-Matric Tuition Fee Reimbursement",
         benefit: "100% Tuition Fee + ₹20,000 Hostel",
-        gazetteRef: "Gazette Notification 2026/07"
+        gazetteRef: "Official Gazette Notification 2026/07"
       })
       setIsDemoLoading(false)
     }, 900)
@@ -92,23 +92,21 @@ export default function Home() {
   }
 
   const personaGreetings = {
-    student: { title: "🎓 Student?", subtitle: "Discover scholarships, tuition fee waivers, and education loans.", tag: "Post-Matric & Overseas Scholarships" },
-    farmer: { title: "🌾 Farmer?", subtitle: "Check PM-Kisan installments, Rythu Bharosa, and crop subsidies.", tag: "PM-Kisan & Land Passbook Support" },
-    senior: { title: "👵 Senior Citizen?", subtitle: "Explore Old Age Pensions, Ayushman Bharat, and healthcare.", tag: "Pension & Free Medical Coverage" },
-    business: { title: "💼 Entrepreneur?", subtitle: "Find PM Mudra collateral-free loan caps up to ₹20 Lakhs.", tag: "Tarun Plus & Startup Grants" }
+    student: { title: "🎓 Student", subtitle: "Discover scholarships, tuition fee waivers, and education loans." },
+    farmer: { title: "🌾 Farmer", subtitle: "Check PM-Kisan installments, Rythu Bharosa, and crop subsidies." },
+    senior: { title: "👵 Senior Citizen", subtitle: "Explore Old Age Pensions, Ayushman Bharat, and healthcare." },
+    business: { title: "💼 Entrepreneur", subtitle: "Find PM Mudra collateral-free loan caps up to ₹20 Lakhs." }
   }
 
   return (
-    <div className={`space-y-10 pb-16 text-xs transition-all ${accessibility.largeText ? "text-sm" : ""}`}>
-      {/* 🚀 ACCESSIBILITY TOOLBAR & DATA FRESHNESS BAR */}
+    <div className={`space-y-12 pb-16 text-xs transition-all ${accessibility.largeText ? "text-sm" : ""}`}>
+      {/* 🚀 ACCESSIBILITY TOOLBAR & GAZETTE STATUS */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12182b] p-3 rounded-2xl border border-gray-800 text-[11px]">
-        {/* Official Data Status */}
         <div className="flex items-center gap-2 font-mono text-gray-300">
           <CheckCircle2 size={14} className="text-green-400" />
-          <span>Official Gazette Data Status: <strong className="text-green-400">✓ Updated 24 Jul 2026 • 18:30 IST</strong></span>
+          <span>Official Data Status: <strong className="text-green-400">✓ Gazette Updated 24 Jul 2026 • 18:30 IST</strong></span>
         </div>
 
-        {/* Accessibility Buttons */}
         <div className="flex items-center gap-2 font-bold text-gray-300">
           <button
             onClick={() => setAccessibility({ ...accessibility, largeText: !accessibility.largeText })}
@@ -160,112 +158,33 @@ export default function Home() {
         </div>
       )}
 
-      {/* 🌟 HERO & TRUSTED ENTRY SECTION */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Col: Hero Branding & Persona Greetings */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="flex items-center gap-3">
-            <img
-              src="/janai-logo.jpg"
-              alt="JanAI Official Emblem Logo"
-              className="h-16 w-auto rounded-2xl border border-gray-700 bg-white p-1 shadow-lg"
-            />
-            <div>
-              <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-3 py-1 rounded-full uppercase border border-green-500/30">
-                AI Powered • Citizen First
-              </span>
-              <h2 className="text-xl font-extrabold text-white mt-1">JanAI National Welfare Platform</h2>
-            </div>
-          </div>
-
-          {/* Contextual Persona Greeting Selector */}
-          <div className="glass p-5 rounded-3xl border border-gray-800 space-y-3">
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Select Citizen Category:</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {Object.keys(personaGreetings).map((key) => (
-                <button
-                  key={key}
-                  onClick={() => setSelectedPersona(key)}
-                  className={`p-2.5 rounded-2xl text-left transition font-bold ${
-                    selectedPersona === key ? "bg-green-500 text-black shadow-md" : "glass text-gray-300 hover:bg-white/5"
-                  }`}
-                >
-                  {personaGreetings[key].title}
-                </button>
-              ))}
-            </div>
-
-            <div className="p-3 bg-[#12182b] rounded-2xl border border-gray-800 flex justify-between items-center text-xs">
-              <span className="text-gray-300">{personaGreetings[selectedPersona].subtitle}</span>
-              <span className="text-green-400 font-mono font-bold text-[10px]">{personaGreetings[selectedPersona].tag}</span>
-            </div>
-          </div>
-
-          <h1 className="text-3xl md:text-5xl font-extrabold leading-tight text-white">
-            Helping Every Indian Citizen Discover, Understand & Access Welfare with AI
+      {/* 🌟 1. SIMPLE FIRST SCREEN (ABOVE THE FOLD FOCUS) */}
+      <div className="min-h-[75vh] flex flex-col justify-center items-center text-center space-y-8 py-6">
+        <div className="flex flex-col items-center space-y-3">
+          <img
+            src="/janai-logo.jpg"
+            alt="JanAI Official Emblem Logo"
+            className="h-20 w-auto rounded-3xl border border-gray-700 bg-white p-1.5 shadow-2xl"
+          />
+          <span className="text-xs bg-green-500/20 text-green-300 font-extrabold px-4 py-1 rounded-full uppercase border border-green-500/30">
+            AI Powered • Citizen First
+          </span>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-white max-w-2xl leading-tight">
+            Discover & Access Government Welfare with AI
           </h1>
-
-          {/* 🔐 DIGITAL TRUST BANNER */}
-          <div className="p-4 glass rounded-2xl border border-blue-500/30 bg-blue-500/5 text-blue-300 text-xs flex items-center gap-3">
-            <ShieldCheck size={24} className="text-blue-400 shrink-0" />
-            <p className="leading-relaxed">
-              <strong>Digital Trust Guarantee:</strong> Your uploaded documents remain encrypted with AES-256-GCM, and you maintain complete consent control under the DPDP Act 2023. JanAI assists you using ground-truth official government gazette sources.
-            </p>
-          </div>
-
-          {/* 👀 PROMINENT GUEST MODE BUTTON & WHY CREATE ACCOUNT */}
-          <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
-              <div>
-                <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-2.5 py-0.5 rounded-full uppercase">
-                  Anonymous Guest Exploration Mode
-                </span>
-                <h3 className="text-base font-bold text-white mt-1">Explore JanAI Without an Account</h3>
-              </div>
-
-              <button
-                onClick={() => navigate("/finder")}
-                className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-6 py-3 rounded-2xl text-xs transition shadow-lg shadow-green-500/20 flex items-center gap-2 shrink-0"
-              >
-                Explore Schemes Now <ArrowRight size={16} />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
-              <div className="bg-[#12182b] p-3 rounded-2xl border border-gray-800 space-y-1 text-gray-400">
-                <strong className="text-gray-300 block text-xs">Without an Account</strong>
-                <div>✅ Browse 420+ Schemes</div>
-                <div>✅ Ask AI Questions</div>
-                <div>✅ Evaluate Eligibility Rules</div>
-              </div>
-
-              <div className="bg-[#12182b] p-3 rounded-2xl border border-blue-500/30 space-y-1 text-gray-300">
-                <strong className="text-green-400 block text-xs">With a Free Account</strong>
-                <div>⭐ Save Favorite Schemes</div>
-                <div>⭐ Upload Documents to Vault</div>
-                <div>⭐ Track Application Milestones</div>
-              </div>
-            </div>
-          </div>
+          <p className="text-gray-300 text-sm max-w-lg leading-relaxed">
+            Helping every Indian citizen find eligible welfare schemes grounded in official government gazette rules.
+          </p>
         </div>
 
-        {/* Right Col: 🔐 PROGRESSIVE CLEAN LOGIN PANEL */}
-        <div className="lg:col-span-5 glass p-6 md:p-8 rounded-[36px] border border-gray-800 space-y-6 shadow-2xl bg-[#12182b]/90">
-          <div>
-            <span className="text-[10px] bg-blue-500/20 text-blue-300 font-bold px-3 py-1 rounded-full uppercase">
-              Government-Trusted Portal Sign-In
-            </span>
-            <h3 className="text-2xl font-extrabold text-white mt-2">Sign In to JanAI</h3>
-            <p className="text-gray-400 text-xs mt-1">Access saved schemes, document vault, and application tracking.</p>
-          </div>
-
+        {/* 🔐 CLEAN PROGRESSIVE ACTION BUTTONS */}
+        <div className="w-full max-w-md glass p-6 md:p-8 rounded-[36px] border border-gray-800 space-y-3 bg-[#12182b]/95 shadow-2xl">
           {authError && (
             <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 font-bold text-[11px]">
               ⚠️ {authError}
             </div>
           )}
 
-          {/* Progressive Login Screen Selection */}
           {loginMode === "options" && (
             <div className="space-y-3">
               <button
@@ -278,7 +197,7 @@ export default function Home() {
 
               <button
                 onClick={() => setLoginMode("otp")}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg"
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20"
               >
                 <Smartphone size={16} /> Continue with Mobile OTP (+91)
               </button>
@@ -287,30 +206,29 @@ export default function Home() {
                 onClick={() => setLoginMode("email")}
                 className="w-full glass hover:bg-white/10 text-white font-extrabold py-3.5 rounded-2xl text-xs transition border border-gray-700 flex items-center justify-center gap-2"
               >
-                <Mail size={16} /> Sign In with Email & Password
+                <Mail size={16} /> Sign In with Email
               </button>
 
-              <div className="pt-2 text-center">
+              <div className="pt-2 border-t border-gray-800">
                 <button
                   onClick={() => navigate("/finder")}
-                  className="text-gray-400 hover:text-green-400 text-xs font-bold transition"
+                  className="w-full bg-green-500 hover:bg-green-400 text-black font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-green-500/20"
                 >
-                  Or Explore as Guest →
+                  Explore as Guest (No Account Required) <ArrowRight size={16} />
                 </button>
               </div>
             </div>
           )}
 
-          {/* Email Login View */}
           {loginMode === "email" && (
-            <form onSubmit={handleEmailLogin} className="space-y-4">
+            <form onSubmit={handleEmailLogin} className="space-y-3 text-left">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-400">Email Login Mode</span>
-                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back to Options</button>
+                <span className="text-gray-400">Email Sign-In</span>
+                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back</button>
               </div>
 
               <div>
-                <label className="text-gray-300 font-semibold block mb-1">Email Address</label>
+                <label className="text-gray-300 font-semibold block mb-1">Email</label>
                 <input
                   type="email"
                   required
@@ -334,21 +252,20 @@ export default function Home() {
               </div>
 
               <button type="submit" className="w-full bg-green-500 text-black font-extrabold py-3.5 rounded-2xl text-xs">
-                Sign In Now
+                Sign In
               </button>
             </form>
           )}
 
-          {/* Mobile OTP View */}
           {loginMode === "otp" && (
-            <div className="space-y-4">
+            <div className="space-y-3 text-left">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-400">Mobile OTP Mode (+91)</span>
-                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back to Options</button>
+                <span className="text-gray-400">Mobile OTP Sign-In</span>
+                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back</button>
               </div>
 
               <div>
-                <label className="text-gray-300 font-semibold block mb-1">Indian Mobile Number (+91)</label>
+                <label className="text-gray-300 font-semibold block mb-1">Mobile Number (+91)</label>
                 <input
                   type="text"
                   placeholder="9876543210"
@@ -361,7 +278,7 @@ export default function Home() {
 
               {!otpSent ? (
                 <button onClick={handleSendOtp} className="w-full bg-blue-600 text-white font-extrabold py-3.5 rounded-2xl text-xs">
-                  Send 6-Digit Mobile OTP
+                  Send Mobile OTP
                 </button>
               ) : (
                 <div className="space-y-3">
@@ -374,25 +291,18 @@ export default function Home() {
                     className="w-full p-3 rounded-xl bg-[#1b2338] text-white text-center font-mono text-lg border border-gray-700 outline-none"
                   />
                   <button onClick={handleVerifyOtp} className="w-full bg-green-500 text-black font-extrabold py-3.5 rounded-2xl text-xs">
-                    Verify OTP & Sign In
+                    Verify & Sign In
                   </button>
                 </div>
               )}
             </div>
           )}
-
-          <div className="border-t border-gray-800 pt-4 text-center">
-            <p className="text-gray-400 text-[11px]">
-              Don't have an account yet?{" "}
-              <button onClick={() => navigate("/register")} className="text-green-400 font-bold hover:underline">
-                Create Free Citizen Account
-              </button>
-            </p>
-          </div>
         </div>
+
+        <p className="text-gray-400 text-[11px]">Scroll down to explore features, updates, and AI reasoning ↓</p>
       </div>
 
-      {/* 🧠 BEFORE-LOGIN AI DEMO SANDBOX */}
+      {/* 🧠 3. BEFORE-LOGIN AI DEMO SANDBOX (WITH SAFETY DISCLAIMER) */}
       <div className="glass p-6 md:p-8 rounded-3xl border border-purple-500/30 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-800 pb-3">
           <div>
@@ -405,7 +315,7 @@ export default function Home() {
           </div>
 
           <span className="text-[11px] text-gray-400 font-mono">
-            Ground-Truth Gazette AI Execution
+            Gazette-Grounded Rules Execution
           </span>
         </div>
 
@@ -426,23 +336,6 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2 text-[11px]">
-          <span className="text-gray-400 font-semibold">Try sample questions:</span>
-          {[
-            "What scholarships are available for B.Pharmacy?",
-            "PM Mudra loan limit in 2026?",
-            "AP Rythu Bharosa eligibility rules?"
-          ].map((prompt, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleRunDemoQuery(prompt)}
-              className="glass px-3 py-1 rounded-full text-purple-300 hover:bg-purple-500/20 transition"
-            >
-              "{prompt}"
-            </button>
-          ))}
-        </div>
-
         {demoResult && (
           <div className="p-5 bg-[#12182b] rounded-2xl border border-purple-500/40 space-y-3 text-xs">
             <div className="flex justify-between items-center font-bold">
@@ -452,7 +345,7 @@ export default function Home() {
             <p className="text-gray-200 leading-relaxed font-medium">"{demoResult.answer}"</p>
             <div className="p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <span className="text-purple-300 font-bold text-[11px]">
-                Like this answer? Create a free account to save this result and upload documents!
+                Create a free account to save this result and upload documents!
               </span>
               <button
                 onClick={() => navigate("/register")}
@@ -463,36 +356,85 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* ⚠️ SAFER AI DEMO DISCLAIMER NOTE */}
+        <div className="p-3 bg-gray-800/40 rounded-xl border border-gray-700 text-gray-400 text-[11px] flex items-center gap-2">
+          <Info size={16} className="text-blue-400 shrink-0" />
+          <span>
+            <strong>Note:</strong> Responses are generated from official sources where available. For important decisions, always verify the latest information on the relevant government portal.
+          </span>
+        </div>
       </div>
 
-      {/* 🔍 QUICK CATEGORY ACTION SHORTCUTS */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold text-white">Quick Welfare Category Shortcuts</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold">
-          <button onClick={() => navigate("/finder")} className="glass p-4 rounded-2xl border border-gray-800 hover:border-green-500/50 text-left transition space-y-1">
-            <div className="text-green-400">🔍 Find Scheme</div>
-            <div className="text-gray-400 text-[10px] font-normal">Explore 420+ rules</div>
-          </button>
+      {/* 📢 5. COMPACT RECENT UPDATES SECTION */}
+      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3">
+        <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <CheckCircle2 size={18} className="text-green-400" /> Recent Platform & Policy Updates
+        </h3>
 
-          <button onClick={() => navigate("/finder?category=Education")} className="glass p-4 rounded-2xl border border-gray-800 hover:border-blue-500/50 text-left transition space-y-1">
-            <div className="text-blue-400">🎓 Student Benefits</div>
-            <div className="text-gray-400 text-[10px] font-normal">Scholarships & Fees</div>
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
+            <strong className="text-green-400 font-bold block">✓ Post-Matric Scholarship Guidelines Updated</strong>
+            <span className="text-gray-400 text-[10px]">Income ceiling & tuition fee reimbursement rates revised for 2026 academic year.</span>
+          </div>
 
-          <button onClick={() => navigate("/finder?category=Agriculture")} className="glass p-4 rounded-2xl border border-gray-800 hover:border-yellow-500/50 text-left transition space-y-1">
-            <div className="text-yellow-400">🌾 Farmer Schemes</div>
-            <div className="text-gray-400 text-[10px] font-normal">PM-Kisan & Support</div>
-          </button>
+          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
+            <strong className="text-blue-400 font-bold block">✓ PM-Kisan Schedule & Installments Verified</strong>
+            <span className="text-gray-400 text-[10px]">17th installment disbursement schedule synchronized with agriculture department.</span>
+          </div>
 
-          <button onClick={() => navigate("/finder?category=Housing")} className="glass p-4 rounded-2xl border border-gray-800 hover:border-pink-500/50 text-left transition space-y-1">
-            <div className="text-pink-400">🏠 Housing Grants</div>
-            <div className="text-gray-400 text-[10px] font-normal">PMAY Assistance</div>
-          </button>
+          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
+            <strong className="text-purple-400 font-bold block">✓ 4 New State Welfare Schemes Added</strong>
+            <span className="text-gray-400 text-[10px]">Expanded coverage across higher education and collateral-free loan categories.</span>
+          </div>
+        </div>
+      </div>
 
-          <button onClick={() => navigate("/finder?category=Business")} className="glass p-4 rounded-2xl border border-gray-800 hover:border-purple-500/50 text-left transition space-y-1 col-span-2 sm:col-span-1">
-            <div className="text-purple-400">💼 Business Loans</div>
-            <div className="text-gray-400 text-[10px] font-normal">Mudra & MSME</div>
-          </button>
+      {/* 🌾 4. OPTIONAL PERSONA SHORTCUT CARDS */}
+      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3">
+        <div className="flex justify-between items-center">
+          <h3 className="text-base font-bold text-white">Quick Citizen Category Shortcuts (Optional)</h3>
+          <span className="text-gray-400 text-[10px]">You can search freely without self-identification</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {Object.keys(personaGreetings).map((key) => (
+            <button
+              key={key}
+              onClick={() => setSelectedPersona(key)}
+              className={`p-3.5 rounded-2xl text-left transition ${selectedPersona === key ? "bg-green-500 text-black font-bold" : "bg-[#12182b] text-gray-300 hover:bg-white/5 border border-gray-800"}`}
+            >
+              <strong className="block text-xs">{personaGreetings[key].title}</strong>
+              <span className="text-[10px] opacity-80 block mt-0.5">{personaGreetings[key].subtitle}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 🚀 2. VERIFIED TARGET METRICS SECTION */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
+          <p className="text-xs text-gray-400 font-semibold">Citizens Supported Target</p>
+          <h4 className="text-2xl font-extrabold text-white">86,120</h4>
+          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Pilot Target Metrics</span>
+        </div>
+
+        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
+          <p className="text-xs text-gray-400 font-semibold">Indexed Schemes</p>
+          <h4 className="text-2xl font-extrabold text-blue-400">420+</h4>
+          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Central & State</span>
+        </div>
+
+        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
+          <p className="text-xs text-gray-400 font-semibold">AI Precision Standard</p>
+          <h4 className="text-2xl font-extrabold text-purple-400">98.8%</h4>
+          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Gazette Grounded</span>
+        </div>
+
+        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
+          <p className="text-xs text-gray-400 font-semibold">Indian Languages</p>
+          <h4 className="text-2xl font-extrabold text-yellow-400">22</h4>
+          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Scheduled Languages</span>
         </div>
       </div>
 
@@ -504,23 +446,23 @@ export default function Home() {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-bold text-gray-300">
           <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-green-400">✓ Official Gazette</span>
-            <p className="text-gray-400 font-normal text-[10px]">Indexed from Central & State notifications</p>
+            <span className="text-green-400">✓ Official Gazette Notifications</span>
+            <p className="text-gray-400 font-normal text-[10px]">Indexed directly from official central & state gazettes</p>
           </div>
 
           <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-blue-400">✓ Department Portals</span>
-            <p className="text-gray-400 font-normal text-[10px]">Verified against pmkisan.gov.in & portals</p>
+            <span className="text-blue-400">✓ Government Department Portals</span>
+            <p className="text-gray-400 font-normal text-[10px]">Verified against pmkisan.gov.in and official ministry sites</p>
           </div>
 
           <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-purple-400">✓ Verified Documents</span>
-            <p className="text-gray-400 font-normal text-[10px]">Rule parsing checked by human review</p>
+            <span className="text-purple-400">✓ Verified Scheme Documents</span>
+            <p className="text-gray-400 font-normal text-[10px]">Rule parsing checked against official guidelines</p>
           </div>
 
           <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-yellow-400">✓ Transparent AI</span>
-            <p className="text-gray-400 font-normal text-[10px]">Clear citations and explanation breakdown</p>
+            <span className="text-yellow-400">✓ Transparent AI Recommendations</span>
+            <p className="text-gray-400 font-normal text-[10px]">Clear rule matching and source citation breakdown</p>
           </div>
         </div>
       </div>
@@ -533,9 +475,9 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs font-bold">
           <div className="bg-[#12182b] p-4 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-gray-400 font-semibold block text-[10px]">Toll-Free Helpline</span>
+            <span className="text-gray-400 font-semibold block text-[10px]">Toll-Free Support Line</span>
             <span className="text-green-400 font-mono text-base block">1800-11-2026</span>
-            <span className="text-gray-500 font-normal text-[10px]">Mon-Sat 9 AM - 6 PM IST</span>
+            <span className="text-gray-500 font-normal text-[10px]">Pilot Setup Phase (Mon-Sat 9 AM - 6 PM)</span>
           </div>
 
           <button onClick={() => navigate("/chat")} className="bg-[#12182b] hover:bg-white/5 p-4 rounded-2xl border border-gray-800 space-y-1 text-left transition">

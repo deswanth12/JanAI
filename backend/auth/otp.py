@@ -1,74 +1,74 @@
 """
-JanAI Mobile OTP Passwordless Authentication
-Generates & verifies 6-digit OTP for Indian mobile numbers (+91).
+JanAI Mobile OTP Passwordless Handler
 """
 
 from typing import Dict, Any
 import time
 import uuid
+from auth.jwt import generate_random_6digit_otp, create_access_token, create_rotated_refresh_token
+
+OTP_STORE: Dict[str, str] = {}
 
 def handle_request_otp(data: Dict[str, Any]) -> Dict[str, Any]:
     phone = data.get("phone", "").strip()
     if not phone or len(phone) < 10:
-        return {"error": "Valid 10-digit Indian mobile number is required."}
+        return {"error": "Valid 10-digit mobile number is required."}
+
+    otp = generate_random_6digit_otp()
+    OTP_STORE[phone] = otp
 
     return {
         "status": "success",
-        "message": f"6-digit OTP sent to +91 {phone[-10:]} via Fast2SMS SMS Gateway.",
-        "simulated_otp": "904128",  # Simulated production OTP
-        "expiry_seconds": 300
+        "message": f"OTP sent to +91 {phone}",
+        "demo_otp": otp
     }
 
 def handle_verify_otp(data: Dict[str, Any], cursor, conn) -> Dict[str, Any]:
     phone = data.get("phone", "").strip()
     otp = data.get("otp", "").strip()
 
-    if not phone or otp != "904128":
-        return {"error": "Invalid or expired 6-digit OTP."}
+    if not phone or not otp:
+        return {"error": "Phone and OTP are required."}
 
-    from auth.jwt import create_access_token, create_refresh_token
+    stored_otp = OTP_STORE.get(phone)
+    if not stored_otp or stored_otp != otp:
+        return {"error": "Invalid or expired OTP code."}
+
+    del OTP_STORE[phone]
+    now = time.strftime("%Y-%m-%d %H:%M:%S")
 
     cursor.execute("SELECT id, full_name, email, role, is_verified, profile_completed FROM users WHERE phone = ?", (phone,))
     user = cursor.fetchone()
 
-    now = time.strftime("%Y-%m-%d %H:%M:%S")
-
     if user:
         user_dict = dict(user)
         user_id = user_dict["id"]
+        email = user_dict["email"]
+        role = user_dict["role"]
         cursor.execute("UPDATE users SET last_login = ? WHERE id = ?", (now, user_id))
     else:
-        user_id = f"user-p-{uuid.uuid4().hex[:8]}"
-        dummy_email = f"user_{phone[-4:]}@janai.in"
+        user_id = f"user-{uuid.uuid4().hex[:8]}"
+        email = f"citizen_{phone[-4:]}@janai.in"
+        role = "Citizen"
         cursor.execute("""
             INSERT INTO users (id, full_name, email, phone, role, is_verified, profile_completed, created_at, last_login)
-            VALUES (?, 'Citizen User', ?, ?, 'Citizen', 1, 0, ?, ?)
-        """, (user_id, dummy_email, phone, now, now))
-        user_dict = {
-            "id": user_id,
-            "full_name": "Citizen User",
-            "email": dummy_email,
-            "role": "Citizen",
-            "is_verified": 1,
-            "profile_completed": 0
-        }
+            VALUES (?, ?, ?, ?, 'Citizen', 1, 0, ?, ?)
+        """, (user_id, f"Citizen (+91 {phone})", email, phone, now, now))
 
     conn.commit()
 
-    access_token = create_access_token(user_id, user_dict["email"], user_dict["role"])
-    refresh_token = create_refresh_token(user_id)
+    access_token = create_access_token(user_id, email, role)
+    refresh_token = create_rotated_refresh_token(user_id, 1)
 
     return {
         "status": "success",
-        "method": "mobile_otp",
         "user": {
             "id": user_id,
-            "full_name": user_dict["full_name"],
-            "email": user_dict["email"],
+            "full_name": f"Citizen (+91 {phone})",
             "phone": phone,
-            "role": user_dict["role"],
+            "role": role,
             "is_verified": True,
-            "profile_completed": bool(user_dict["profile_completed"])
+            "profile_completed": False
         },
         "tokens": {
             "access_token": access_token,
