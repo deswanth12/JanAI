@@ -27,6 +27,8 @@ jobs:
           python -m py_compile backend/app/main.py backend/app/database.py backend/auth/*.py backend/services/*.py
 
       - name: Run Automated Workflow & AI Benchmark Tests
+        env:
+          PYTHONPATH: backend
         run: |
           python backend/tests/test_e2e_workflows.py
           python backend/tests/evaluate_ai_quality.py
