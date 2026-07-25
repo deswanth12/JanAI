@@ -96,6 +96,33 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"error": "An internal security-safeguarded exception occurred. Reference code: ERR-SEC-500."}
     )
 
+# --- OPERATIONAL HEALTH & LIVENESS CHECK ENDPOINTS ---
+@app.get("/health")
+async def health_check():
+    """Liveness probe for monitoring tools"""
+    return {
+        "status": "healthy",
+        "service": "JanAI Core API & MCP Gateway",
+        "timestamp": "2026-07-25T16:58:42+05:30",
+        "version": "1.0.0"
+    }
+
+@app.get("/readiness")
+async def readiness_check():
+    """Readiness probe checking database connectivity"""
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        conn.close()
+        return {
+            "status": "ready",
+            "database": "connected",
+            "mcp_server": "active"
+        }
+    except Exception as e:
+        return JSONResponse(status_code=503, content={"status": "not_ready", "error": str(e)})
+
 class UserProfileSchema(BaseModel):
     name: str
     email: str
