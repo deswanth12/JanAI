@@ -78,9 +78,26 @@ class ErrorBoundary extends React.Component {
 
 function AppContent() {
   const [isVoiceOpen, setIsVoiceOpen] = useState(false)
+  const [apiUnavailable, setApiUnavailable] = useState(false)
+
+  React.useEffect(() => {
+    // Lightweight API Startup Health Probe
+    fetch(import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, "")}/health` : "http://localhost:8000/health")
+      .then(res => {
+        if (!res.ok) setApiUnavailable(true)
+      })
+      .catch(() => setApiUnavailable(true))
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#0b1020] text-white flex flex-col font-sans">
+      {/* ⚠️ API UNAVAILABLE BANNER */}
+      {apiUnavailable && (
+        <div className="bg-red-500/20 border-b border-red-500/40 p-2.5 text-center text-red-300 text-xs font-bold">
+          ⚠️ JanAI services are temporarily unavailable. Please try again in a few minutes.
+        </div>
+      )}
+
       <Navbar onOpenVoice={() => setIsVoiceOpen(true)} />
 
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
