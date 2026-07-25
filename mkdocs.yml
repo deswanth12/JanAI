@@ -20,7 +20,9 @@ theme:
 
 nav:
   - 🏠 Home: index.md
-  - 🚀 Getting Started: getting-started/index.md
+  - 🚀 Getting Started:
+      - Quick Start: getting-started/index.md
+      - 🧭 How JanAI Works: getting-started/how-janai-works.md
   - 🏛️ Architecture: architecture/system-architecture.md
   - 🗄️ Database: database/database-schema.md
   - ⚙️ Backend Domains:
