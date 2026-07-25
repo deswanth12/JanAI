@@ -9,33 +9,40 @@
 [![Security: RS256 JWT](https://img.shields.io/badge/Security-RS256_RSA_JWT-purple.svg)]()
 [![Compliance: DPDP Act 2023](https://img.shields.io/badge/Compliance-DPDP_Act_2023-gold.svg)]()
 
-> **JanAI v1.0** is a modular citizen welfare platform that has completed functional implementation, automated testing, and pilot readiness for an Andhra Pradesh deployment. Ongoing production validation will measure performance, reliability, and user outcomes under real-world usage.
+> **JanAI v1.0.0** is a modular citizen welfare platform that has completed functional implementation, automated testing, and pilot readiness for an Andhra Pradesh deployment. Ongoing production validation will measure performance, reliability, and user outcomes under real-world usage.
 
 ---
 
-## 🟢 v1.0 Operational Implementation Status
+## 🏷️ Semantic Versioning (SemVer) Release Policy
 
-| Feature Area | Implemented Status in v1.0 | Planned Roadmap (v1.1+) |
+- **Major (`v2.0.0`)**: Core architectural changes or multi-state expansion.
+- **Minor (`v1.1.0`)**: Backward-compatible new capabilities preserving architecture.
+- **Patch (`v1.0.1`, `v1.0.2`)**: Bug fixes, security patches, and performance tuning **ONLY**.
+
+---
+
+## 🟢 v1.0.0 Implementation Status
+
+| Feature Area | Implemented Status in v1.0.0 | Planned Roadmap (v1.1+) |
 | :--- | :--- | :--- |
 | **Citizen Auth** | ✅ RS256 JWT, Email/Password, Mobile OTP (+91) | ⏳ WhatsApp OTP Integration |
 | **Scheme Discovery** | ✅ 420+ Central & State Schemes, Search & Vector Domain | ⏳ Automated Daily Gazette Scraper |
 | **Document Vault** | ✅ Magic Byte Signature Inspection (`%PDF-`, `\xFF\xD8\xFF`), 5MB Cap | ⏳ Direct DigiLocker API OAuth |
-| **JanAI OS (/admin)** | ✅ 9 Command Center Modules (Executive, RBAC, AP Telemetry) | ⏳ Automated SIEM Threat Response |
+| **JanAI OS (/admin)** | ✅ 9 Command Center Modules & 3-Pillar Navigation | ⏳ Automated SIEM Threat Response |
 | **Partner Portal** | ✅ Tenant-Isolated (`org_id` scoped) Assisted Applications | ⏳ B2B API Key Self-Service Portal |
 | **AI Reasoning** | ✅ Grounded RAG with 8-Point Trust Matrix & Gazette Citations | ⏳ Voice Speech-to-Text Native Models |
 
 ---
 
-## 📊 Benchmark Evaluation & Quality Metrics
+## 📊 Andhra Pradesh Pilot Target & Success Metrics
 
-All benchmark metrics are evaluated against our automated benchmark test suite (`evaluate_ai_quality.py` & `test_search_quality.py`):
-
-- **Citation Accuracy**: **100% citation accuracy on the current evaluation benchmark dataset**.
-- **Hallucination Safety**: **No hallucinations observed on the current evaluation benchmark dataset**.
-- **Search Relevance**: 100% precision on vernacular jargon normalization (AP/TS gazette terms).
-- **Latency Benchmarks (Test Environment: 16GB RAM, Python 3.12, 100 Virtual Users)**:
-  - *Search Domain Latency*: **P95 < 20ms**
-  - *End-to-End Execution Latency*: **P95 < 150ms**
+| Dimension | Target Success Metric | Verification Method |
+| :--- | :--- | :--- |
+| **Registration Completion** | **≥ 90%** completion rate | AP Telemetry Engine |
+| **Application Submissions** | High completion rate (no drops) | Partner Portal Tracking |
+| **AI RAG Latency** | **P95 < 150ms** | End-to-End Test Suite |
+| **Critical Incidents** | **0** SEV-1 production incidents | SIEM Incident Log |
+| **User Satisfaction** | **≥ 95%** positive feedback | Citizen Rating Survey |
 
 ---
 
@@ -82,6 +89,7 @@ Key architectural decisions are documented in `docs/adr/`:
 - [ADR 0005: Grounded Gazette RAG Reasoning Engine](docs/adr/0005-grounded-gazette-rag-reasoning.md)
 - [ADR 0006: Secure Document Vault & Magic Bytes Validation](docs/adr/0006-secure-document-vault-and-magic-bytes.md)
 - [ADR 0007: Search & Gazette Vector Domain Separation](docs/adr/0007-search-and-vector-domain.md)
+- [ADR 0008: Role-Tailored Operational Views](docs/adr/0008-role-based-operational-views.md)
 
 ---
 
