@@ -28,6 +28,7 @@ import {
 export default function JanAiOSLayout() {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState("pilot")
+  const [activePillar, setActivePillar] = useState("operations") // "operations" | "security" | "executive"
 
   // Simulate Current User Role (Default to CEO for full demonstration)
   const [userRole, setUserRole] = useState(user?.role === "Admin" ? "CEO" : "CEO")
@@ -39,20 +40,35 @@ export default function JanAiOSLayout() {
     Moderator: { label: "🛡️ AI Moderator", color: "bg-yellow-500/20 text-yellow-300 border-yellow-500/40" }
   }
 
-  const tabs = [
-    { id: "pilot", label: "AP Pilot Telemetry", icon: MapPin, roles: ["CEO", "Admin", "Manager", "Moderator"] },
-    { id: "diagnostics", label: "System Diagnostics", icon: Activity, roles: ["CEO", "Admin", "Manager"] },
-    { id: "executive", label: "Executive Dashboard", icon: BarChart3, roles: ["CEO", "Admin"] },
-    { id: "users", label: "User Management", icon: Users, roles: ["CEO", "Admin", "Manager"] },
-    { id: "schemes", label: "Scheme Management", icon: FileText, roles: ["CEO", "Admin", "Manager"] },
-    { id: "ai", label: "AI & RAG Control", icon: Bot, roles: ["CEO", "Admin", "Moderator"] },
-    { id: "verification", label: "Document Verification", icon: FileCheck, roles: ["CEO", "Admin", "Manager", "Moderator"] },
-    { id: "analytics", label: "Analytics & Growth", icon: TrendingUp, roles: ["CEO", "Admin", "Manager"] },
-    { id: "security", label: "Security Center", icon: ShieldCheck, roles: ["CEO", "Admin"] },
-    { id: "settings", label: "System Settings", icon: Settings, roles: ["CEO"], isCeoOnly: true }
-  ]
+  const pillars = {
+    operations: {
+      label: "🏢 Operations Pillar",
+      tabs: [
+        { id: "pilot", label: "AP Pilot Telemetry", icon: MapPin, roles: ["CEO", "Admin", "Manager", "Moderator"] },
+        { id: "diagnostics", label: "System Diagnostics", icon: Activity, roles: ["CEO", "Admin", "Manager"] },
+        { id: "users", label: "User Management", icon: Users, roles: ["CEO", "Admin", "Manager"] },
+        { id: "schemes", label: "Scheme Management", icon: FileText, roles: ["CEO", "Admin", "Manager"] },
+        { id: "verification", label: "Document Verification", icon: FileCheck, roles: ["CEO", "Admin", "Manager", "Moderator"] }
+      ]
+    },
+    security: {
+      label: "🛡️ Security Pillar",
+      tabs: [
+        { id: "security", label: "SIEM & Threat Logs", icon: ShieldCheck, roles: ["CEO", "Admin"] },
+        { id: "ai", label: "AI & RAG Control", icon: Bot, roles: ["CEO", "Admin", "Moderator"] }
+      ]
+    },
+    executive: {
+      label: "📊 Executive Pillar",
+      tabs: [
+        { id: "executive", label: "Executive KPIs", icon: BarChart3, roles: ["CEO", "Admin"] },
+        { id: "analytics", label: "Analytics & Growth", icon: TrendingUp, roles: ["CEO", "Admin", "Manager"] },
+        { id: "settings", label: "System Settings", icon: Settings, roles: ["CEO"], isCeoOnly: true }
+      ]
+    }
+  }
 
-  const accessibleTabs = tabs.filter(t => t.roles.includes(userRole))
+  const currentTabs = pillars[activePillar].tabs.filter(t => t.roles.includes(userRole))
 
   return (
     <div className="space-y-6 pb-12">
@@ -98,9 +114,29 @@ export default function JanAiOSLayout() {
         </div>
       </div>
 
-      {/* Module Navigation Tabs */}
+      {/* 3-Pillar Navigation Category Selector */}
+      <div className="grid grid-cols-3 gap-2 bg-[#12182b] p-2 rounded-2xl border border-gray-800 text-xs font-bold text-center">
+        {Object.keys(pillars).map((key) => (
+          <button
+            key={key}
+            onClick={() => {
+              setActivePillar(key)
+              setActiveTab(pillars[key].tabs[0].id)
+            }}
+            className={`py-3 rounded-xl transition ${
+              activePillar === key
+                ? "bg-purple-600 text-white shadow-lg shadow-purple-600/30"
+                : "text-gray-400 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            {pillars[key].label}
+          </button>
+        ))}
+      </div>
+
+      {/* Module Navigation Tabs inside Active Pillar */}
       <div className="flex bg-[#12182b] p-1.5 rounded-2xl border border-gray-800 overflow-x-auto text-xs gap-1">
-        {accessibleTabs.map((t) => {
+        {currentTabs.map((t) => {
           const Icon = t.icon
           const isActive = activeTab === t.id
           return (
@@ -109,7 +145,7 @@ export default function JanAiOSLayout() {
               onClick={() => setActiveTab(t.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold transition shrink-0 ${
                 isActive
-                  ? "bg-purple-600 text-white shadow-lg shadow-purple-600/30"
+                  ? "bg-green-500 text-black shadow-lg shadow-green-500/20"
                   : "text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >

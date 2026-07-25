@@ -1,127 +1,46 @@
-import { useState } from "react"
-import { BarChart3, Users, FileCheck, Sparkles, TrendingUp, CheckCircle2 } from "lucide-react"
+import { Users, FileCheck, Bot, Clock, ShieldCheck, TrendingUp } from "lucide-react"
 
 export default function ExecutiveDashboard() {
-  const [metrics] = useState({
-    totalUsers: 86120,
-    activeUsersToday: 14920,
-    applicationsSubmitted: 121,
-    aiSuccessRate: 98.8,
-    systemHealth: "100% Operational",
-    revenueGrantsProcessed: "₹4.2 Cr",
-    securityAlertsCount: 0
-  })
+  const kpis = [
+    { label: "Registered Citizens", value: "12,450", change: "↑ 18% this month", icon: Users, color: "text-blue-400" },
+    { label: "Submitted Today", value: "327", change: "↑ 12% vs yesterday", icon: FileCheck, color: "text-purple-400" },
+    { label: "Applications Completed", value: "289", change: "88.3% success rate", icon: CheckCircleIcon, color: "text-green-400" },
+    { label: "AI Queries Today", value: "5,812", change: "98.8% precision", icon: Bot, color: "text-yellow-400" },
+    { label: "Avg Response Time", value: "140 ms", change: "P95 response latency", icon: Clock, color: "text-pink-400" },
+    { label: "Platform Availability", value: "99.97%", change: "0 unplanned outages", icon: ShieldCheck, color: "text-emerald-400" }
+  ]
+
+  function CheckCircleIcon({ size, className }) {
+    return <TrendingUp size={size} className={className} />
+  }
 
   return (
     <div className="space-y-6 text-xs">
-      {/* CEO Executive KPI Metric Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="glass p-5 rounded-3xl border border-gray-800 space-y-2">
-          <div className="flex items-center justify-between text-gray-400 font-semibold">
-            <span>Total Registered Citizens</span>
-            <Users size={18} className="text-purple-400" />
-          </div>
-          <p className="text-3xl font-extrabold text-white">{metrics.totalUsers.toLocaleString()}</p>
-          <p className="text-[11px] text-green-400 font-medium">↑ +1,420 new citizens this week</p>
-        </div>
-
-        <div className="glass p-5 rounded-3xl border border-gray-800 space-y-2">
-          <div className="flex items-center justify-between text-gray-400 font-semibold">
-            <span>Active Citizens Today</span>
-            <TrendingUp size={18} className="text-blue-400" />
-          </div>
-          <p className="text-3xl font-extrabold text-blue-400">{metrics.activeUsersToday.toLocaleString()}</p>
-          <p className="text-[11px] text-gray-500">Across 26 Districts in AP & TS</p>
-        </div>
-
-        <div className="glass p-5 rounded-3xl border border-gray-800 space-y-2">
-          <div className="flex items-center justify-between text-gray-400 font-semibold">
-            <span>Applications Tracked</span>
-            <FileCheck size={18} className="text-pink-400" />
-          </div>
-          <p className="text-3xl font-extrabold text-pink-400">{metrics.applicationsSubmitted}</p>
-          <p className="text-[11px] text-yellow-400 font-medium">₹4.2 Cr Welfare Value Facilitated</p>
-        </div>
-
-        <div className="glass p-5 rounded-3xl border border-gray-800 space-y-2">
-          <div className="flex items-center justify-between text-gray-400 font-semibold">
-            <span>AI Precision & Accuracy</span>
-            <Sparkles size={18} className="text-green-400" />
-          </div>
-          <p className="text-3xl font-extrabold text-green-400">{metrics.aiSuccessRate}%</p>
-          <p className="text-[11px] text-gray-500">Grounded in 2026 Gazette PDFs</p>
-        </div>
+      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-1">
+        <span className="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full uppercase">
+          JanAI OS Executive Command Pillar
+        </span>
+        <h2 className="text-xl font-extrabold text-white mt-2">Executive KPI Summary</h2>
+        <p className="text-gray-400 text-xs">
+          Real-time business impact metrics and platform availability overview.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* System Health & Security Alert Overview */}
-        <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <CheckCircle2 size={18} className="text-green-400" /> Real-Time System Health & Security Status
-          </h3>
-
-          <div className="space-y-3">
-            <div className="p-3 bg-[#12182b] rounded-2xl border border-gray-800 flex justify-between items-center">
-              <span>Platform Core REST & MCP API</span>
-              <span className="bg-green-500/20 text-green-400 font-bold px-3 py-1 rounded-xl text-[10px]">
-                {metrics.systemHealth}
-              </span>
-            </div>
-
-            <div className="p-3 bg-[#12182b] rounded-2xl border border-gray-800 flex justify-between items-center">
-              <span>Security Anomaly Alerts</span>
-              <span className="bg-blue-500/20 text-blue-300 font-bold px-3 py-1 rounded-xl text-[10px]">
-                0 Critical / High Findings
-              </span>
-            </div>
-
-            <div className="p-3 bg-[#12182b] rounded-2xl border border-gray-800 flex justify-between items-center">
-              <span>Gazette Data Sync Crawler</span>
-              <span className="bg-green-500/20 text-green-400 font-bold px-3 py-1 rounded-xl text-[10px]">
-                Last Sync: 24 Jul 2026 18:30 IST
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* State Welfare Allocation Breakdown */}
-        <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-          <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <BarChart3 size={18} className="text-purple-400" /> Executive State Welfare Breakdown
-          </h3>
-
-          <div className="space-y-3 font-mono text-[11px]">
-            <div className="space-y-1">
-              <div className="flex justify-between text-gray-300">
-                <span>Education & Scholarships</span>
-                <span className="text-purple-400 font-bold">₹1.8 Cr (43%)</span>
+      {/* KPI Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {kpis.map((kpi, idx) => {
+          const Icon = kpi.icon
+          return (
+            <div key={idx} className="glass p-5 rounded-3xl border border-gray-800 space-y-2">
+              <div className="flex justify-between items-center text-gray-400">
+                <span className="text-[11px] font-semibold">{kpi.label}</span>
+                <Icon size={18} className={kpi.color} />
               </div>
-              <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 w-[43%]" />
-              </div>
+              <h3 className="text-2xl font-extrabold text-white">{kpi.value}</h3>
+              <span className="text-[10px] text-green-400 font-bold">{kpi.change}</span>
             </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between text-gray-300">
-                <span>Agriculture & Farmer Support</span>
-                <span className="text-green-400 font-bold">₹1.5 Cr (36%)</span>
-              </div>
-              <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500 w-[36%]" />
-              </div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex justify-between text-gray-300">
-                <span>MSME & Collateral-Free Loans</span>
-                <span className="text-yellow-400 font-bold">₹0.9 Cr (21%)</span>
-              </div>
-              <div className="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                <div className="h-full bg-yellow-500 w-[21%]" />
-              </div>
-            </div>
-          </div>
-        </div>
+          )
+        })}
       </div>
     </div>
   )
