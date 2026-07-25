@@ -8,6 +8,7 @@ import { SchemeProvider } from "./context/SchemeContext"
 import Navbar from "./components/Navbar"
 import Sidebar from "./layouts/Sidebar"
 import VoiceAssistant from "./components/VoiceAssistant"
+import BuildMetadataFooter from "./components/BuildMetadataFooter"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -128,6 +129,7 @@ function AppContent() {
       </div>
 
       <VoiceAssistant isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} />
+      <BuildMetadataFooter />
     </div>
   )
 }
