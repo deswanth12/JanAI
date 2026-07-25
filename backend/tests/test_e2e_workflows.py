@@ -7,6 +7,7 @@ Register -> Login -> Document Upload -> AI Eligibility Check -> Save Scheme -> A
 import pytest
 import os
 import sys
+import uuid
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -26,23 +27,28 @@ def test_full_citizen_e2e_workflow():
     conn = get_db()
     cursor = conn.cursor()
 
+    uid = uuid.uuid4().hex[:6]
+    test_email = f"test_citizen_{uid}@janai.in"
+    test_phone = f"99{uuid.uuid4().hex[:8]}"
+    test_password = "SecurePassword2026!"
+
     # 1. User Registration
     reg_data = {
         "full_name": "Test Citizen AP",
-        "email": "test_citizen_ap@janai.in",
-        "phone": "9988776655",
-        "password": "SecurePassword2026!"
+        "email": test_email,
+        "phone": test_phone,
+        "password": test_password
     }
     reg_res = handle_user_register(reg_data, cursor, conn)
-    assert reg_res.get("status") == "success" or "already exists" in reg_res.get("error", "")
+    assert reg_res.get("status") == "success"
 
     # 2. User Login
     login_data = {
-        "email_or_phone": "test_citizen_ap@janai.in",
-        "password": "SecurePassword2026!"
+        "email_or_phone": test_email,
+        "password": test_password
     }
     login_res = handle_user_login(login_data, cursor, conn)
-    assert login_res["status"] == "success"
+    assert login_res.get("status") == "success"
     user_id = login_res["user"]["id"]
     assert "tokens" in login_res
 
