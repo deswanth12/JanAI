@@ -1,3 +1,4 @@
+import ActivityFeed from "./ActivityFeed"
 import { Users, FileCheck, Bot, Clock, ShieldCheck, TrendingUp } from "lucide-react"
 
 export default function ExecutiveDashboard() {
@@ -20,7 +21,7 @@ export default function ExecutiveDashboard() {
         <span className="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full uppercase">
           JanAI OS Executive Command Pillar
         </span>
-        <h2 className="text-xl font-extrabold text-white mt-2">Executive KPI Summary</h2>
+        <h2 className="text-xl font-extrabold text-white mt-2">Executive KPI Summary & Impact Telemetry</h2>
         <p className="text-gray-400 text-xs">
           Real-time business impact metrics and platform availability overview.
         </p>
@@ -42,6 +43,9 @@ export default function ExecutiveDashboard() {
           )
         })}
       </div>
+
+      {/* Internal Operational Activity Feed */}
+      <ActivityFeed />
     </div>
   )
 }
