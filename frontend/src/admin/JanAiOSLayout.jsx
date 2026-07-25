@@ -9,6 +9,7 @@ import AnalyticsEngine from "./AnalyticsEngine"
 import SecurityCenter from "./SecurityCenter"
 import SystemSettings from "./SystemSettings"
 import ApPilotDashboard from "./ApPilotDashboard"
+import SystemDiagnostics from "./SystemDiagnostics"
 import {
   BarChart3,
   Users,
@@ -20,7 +21,8 @@ import {
   Settings,
   Lock,
   Crown,
-  MapPin
+  MapPin,
+  Activity
 } from "lucide-react"
 
 export default function JanAiOSLayout() {
@@ -39,6 +41,7 @@ export default function JanAiOSLayout() {
 
   const tabs = [
     { id: "pilot", label: "AP Pilot Telemetry", icon: MapPin, roles: ["CEO", "Admin", "Manager", "Moderator"] },
+    { id: "diagnostics", label: "System Diagnostics", icon: Activity, roles: ["CEO", "Admin", "Manager"] },
     { id: "executive", label: "Executive Dashboard", icon: BarChart3, roles: ["CEO", "Admin"] },
     { id: "users", label: "User Management", icon: Users, roles: ["CEO", "Admin", "Manager"] },
     { id: "schemes", label: "Scheme Management", icon: FileText, roles: ["CEO", "Admin", "Manager"] },
@@ -125,6 +128,7 @@ export default function JanAiOSLayout() {
       {/* Dynamic Module Render */}
       <div className="min-h-[600px]">
         {activeTab === "pilot" && <ApPilotDashboard />}
+        {activeTab === "diagnostics" && <SystemDiagnostics />}
         {activeTab === "executive" && <ExecutiveDashboard />}
         {activeTab === "users" && <UserManagement />}
         {activeTab === "schemes" && <SchemeManagement />}
