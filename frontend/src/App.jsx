@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar"
 import Sidebar from "./layouts/Sidebar"
 import VoiceAssistant from "./components/VoiceAssistant"
 import BuildMetadataFooter from "./components/BuildMetadataFooter"
+import MaintenanceModeBanner from "./components/MaintenanceModeBanner"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -92,6 +93,8 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[#0b1020] text-white flex flex-col font-sans">
+      <MaintenanceModeBanner isMaintenanceActive={false} />
+
       {/* ⚠️ API UNAVAILABLE BANNER */}
       {apiUnavailable && (
         <div className="bg-red-500/20 border-b border-red-500/40 p-2.5 text-center text-red-300 text-xs font-bold">

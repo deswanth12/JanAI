@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import { FEATURE_FLAGS } from "../config/featureFlags"
 import { API_BASE_URL } from "../config/api"
-import { Activity, CheckCircle2, ShieldCheck, Cpu } from "lucide-react"
+import { Activity, CheckCircle2, ShieldCheck, Cpu, ExternalLink } from "lucide-react"
 
 export default function SystemDiagnostics() {
+  const navigate = useNavigate()
   const [apiHealth, setApiHealth] = useState("Checking...")
 
   useEffect(() => {
@@ -15,23 +17,33 @@ export default function SystemDiagnostics() {
 
   const buildInfo = {
     version: import.meta.env.VITE_APP_VERSION || "1.0.0",
-    commit: import.meta.env.VITE_GIT_COMMIT || "9d5a49a",
+    commit: import.meta.env.VITE_GIT_COMMIT || "70345e4",
     buildDate: import.meta.env.VITE_BUILD_DATE || "2026-07-25",
     environment: import.meta.env.MODE || "production"
   }
 
   return (
     <div className="space-y-6 text-xs">
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-2">
-        <span className="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full uppercase">
-          JanAI OS Feature & System Diagnostics
-        </span>
-        <h2 className="text-xl font-extrabold text-white mt-1 flex items-center gap-2">
-          <Activity size={20} className="text-green-400" /> Internal System Health & Feature Flags
-        </h2>
-        <p className="text-gray-400 text-xs">
-          Verify feature rollouts, API connectivity, and build metadata without inspecting environment variables.
-        </p>
+      {/* Top Banner with Direct Public Status Link */}
+      <div className="glass p-6 rounded-3xl border border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span className="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full uppercase">
+            JanAI OS Feature & System Diagnostics
+          </span>
+          <h2 className="text-xl font-extrabold text-white mt-2 flex items-center gap-2">
+            <Activity size={20} className="text-green-400" /> Internal System Health & Diagnostics
+          </h2>
+          <p className="text-gray-400 text-xs mt-1">
+            Verify feature rollouts, API connectivity, and public health telemetry.
+          </p>
+        </div>
+
+        <button
+          onClick={() => navigate("/status")}
+          className="bg-blue-600 hover:bg-blue-500 text-white font-extrabold px-5 py-3 rounded-2xl text-xs transition flex items-center gap-2 shadow-lg shadow-blue-600/20 shrink-0"
+        >
+          View Public Status Page <ExternalLink size={14} />
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -59,7 +71,7 @@ export default function SystemDiagnostics() {
         {/* Operational System Diagnostics */}
         <div className="glass p-5 rounded-3xl border border-gray-800 space-y-3">
           <h3 className="text-sm font-bold text-white flex items-center gap-2">
-            <ShieldCheck size={16} className="text-purple-400" /> System Build Diagnostics
+            <ShieldCheck size={16} className="text-purple-400" /> System Build & Health Probes
           </h3>
 
           <div className="space-y-2.5 text-xs font-mono">
