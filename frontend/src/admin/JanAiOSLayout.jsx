@@ -8,6 +8,7 @@ import DocumentVerificationHub from "./DocumentVerificationHub"
 import AnalyticsEngine from "./AnalyticsEngine"
 import SecurityCenter from "./SecurityCenter"
 import SystemSettings from "./SystemSettings"
+import ApPilotDashboard from "./ApPilotDashboard"
 import {
   BarChart3,
   Users,
@@ -18,12 +19,13 @@ import {
   ShieldCheck,
   Settings,
   Lock,
-  Crown
+  Crown,
+  MapPin
 } from "lucide-react"
 
 export default function JanAiOSLayout() {
   const { user } = useAuth()
-  const [activeTab, setActiveTab] = useState("executive")
+  const [activeTab, setActiveTab] = useState("pilot")
 
   // Simulate Current User Role (Default to CEO for full demonstration)
   const [userRole, setUserRole] = useState(user?.role === "Admin" ? "CEO" : "CEO")
@@ -36,6 +38,7 @@ export default function JanAiOSLayout() {
   }
 
   const tabs = [
+    { id: "pilot", label: "AP Pilot Telemetry", icon: MapPin, roles: ["CEO", "Admin", "Manager", "Moderator"] },
     { id: "executive", label: "Executive Dashboard", icon: BarChart3, roles: ["CEO", "Admin"] },
     { id: "users", label: "User Management", icon: Users, roles: ["CEO", "Admin", "Manager"] },
     { id: "schemes", label: "Scheme Management", icon: FileText, roles: ["CEO", "Admin", "Manager"] },
@@ -75,7 +78,7 @@ export default function JanAiOSLayout() {
               value={userRole}
               onChange={(e) => {
                 setUserRole(e.target.value)
-                setActiveTab("executive")
+                setActiveTab("pilot")
               }}
               className="bg-transparent text-white font-bold outline-none cursor-pointer"
             >
@@ -121,6 +124,7 @@ export default function JanAiOSLayout() {
 
       {/* Dynamic Module Render */}
       <div className="min-h-[600px]">
+        {activeTab === "pilot" && <ApPilotDashboard />}
         {activeTab === "executive" && <ExecutiveDashboard />}
         {activeTab === "users" && <UserManagement />}
         {activeTab === "schemes" && <SchemeManagement />}

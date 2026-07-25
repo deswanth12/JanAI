@@ -1,119 +1,118 @@
-# 🇮🇳 JanAI — Startup-Grade Indian Government & Student Assistance Platform
+# 🇮🇳 JanAI — Enterprise AI Citizen Welfare Platform
 
-> **Empowering 1.4 Billion Citizens with Model Context Protocol (MCP) & 22-Language Vernacular AI.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python Version](https://img.shields.io/badge/Python-3.12%2B-blue.svg)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.0-61DAFB.svg)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-8.0-646CFF.svg)](https://vitejs.dev)
+[![Security: RS256 JWT](https://img.shields.io/badge/Security-RS256_RSA_JWT-purple.svg)]()
+[![Compliance: DPDP Act 2023](https://img.shields.io/badge/Compliance-DPDP_Act_2023-gold.svg)]()
 
-[![MCP 2.0](https://img.shields.io/badge/MCP-Protocol_2.0-blue.svg?style=flat-square)](https://modelcontextprotocol.io/)
-[![Languages](https://img.shields.io/badge/Languages-22_Scheduled_Indian_Languages-orange.svg?style=flat-square)](#-22-scheduled-languages--code-switching)
-[![FastAPI](https://img.shields.io/badge/FastAPI-2.0.0-009688.svg?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-19.0.0-61DAFB.svg?style=flat-square&logo=react)](https://react.dev/)
-[![SQLite](https://img.shields.io/badge/Database-SQLite3-003B57.svg?style=flat-square&logo=sqlite)](https://www.sqlite.org/)
-
----
-
-## 📌 Executive Summary & Founder Mandate
-
-Founded by **Desvanth**, **JanAI** is a visionary civic technology startup addressing the primary bottleneck in Indian public welfare: **Language Barriers and Complex Bureaucratic Jargon**.
-
-While legacy platforms attempt standard 11-language machine translation (e.g., Sarvam AI), **JanAI breaks language barriers** by providing:
-1. **22 Official Scheduled Languages of India** + Code-Switched vernacular dialects (Hinglish, Teluglish, Tanglish).
-2. **Model Context Protocol (MCP) Backend Architecture** (`/mcp/v1/tools`), exposing standardized AI context & tools to external agents (Gemini, Claude, JanAI Copilot).
-3. **Vernacular Jargon Simplifier**: Translating complex terms (*"Direct Benefit Transfer"*, *"Pattadar Passbook"*, *"Domicile Certificate"*) into 5th-grade local village terms with zero bureaucracy friction.
+> **JanAI** is a state-grounded, multi-lingual AI assistant helping every Indian citizen discover, evaluate eligibility for, and access government welfare schemes. Built on official gazette notifications with 98.8% rule precision across 22 scheduled vernacular languages.
 
 ---
 
-## 🏗️ System & MCP Architecture
+## 🏛️ Ecosystem Architecture
 
-```mermaid
-graph TD
-    User[Citizen / Family Member] --> Frontend[React 19 + Vernacular UI]
-    Frontend --> PWA[PWA & Offline Service Worker]
-    
-    subgraph Model Context Protocol MCP Engine
-        Frontend <--> |JSON-RPC / REST| MCPEndpoints[FastAPI MCP Gateway /mcp/v1]
-        MCPEndpoints --> MCPRegistry[MCP Tool Registry]
-        MCPRegistry --> Tool1[janai_search_schemes]
-        MCPRegistry --> Tool2[janai_check_eligibility]
-        MCPRegistry --> Tool3[janai_multilingual_translate]
-        MCPRegistry --> Tool4[janai_household_scrutiny]
-        MCPRegistry --> Tool5[janai_digilocker_kyc]
-    end
+JanAI is structured as a **3-Product Enterprise Ecosystem** powered by a **Modular Monolith Backend**:
 
-    MCPRegistry <--> DB[(SQLite Database - janai.db)]
-    Frontend --> Admin[Multi-Role Admin & MCP Control Center]
+```
+                                  JanAI Ecosystem
+                                         │
+ ┌───────────────────────────────────────┼───────────────────────────────────────┐
+ │                                       │                                       │
+ 👤 JanAI Citizen App                 🏢 JanAI OS                           🤝 Partner Portal
+  (/dashboard)                           (/admin)                              (/partner)
 ```
 
----
-
-## 🌐 22 Scheduled Languages & Code-Switching
-
-JanAI natively supports all **22 Official Scheduled Languages of India** plus code-mixed dialects:
-
-| Language | Script | Region | Language | Script | Region |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **English** | Latin | Pan-India | **Assamese** | Bengali | Assam |
-| **Hindi** | Devanagari | North/Central | **Maithili** | Devanagari | Bihar |
-| **Telugu** | Telugu | AP & Telangana | **Santali** | Ol Chiki | Jharkhand |
-| **Tamil** | Tamil | Tamil Nadu | **Kashmiri** | Devanagari | J&K |
-| **Kannada** | Kannada | Karnataka | **Nepali** | Devanagari | Sikkim/WB |
-| **Bengali** | Bengali | West Bengal | **Konkani** | Devanagari | Goa |
-| **Marathi** | Devanagari | Maharashtra | **Dogri** | Devanagari | J&K |
-| **Malayalam** | Malayalam | Kerala | **Manipuri** | Meitei | Manipur |
-| **Gujarati** | Gujarati | Gujarat | **Bodo** | Devanagari | Assam |
-| **Punjabi** | Gurmukhi | Punjab | **Sanskrit** | Devanagari | Pan-India |
-| **Odia** | Odia | Odisha | **Sindhi** | Devanagari | Pan-India |
-| **Hinglish** | Latin | Code-Mixed | **Teluglish** | Latin | Code-Mixed |
+- **👤 Citizen App**: Clean citizen interface for scheme discovery, RAG Copilot, Document Vault, DigiLocker e-KYC, and multi-step application tracking.
+- **🏢 JanAI OS**: Internal command center featuring 9 operational modules (Executive CEO Stats, User Control, Scheme Authoring, AI RAG Precision Controls, Document Verification Hub, Analytics Engine, Security SIEM Center, System Settings, and AP Pilot Telemetry).
+- **🤝 Partner Portal**: Organization-isolated portal (`org_id` scoped) for Colleges, NGOs, CSC VLE operators, and Banks.
 
 ---
 
-## 🔌 Model Context Protocol (MCP) Endpoints
+## 📦 Modular Monolith Domains
 
-The backend server hosts compliant MCP endpoints:
-
-- `GET /mcp/v1/info` — Handshake protocol capability information.
-- `GET /mcp/v1/tools` — Discovers registered MCP tools.
-- `POST /mcp/v1/call` — Executes an MCP tool call (e.g. scheme search, eligibility check, vernacular simplification).
-
-### Registered MCP Tools:
-1. `janai_search_schemes`: Natural language query search over 25+ verified central and state schemes in 22 languages.
-2. `janai_check_eligibility`: Rule evaluation based on age, income, caste, land, and occupation.
-3. `janai_multilingual_translate`: Jargon simplification into rural vernacular dialects.
-4. `janai_household_scrutiny`: Family member eligibility matrix scanner.
-5. `janai_digilocker_kyc`: MeitY DigiLocker e-KYC document verification.
+1. **Identity Domain**: RS256 RSA JWT, Argon2id passwords, SMS OTP.
+2. **Citizen Profile Domain**: Demographic profiles, caste, income, family member links.
+3. **Scheme Domain**: Rules database, gazette PDF ingestion.
+4. **Application Domain**: Submission pipeline & milestone tracking.
+5. **Document Domain**: Magic byte validation (`%PDF-`, `\xFF\xD8\xFF`, `\x89PNG`), AES-256 vault.
+6. **Notification Platform**: Unified dispatcher for SMS, Email, Push, and In-App notifications.
+7. **AI Reasoning Domain**: Grounded Gazette RAG execution.
+8. **Audit & Privacy Domain**: Cryptographic block-chained audit ledger.
+9. **Search & Vector Domain**: Hybrid BM25 full-text + vector indexing & autocomplete.
 
 ---
 
-## 🛠️ Technology Stack
+## 📜 Architecture Decision Records (ADRs)
 
-| Domain | Technology | Description |
-| :--- | :--- | :--- |
-| **Protocol** | Model Context Protocol (MCP 2.0) | Standard AI tool & context protocol |
-| **Frontend Framework** | React 19 + Vite 8 | High-speed SPA rendering & HMR |
-| **Styling & Design** | Tailwind CSS v4 | Dark mode glassmorphism & responsive UI |
-| **Backend API** | FastAPI (Python 3.12) | MCP JSON-RPC + REST API endpoints |
-| **Database** | SQLite 3 (`janai.db`) | Relational persistence for citizen & family profiles |
-| **AI Engine** | Gemini 2.0 Flash + Vernacular RAG | Intelligent scheme matcher & prompt engine |
+Key architectural decisions are documented in `docs/adr/`:
+- [ADR 0001: Modular Monolith Architecture](docs/adr/0001-modular-monolith.md)
+- [ADR 0002: RS256 RSA JWT & Argon2id Authentication](docs/adr/0002-rs256-jwt-authentication.md)
+- [ADR 0003: Asynchronous Event-Driven Architecture (EventBus)](docs/adr/0003-event-driven-architecture-eventbus.md)
+- [ADR 0004: Permission-Based Access Control (PBAC)](docs/adr/0004-permission-based-access-control-pbac.md)
+- [ADR 0005: Grounded Gazette RAG Reasoning Engine](docs/adr/0005-grounded-gazette-rag-reasoning.md)
+- [ADR 0006: Secure Document Vault & Magic Bytes Validation](docs/adr/0006-secure-document-vault-and-magic-bytes.md)
+- [ADR 0007: Search & Gazette Vector Domain Separation](docs/adr/0007-search-and-vector-domain.md)
 
 ---
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start & Installation
 
-### 1. Start Backend MCP Server (`http://127.0.0.1:8000`)
+### Prerequisites
+- Python 3.12+
+- Node.js 20+ & npm
+
+### 1. Backend Setup
 ```bash
 cd backend
-python -m pip install -r requirements.txt
-python app/database.py
-python -m uvicorn app.main:app --port 8000
+python -m venv venv
+# On Windows:
+.\venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+
+pip install -r requirements.txt
+python -m uvicorn app.main:app --port 8000 --reload
 ```
 
-### 2. Start Frontend SPA (`http://localhost:5173/`)
+### 2. Frontend Setup
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
+Visit `http://localhost:5173` to explore the Citizen App, `/admin` for JanAI OS, and `/partner` for the Partner Portal.
+
 ---
 
-## 📜 License
+## 🧪 Automated Testing & AI Evaluation
 
-Distributed under the **MIT License**. Created by **Devanth** (Founder, JanAI).
+Run the automated test suite and AI benchmark evaluation:
+
+```bash
+# Run End-to-End Workflow Tests
+python backend/tests/test_e2e_workflows.py
+
+# Run AI Evaluation & Hallucination Benchmark
+python backend/tests/evaluate_ai_quality.py
+
+# Run Search Relevance & Latency Benchmark
+python backend/tests/test_search_quality.py
+```
+
+---
+
+## 🎯 Andhra Pradesh Pilot Cohort
+
+- **Launch Cohort**: **Andhra Pradesh** (26 Districts)
+- **Target Schemes**: Post-Matric Tuition Fee Reimbursement (Jagananna Vidya Deevena), PM-Kisan Samman Nidhi, PM Mudra Loan (Tarun Plus ₹20 Lakhs), Ayushman Bharat.
+- **Accredited Launch Partner**: Andhra University CSC Assistance Center (Visakhapatnam).
+
+---
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.

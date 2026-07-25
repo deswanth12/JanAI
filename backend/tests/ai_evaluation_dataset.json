@@ -1,0 +1,23 @@
+[
+  {
+    "id": "eval-001",
+    "query": "Is annual income ₹2.4 Lakhs eligible for Post-Matric Tuition Fee Reimbursement in AP?",
+    "expected_outcome": "ELIGIBLE",
+    "expected_citation": "Official Gazette Notification 2026/07",
+    "cutoff_rule": "Income ceiling ₹2.50 Lakhs / year"
+  },
+  {
+    "id": "eval-002",
+    "query": "What is the maximum loan limit under PM Mudra Tarun Plus scheme in 2026?",
+    "expected_outcome": "ELIGIBLE",
+    "expected_citation": "Central Ministry of Finance Gazette 2026",
+    "cutoff_rule": "Maximum loan limit ₹20 Lakhs"
+  },
+  {
+    "id": "eval-003",
+    "query": "Can a farmer with 15 acres of land claim PM-Kisan Samman Nidhi?",
+    "expected_outcome": "INELIGIBLE",
+    "expected_citation": "PM-Kisan Operational Guidelines 2026",
+    "cutoff_rule": "Landholding ceiling 2.0 Hectares (5 Acres)"
+  }
+]
