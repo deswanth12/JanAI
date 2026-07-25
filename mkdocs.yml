@@ -22,15 +22,9 @@ nav:
   - 🏠 Home: index.md
   - 🚀 Getting Started: getting-started/index.md
   - 🏛️ Architecture: architecture/system-architecture.md
+  - 🗄️ Database: database/database-schema.md
   - ⚙️ Backend Domains:
       - Identity Domain: backend/identity-domain.md
-      - Citizen Domain: backend/citizen-domain.md
-      - Scheme Domain: backend/scheme-domain.md
-      - Application Domain: backend/application-domain.md
-      - Document Domain: backend/document-domain.md
-      - Notification Domain: backend/notification-domain.md
-      - AI Domain: backend/ai-domain.md
-      - Audit Domain: backend/audit-domain.md
       - Search Domain: backend/search-domain.md
   - 🤖 AI Engine: ai/rag-pipeline.md
   - 🔒 Security: security/security-guide.md
@@ -38,6 +32,10 @@ nav:
   - 🚀 Deployment: deployment/cloud-deployment.md
   - 📊 Operations: operations/janai-os-manual.md
   - 🧪 Pilot Handbook: pilot/ap-pilot-handbook.md
+  - 🧪 Testing: testing/automated-testing.md
+  - 🔧 Troubleshooting: troubleshooting/common-errors.md
+  - 🗺️ Roadmap: roadmap/future-roadmap.md
+  - 📖 Glossary: glossary/janai-glossary.md
   - 👥 User Guides:
       - Citizen Guide: user-guides/citizen-guide.md
       - Partner Guide: user-guides/partner-guide.md
