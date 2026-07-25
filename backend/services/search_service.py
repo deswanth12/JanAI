@@ -28,8 +28,9 @@ class SearchService:
         query_clean = query.strip().lower()
 
         # Simplify vernacular terms using Search Domain dictionary
-        for raw, clean in VERNACULAR_JARGON_DICTIONARY.items():
-            query_clean = query_clean.replace(raw, clean)
+        for raw, info in VERNACULAR_JARGON_DICTIONARY.items():
+            clean_str = info.get("simple_en", raw) if isinstance(info, dict) else str(info)
+            query_clean = query_clean.replace(raw.lower(), clean_str.lower())
 
         return {
             "query": query,

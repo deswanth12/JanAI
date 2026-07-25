@@ -8,6 +8,9 @@ import pytest
 import os
 import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 # Add backend root to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -31,7 +34,7 @@ def test_full_citizen_e2e_workflow():
         "password": "SecurePassword2026!"
     }
     reg_res = handle_user_register(reg_data, cursor, conn)
-    assert reg_res["status"] == "success" or "already exists" in reg_res.get("error", "")
+    assert reg_res.get("status") == "success" or "already exists" in reg_res.get("error", "")
 
     # 2. User Login
     login_data = {

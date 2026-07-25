@@ -5,6 +5,10 @@ Evaluates Precision, Recall, Hallucination Rate, and Citation Correctness.
 
 import json
 import os
+import sys
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 def run_ai_benchmark():
     dataset_path = os.path.join(os.path.dirname(__file__), "ai_evaluation_dataset.json")

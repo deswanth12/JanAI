@@ -5,6 +5,10 @@ Tests search relevance, typo tolerance, Telugu/Hindi/Hinglish queries, and respo
 
 import sys
 import os
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from services.search_service import search_service

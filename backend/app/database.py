@@ -49,6 +49,31 @@ def init_db():
         )
     ''')
 
+    # Migration check for pre-existing databases
+    cursor.execute("PRAGMA table_info(users)")
+    existing_cols = set(row[1] for row in cursor.fetchall())
+
+    needed_cols = {
+        "full_name": "TEXT",
+        "name": "TEXT",
+        "password_hash": "TEXT",
+        "google_id": "TEXT",
+        "role": "TEXT DEFAULT 'Citizen'",
+        "org_id": "TEXT DEFAULT 'ORG-CITIZEN-GLOBAL'",
+        "org_subrole": "TEXT DEFAULT 'Citizen'",
+        "is_verified": "BOOLEAN DEFAULT 1",
+        "profile_completed": "BOOLEAN DEFAULT 1",
+        "failed_login_attempts": "INTEGER DEFAULT 0",
+        "account_locked_until": "TEXT",
+        "refresh_token_version": "INTEGER DEFAULT 1",
+        "created_at": "TEXT",
+        "updated_at": "TEXT",
+        "last_login": "TEXT"
+    }
+    for col_name, col_type in needed_cols.items():
+        if col_name not in existing_cols:
+            cursor.execute(f"ALTER TABLE users ADD COLUMN {col_name} {col_type}")
+
     # Family Members Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS family_members (
