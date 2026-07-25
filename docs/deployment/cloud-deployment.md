@@ -1,18 +1,22 @@
-# 🚀 Cloud Deployment Guide
+# 🚀 Cloud Deployment Architecture Guide
 
-JanAI is prepared for one-click cloud deployment via **Vercel** (Frontend) and **Render.com / DigitalOcean** (Backend).
+JanAI is engineered for zero-downtime cloud deployment across **Vercel** (Frontend SPA) and **Render / DigitalOcean** (FastAPI Backend Engine).
 
 ---
 
-## 🌐 Production Environment Variables
+## 🌐 Cloud Infrastructure Deployment Architecture
 
-### Frontend (`frontend/.env.production`)
-```env
-VITE_API_URL=https://api.janai.in
-```
+```mermaid
+graph LR
+    subgraph Global Edge CDN (Vercel)
+        CDN[Vercel Edge Network] --> SPA[React 18 SPA static bundle]
+    end
 
-### Backend (`backend/.env.production`)
-```env
-JWT_SECRET_KEY=production-rsa-signing-key-2026
-ALLOW_ORIGINS=https://janai.in,https://preview.janai.in
+    subgraph Backend Cloud (Render / DigitalOcean)
+        LB[HTTPS Load Balancer] --> API1[FastAPI Worker 1]
+        LB --> API2[FastAPI Worker 2]
+        API1 & API2 --> DB[(Managed PostgreSQL DB)]
+    end
+
+    SPA -->|VITE_API_URL=https://api.janai.in| LB
 ```
