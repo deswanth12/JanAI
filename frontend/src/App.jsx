@@ -23,6 +23,7 @@ import Compare from "./pages/Compare"
 import Applications from "./pages/Applications"
 import Profile from "./pages/Profile"
 import Admin from "./pages/Admin"
+import PartnerPortal from "./pages/PartnerPortal"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
 import TermsOfService from "./pages/TermsOfService"
 import SystemStatus from "./pages/SystemStatus"
@@ -101,6 +102,7 @@ function AppContent() {
             <Route path="/applications" element={<Applications />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/partner" element={<PartnerPortal />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/status" element={<SystemStatus />} />

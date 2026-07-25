@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react"
 import { useLanguage } from "../context/LanguageContext"
 import {
   LayoutDashboard,
@@ -9,7 +9,8 @@ import {
   Scale,
   User,
   ShieldCheck,
-  Home
+  Home,
+  Building2
 } from "lucide-react"
 
 export default function Sidebar() {
@@ -26,14 +27,15 @@ export default function Sidebar() {
     { label: t("navApplications"), icon: FileCheck, path: "/applications" },
     { label: t("navCompare"), icon: Scale, path: "/compare" },
     { label: t("navProfile"), icon: User, path: "/profile" },
-    { label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }
+    { label: "Partner Portal", icon: Building2, path: "/partner" },
+    { label: "JanAI OS (Admin)", icon: ShieldCheck, path: "/admin" }
   ]
 
   return (
     <aside className="hidden md:flex w-64 glass flex-col justify-between p-4 min-h-[calc(100vh-65px)] border-r border-gray-800">
       <div className="space-y-2">
         <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider px-3 mb-2">
-          Navigation Menu
+          JanAI Ecosystem
         </p>
 
         {navItems.map((item) => {
