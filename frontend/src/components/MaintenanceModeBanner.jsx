@@ -1,11 +1,23 @@
-import { AlertTriangle, Info, CheckCircle2, AlertOctagon } from "lucide-react"
+import { useState } from "react"
+import { AlertTriangle, Info, CheckCircle2, AlertOctagon, X } from "lucide-react"
 
 export default function MaintenanceModeBanner({
   isMaintenanceActive = false,
   maintenanceType = "scheduled", // "scheduled" | "disruption" | "info" | "complete"
-  maintenanceMessage = ""
+  maintenanceMessage = "",
+  dismissible = true,
+  expiresAt = null // e.g. "2026-07-28T18:00:00Z"
 }) {
-  if (!isMaintenanceActive) return null
+  const [dismissedKey, setDismissedKey] = useState("")
+
+  // Derive dismissal state based on current message identifier
+  const currentKey = `${maintenanceType}-${maintenanceMessage}`
+  const isDismissed = dismissedKey === currentKey
+
+  // Auto-expiration check
+  const isExpired = expiresAt ? new Date() > new Date(expiresAt) : false
+
+  if (!isMaintenanceActive || isDismissed || isExpired) return null
 
   const bannerConfigs = {
     scheduled: {
@@ -48,13 +60,25 @@ export default function MaintenanceModeBanner({
 
   return (
     <div className={`border-b py-2.5 px-4 text-xs font-bold flex items-center justify-between shadow-lg ${config.style}`}>
-      <div className="flex items-center gap-2 max-w-5xl mx-auto">
+      <div className="flex items-center gap-2 max-w-5xl mx-auto flex-1">
         <Icon size={16} className={`${config.iconColor} shrink-0 animate-pulse`} />
         <span>{displayMsg}</span>
       </div>
-      <span className={`text-[10px] px-2 py-0.5 rounded uppercase font-mono shrink-0 ${config.badge}`}>
-        {config.label}
-      </span>
+
+      <div className="flex items-center gap-3 shrink-0">
+        <span className={`text-[10px] px-2 py-0.5 rounded uppercase font-mono ${config.badge}`}>
+          {config.label}
+        </span>
+        {dismissible && (
+          <button
+            onClick={() => setDismissedKey(currentKey)}
+            className="hover:opacity-75 font-extrabold text-xs transition px-1"
+            title="Dismiss notice"
+          >
+            <X size={14} />
+          </button>
+        )}
+      </div>
     </div>
   )
 }
