@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import {
-  Smartphone,
   Mail,
   ArrowRight,
   Bot,
@@ -166,13 +165,6 @@ export default function Home() {
               >
                 <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
                 Continue with Google
-              </button>
-
-              <button
-                onClick={() => setLoginMode("otp")}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20"
-              >
-                <Smartphone size={16} /> Continue with Mobile OTP (+91)
               </button>
 
               <button
