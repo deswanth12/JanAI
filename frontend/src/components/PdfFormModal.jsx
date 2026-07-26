@@ -1,14 +1,34 @@
 import { useAuth } from "../context/AuthContext"
+import { useSchemes } from "../context/SchemeContext"
 import { Printer, X, CheckCircle2 } from "lucide-react"
 
-export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen, onClose }) {
-  const { user } = useAuth()
+export default function PdfFormModal({ scheme, applicantName, isOpen, onClose }) {
+  const { user, familyMembers } = useAuth()
+  const { documentWallet } = useSchemes()
 
   if (!isOpen || !scheme) return null
 
   const handlePrint = () => {
     window.print()
   }
+
+  // Derive dynamic applicant name (Defaulting to Desvanth)
+  let finalApplicantName = applicantName || user?.name || "Desvanth"
+  if (finalApplicantName === "Devanth" || finalApplicantName === "Devanth Baskar") {
+    finalApplicantName = "Desvanth"
+  }
+
+  // Dynamically check family members added by the user
+  const fatherObj = (familyMembers || []).find(m => m.relation?.toLowerCase() === "father" || m.relation?.toLowerCase().includes("father"))
+  const fatherName = fatherObj ? fatherObj.name : "---"
+
+  const motherObj = (familyMembers || []).find(m => m.relation?.toLowerCase() === "mother" || m.relation?.toLowerCase().includes("mother"))
+  const motherName = motherObj ? motherObj.name : "---"
+
+  const stateText = user?.state || "Andhra Pradesh"
+  const districtText = user?.district || "Visakhapatnam"
+  const casteText = user?.caste || "General / OBC"
+  const incomeText = user?.annualIncome ? `₹${user.annualIncome}` : "---"
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto print:p-0 print:bg-white print:static">
@@ -34,7 +54,7 @@ export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen
 
           <div className="text-right border-l border-gray-300 pl-4 font-mono text-xs">
             <p className="font-bold">JanAI Verified</p>
-            <p className="text-gray-500">Date: 22-07-2026</p>
+            <p className="text-gray-500">Date: {new Date().toISOString().split("T")[0]}</p>
           </div>
         </div>
 
@@ -44,7 +64,7 @@ export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen
             Target Scheme
           </span>
           <h3 className="text-lg font-bold mt-1 text-gray-900">{scheme.title}</h3>
-          <p className="text-xs text-gray-600">Ministry: {scheme.ministry} • Jurisdiction: {scheme.state}</p>
+          <p className="text-xs text-gray-600">Ministry: {scheme.ministry} • Jurisdiction: {scheme.state || "All India"}</p>
         </div>
 
         {/* Applicant Profile Information */}
@@ -53,27 +73,27 @@ export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Applicant Name:</span>
-              <strong className="text-gray-900">{applicantName}</strong>
+              <strong className="text-gray-900">{finalApplicantName}</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Father's Name:</span>
-              <strong className="text-gray-900">Ramesh</strong>
+              <strong className="text-gray-900">{fatherName}</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Mother's Name:</span>
-              <strong className="text-gray-900">Lalitha</strong>
+              <strong className="text-gray-900">{motherName}</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">State & District:</span>
-              <strong className="text-gray-900">{user.state}, {user.district}</strong>
+              <strong className="text-gray-900">{stateText}, {districtText}</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Social Category:</span>
-              <strong className="text-gray-900">{user.caste}</strong>
+              <strong className="text-gray-900">{casteText}</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Annual Income:</span>
-              <strong className="text-gray-900">₹{user.annualIncome}</strong>
+              <strong className="text-gray-900">{incomeText}</strong>
             </div>
           </div>
         </div>
@@ -81,48 +101,48 @@ export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen
         {/* Official Checklist */}
         <div className="space-y-2">
           <h4 className="text-xs font-bold uppercase text-gray-700 border-b pb-1">2. Enclosed Verified Documents</h4>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <div className="flex items-center gap-2 text-gray-800">
-              <CheckCircle2 size={16} className="text-green-600" /> Aadhaar Card (XXXX-XXXX-9012)
+          {documentWallet && documentWallet.length > 0 ? (
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              {documentWallet.map((doc) => (
+                <div key={doc.id} className="flex items-center gap-2 text-gray-800">
+                  <CheckCircle2 size={16} className="text-green-600 shrink-0" />
+                  <span>{doc.name} ({doc.docNumber || "Verified"})</span>
+                </div>
+              ))}
             </div>
-            <div className="flex items-center gap-2 text-gray-800">
-              <CheckCircle2 size={16} className="text-green-600" /> Income & Caste Certificate Verified
-            </div>
-            <div className="flex items-center gap-2 text-gray-800">
-              <CheckCircle2 size={16} className="text-green-600" /> Educational Marksheet (Class 10th / B.Tech)
-            </div>
-            <div className="flex items-center gap-2 text-gray-800">
-              <CheckCircle2 size={16} className="text-green-600" /> Bank Passbook & Aadhaar e-KYC
-            </div>
-          </div>
+          ) : (
+            <p className="text-gray-500 italic text-xs">No documents uploaded to digital wallet yet (Upload via Profile & Family Vault)</p>
+          )}
         </div>
 
         {/* Declaration & Signature */}
-        <div className="border-t-2 border-gray-300 pt-4 flex items-end justify-between text-xs text-gray-700">
-          <div className="space-y-1">
-            <p className="font-bold">Applicant Declaration:</p>
-            <p className="text-[10px] text-gray-500 max-w-md">
+        <div className="pt-4 border-t border-gray-300 flex items-end justify-between text-xs">
+          <div className="space-y-1 max-w-md">
+            <strong className="block font-bold">Applicant Declaration:</strong>
+            <p className="text-[10px] text-gray-600 leading-tight">
               I hereby declare that the particulars given above are true, correct, and complete to the best of my knowledge and belief.
             </p>
           </div>
 
-          <div className="text-center border-t border-gray-400 pt-2 min-w-32">
-            <p className="font-bold text-gray-900">{applicantName}</p>
+          <div className="text-center font-mono text-xs">
+            <div className="border-b border-gray-900 pb-1 mb-1 font-bold">
+              {finalApplicantName}
+            </div>
             <span className="text-[10px] text-gray-500 block">Digital Signature</span>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 print:hidden">
+        {/* Modal Footer Actions */}
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 print:hidden">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-gray-600 hover:text-black"
+            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl text-xs font-bold text-gray-700 transition"
           >
             Close
           </button>
           <button
             onClick={handlePrint}
-            className="px-6 py-2.5 bg-black hover:bg-gray-800 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-lg"
+            className="px-5 py-2.5 bg-black hover:bg-gray-800 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-2 shadow-lg"
           >
             <Printer size={16} /> Print / Save Official Application PDF
           </button>
