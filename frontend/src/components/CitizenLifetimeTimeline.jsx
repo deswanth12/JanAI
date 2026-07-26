@@ -5,7 +5,7 @@ export default function CitizenLifetimeTimeline() {
     {
       year: "2026",
       title: "Immediate Welfare & Student Grants",
-      schemes: ["PM-Kisan Samman Nidhi (Father Baskar)", "Post-Matric Scholarship Scheme (Devanth)"],
+      schemes: ["PM-Kisan Samman Nidhi (Father)", "Post-Matric Scholarship Scheme (Desvanth)"],
       status: "active",
       benefit: "₹51,000 / year"
     },

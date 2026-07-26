@@ -16,8 +16,8 @@ export default function PartnerPortalLayout() {
   const [searchQuery, setSearchQuery] = useState("")
 
   const [assistedCases, setAssistedCases] = useState([
-    { id: "CASE-901", studentName: "Devanth Baskar", scheme: "CM Overseas Scholarship", benefit: "₹10,000 / year", status: "Submitted to Nodal Officer", date: "24 Jul 2026" },
-    { id: "CASE-902", studentName: "Pavani Baskar", scheme: "Post-Matric Scholarship", benefit: "₹15,000 / year", status: "Approved & Sanctioned ✓", date: "22 Jul 2026" },
+    { id: "CASE-901", studentName: "Desvanth", scheme: "CM Overseas Scholarship", benefit: "₹10,000 / year", status: "Submitted to Nodal Officer", date: "24 Jul 2026" },
+    { id: "CASE-902", studentName: "Pavani", scheme: "Post-Matric Scholarship", benefit: "₹15,000 / year", status: "Approved & Sanctioned ✓", date: "22 Jul 2026" },
     { id: "CASE-903", studentName: "Ramesh Kumar", scheme: "PM Mudra Loan (Tarun Plus)", benefit: "₹20,000 / year", status: "Under Scrutiny", date: "18 Jul 2026" }
   ])
 
@@ -197,7 +197,7 @@ export default function PartnerPortalLayout() {
               <input
                 type="text"
                 required
-                placeholder="e.g. Devanth Baskar"
+                placeholder="e.g. Desvanth"
                 value={newApplication.citizenName}
                 onChange={(e) => setNewApplication({ ...newApplication, citizenName: e.target.value })}
                 className="w-full p-3 rounded-xl bg-[#12182b] text-white border border-gray-700 outline-none"

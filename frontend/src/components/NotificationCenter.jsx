@@ -11,7 +11,7 @@ export default function NotificationCenter() {
     {
       id: "n-1",
       title: "PM-Kisan 17th Installment Alert",
-      message: "₹2,000 Direct Benefit Transfer scheduled for Baskar (Father). Aadhaar e-KYC verified.",
+      message: "₹2,000 Direct Benefit Transfer scheduled for Father. Aadhaar e-KYC verified.",
       time: "2 hours ago",
       type: "whatsapp"
     },

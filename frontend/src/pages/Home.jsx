@@ -320,9 +320,9 @@ export default function Home() {
             </p>
 
             <div className="space-y-2">
-              {/* Account Option 1: Deswanth Baskar */}
+              {/* Account Option 1: Desvanth */}
               <button
-                onClick={() => handleSelectGoogleAccount("deswanth12@gmail.com", "Devanth Baskar")}
+                onClick={() => handleSelectGoogleAccount("deswanth12@gmail.com", "Desvanth")}
                 className="w-full text-left p-3.5 rounded-2xl bg-[#1b2338] hover:bg-white/10 border border-gray-700 transition flex items-center justify-between group"
               >
                 <div className="flex items-center gap-3">
@@ -330,7 +330,7 @@ export default function Home() {
                     D
                   </div>
                   <div>
-                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Devanth Baskar</p>
+                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Desvanth</p>
                     <p className="text-[11px] text-gray-400">deswanth12@gmail.com</p>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ export default function Home() {
               <form onSubmit={handleCustomGoogleSubmit} className="space-y-2">
                 <input
                   type="text"
-                  placeholder="Your Full Name (e.g. Devanth Baskar)"
+                  placeholder="Your Name (e.g. Desvanth)"
                   value={customGoogleName}
                   onChange={(e) => setCustomGoogleName(e.target.value)}
                   className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-400 text-xs"

@@ -2,8 +2,8 @@ import { useState } from "react"
 
 export default function DocumentVerificationHub() {
   const [documents, setDocuments] = useState([
-    { id: "doc-901", citizen: "Devanth Baskar", docType: "Income Certificate 2026", issuedBy: "Tahsildar Visakhapatnam", status: "Pending Manager Review", date: "24 Jul 2026" },
-    { id: "doc-902", citizen: "Baskar (Father)", docType: "Pattadar Passbook", issuedBy: "Revenue Dept AP", status: "Pending Manager Review", date: "23 Jul 2026" },
+    { id: "doc-901", citizen: "Desvanth", docType: "Income Certificate 2026", issuedBy: "Tahsildar Visakhapatnam", status: "Pending Manager Review", date: "24 Jul 2026" },
+    { id: "doc-902", citizen: "Father", docType: "Pattadar Passbook", issuedBy: "Revenue Dept AP", status: "Pending Manager Review", date: "23 Jul 2026" },
     { id: "doc-903", citizen: "Pavani (Sister)", docType: "Caste Certificate (OBC)", issuedBy: "MRO Office", status: "Approved ✓", date: "20 Jul 2026" }
   ])
 

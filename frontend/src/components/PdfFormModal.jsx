@@ -57,7 +57,7 @@ export default function PdfFormModal({ scheme, applicantName = "Devanth", isOpen
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Father's Name:</span>
-              <strong className="text-gray-900">Baskar</strong>
+              <strong className="text-gray-900">Ramesh</strong>
             </div>
             <div className="bg-gray-50 p-2.5 rounded-lg border border-gray-200">
               <span className="text-gray-500 block text-[10px]">Mother's Name:</span>

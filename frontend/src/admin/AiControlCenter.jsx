@@ -8,8 +8,8 @@ export default function AiControlCenter() {
   )
 
   const [humanReviewQueue, setHumanReviewQueue] = useState([
-    { id: "rev-101", citizen: "Devanth Baskar", query: "Can I apply for Post-Matric Scholarship if income is ₹2.48L?", confidence: 82.4, reason: "Income close to ₹2.5L boundary cutoff", status: "Pending Human Review" },
-    { id: "rev-102", citizen: "Baskar (Farmer)", query: "Is 2.5 acres pattadar passbook eligible for Rythu Bharosa?", confidence: 81.0, reason: "State land ceiling revision note detected", status: "Pending Human Review" }
+    { id: "rev-101", citizen: "Desvanth", query: "Can I apply for Post-Matric Scholarship if income is ₹2.48L?", confidence: 82.4, reason: "Income close to ₹2.5L boundary cutoff", status: "Pending Human Review" },
+    { id: "rev-102", citizen: "Father", query: "Is 2.5 acres pattadar passbook eligible for Rythu Bharosa?", confidence: 81.0, reason: "State land ceiling revision note detected", status: "Pending Human Review" }
   ])
 
   const handleApproveReview = (id) => {

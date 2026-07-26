@@ -5,8 +5,8 @@ const AuthContext = createContext()
 
 const DEFAULT_USER = {
   id: "user-1",
-  name: "Devanth",
-  email: "devanth@example.com",
+  name: "Desvanth",
+  email: "desvanth@example.com",
   phone: "+91 9876543210",
   role: "Student",
   age: 21,
@@ -27,7 +27,7 @@ const SAMPLE_DEMO_FAMILY = [
   {
     id: "fam-1",
     relation: "Father",
-    name: "Baskar",
+    name: "Father",
     age: 52,
     gender: "Male",
     occupation: "Farmer",

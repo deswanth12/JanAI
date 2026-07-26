@@ -4,8 +4,8 @@ import { Search, History, CheckCircle2 } from "lucide-react"
 export default function UserManagement() {
   const [searchQuery, setSearchQuery] = useState("")
   const [users, setUsers] = useState([
-    { id: "user-1", name: "Devanth Baskar", email: "devanth@example.com", phone: "+91 9876543210", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true },
-    { id: "user-2", name: "Baskar (Father)", email: "baskar@example.com", phone: "+91 9876543211", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true },
+    { id: "user-1", name: "Desvanth", email: "desvanth@example.com", phone: "+91 9876543210", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true },
+    { id: "user-2", name: "Father", email: "father@example.com", phone: "+91 9876543211", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true },
     { id: "user-3", name: "Lalitha (Mother)", email: "lalitha@example.com", phone: "+91 9876543212", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true },
     { id: "user-4", name: "Pavani (Sister)", email: "pavani@example.com", phone: "+91 9876543213", role: "Citizen", state: "Andhra Pradesh", status: "Active", verified: true }
   ])

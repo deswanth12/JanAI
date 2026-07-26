@@ -49,7 +49,7 @@ export default function Register() {
               <input
                 type="text"
                 required
-                placeholder="Devanth Baskar"
+                placeholder="Desvanth"
                 value={formData.full_name}
                 onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                 className="w-full bg-transparent text-white outline-none"

@@ -192,7 +192,7 @@ export default function FamilyModal({ isOpen, onClose }) {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Baskar"
+                  placeholder="e.g. Ramesh"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full p-2.5 rounded-xl bg-[#12182b] text-white border border-gray-700 outline-none"

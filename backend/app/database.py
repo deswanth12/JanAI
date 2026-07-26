@@ -135,7 +135,7 @@ def init_db():
         now = datetime.datetime.now(datetime.timezone.utc).isoformat()
         cursor.execute('''
             INSERT INTO users (id, full_name, name, email, phone, role, org_id, org_subrole, is_verified, profile_completed, age, gender, state, district, occupation, annual_income, education, caste, disability, land_ownership, created_at, updated_at, last_login, failed_login_attempts, refresh_token_version)
-            VALUES ('user-1', 'Devanth Baskar', 'Devanth Baskar', 'devanth@janai.in', '+919876543210', 'CEO', 'ORG-AU-89410', 'CEO', 1, 1, 21, 'Male', 'Andhra Pradesh', 'Visakhapatnam', 'Student', '180000', 'Undergraduate', 'OBC', 'No', '2.5', ?, ?, ?, 0, 1)
+            VALUES ('user-1', 'Desvanth', 'Desvanth', 'desvanth@janai.in', '+919876543210', 'CEO', 'ORG-AU-89410', 'CEO', 1, 1, 21, 'Male', 'Andhra Pradesh', 'Visakhapatnam', 'Student', '180000', 'Undergraduate', 'OBC', 'No', '2.5', ?, ?, ?, 0, 1)
         ''', (now, now, now))
 
         # Initial Audit Ledger Entry
