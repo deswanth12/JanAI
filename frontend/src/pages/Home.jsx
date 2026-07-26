@@ -6,17 +6,15 @@ import {
   Mail,
   ArrowRight,
   Bot,
-  CheckCircle2,
   PhoneCall,
   ShieldCheck,
-  Volume2,
   RotateCw,
   Info
 } from "lucide-react"
 
 export default function Home() {
   const navigate = useNavigate()
-  const { user, login, loginAsGuest } = useAuth()
+  const { login, loginAsGuest } = useAuth()
 
   const handleGuestExplore = () => {
     loginAsGuest()
@@ -34,13 +32,6 @@ export default function Home() {
 
   // Persona Selection State (Optional)
   const [selectedPersona, setSelectedPersona] = useState("student")
-
-  // Accessibility Controls
-  const [accessibility, setAccessibility] = useState({
-    largeText: false,
-    readAloud: false,
-    language: "en"
-  })
 
   // Before-Login AI Demo Sandbox State
   const [demoQuery, setDemoQuery] = useState("")
@@ -104,80 +95,31 @@ export default function Home() {
   }
 
   return (
-    <div className={`space-y-12 pb-16 text-xs transition-all ${accessibility.largeText ? "text-sm" : ""}`}>
-      {/* 🚀 ACCESSIBILITY TOOLBAR & GAZETTE STATUS */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#12182b] p-3 rounded-2xl border border-gray-800 text-[11px]">
-        <div className="flex items-center gap-2 font-mono text-gray-300">
-          <CheckCircle2 size={14} className="text-green-400" />
-          <span>Official Data Status: <strong className="text-green-400">✓ Gazette Updated 24 Jul 2026 • 18:30 IST</strong></span>
-        </div>
-
-        <div className="flex items-center gap-2 font-bold text-gray-300">
-          <button
-            onClick={() => setAccessibility({ ...accessibility, largeText: !accessibility.largeText })}
-            className={`px-2.5 py-1 rounded-xl border transition ${accessibility.largeText ? "bg-purple-500/20 border-purple-500 text-purple-300" : "border-gray-700 hover:bg-white/5"}`}
-          >
-            🔤 {accessibility.largeText ? "Normal Text" : "Large Text"}
-          </button>
-
-          <button
-            onClick={() => setAccessibility({ ...accessibility, readAloud: !accessibility.readAloud })}
-            className={`px-2.5 py-1 rounded-xl border transition ${accessibility.readAloud ? "bg-green-500/20 border-green-500 text-green-400" : "border-gray-700 hover:bg-white/5"}`}
-          >
-            <Volume2 size={12} className="inline mr-1" /> {accessibility.readAloud ? "Reading Aloud" : "Read Aloud"}
-          </button>
-
-          <select
-            value={accessibility.language}
-            onChange={(e) => setAccessibility({ ...accessibility, language: e.target.value })}
-            className="bg-[#1b2338] text-white px-2 py-1 rounded-xl border border-gray-700 outline-none cursor-pointer"
-          >
-            <option value="en">🌐 English</option>
-            <option value="te">తెలుగు (Telugu)</option>
-            <option value="hi">हिन्दी (Hindi)</option>
-            <option value="ta">தமிழ் (Tamil)</option>
-            <option value="kn">ಕನ್ನಡ (Kannada)</option>
-          </select>
-        </div>
-      </div>
-
-      {/* 👋 RETURNING USER: "CONTINUE WHERE YOU LEFT OFF" CARD */}
-      {user && (
-        <div className="glass p-5 rounded-3xl border border-green-500/40 bg-green-500/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-2.5 py-0.5 rounded-full uppercase">
-              Welcome back, {user.name || "Devanth"}! 👋
-            </span>
-            <h3 className="text-base font-bold text-white">Continue where you left off</h3>
-            <p className="text-gray-300 text-xs">
-              Last Sign In: <strong>Yesterday • Windows 11 • Tirupati</strong>. Pending application: <strong>Post-Matric Scholarship Scheme</strong>.
-            </p>
-          </div>
-
-          <button
-            onClick={() => navigate("/applications")}
-            className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-6 py-3 rounded-2xl text-xs transition shadow-lg shadow-green-500/20 flex items-center gap-2 shrink-0 self-start md:self-auto"
-          >
-            Continue Pending Application <ArrowRight size={16} />
-          </button>
-        </div>
-      )}
+    <div className="space-y-12 pb-16 text-xs transition-all">
 
       {/* 🌟 1. SIMPLE FIRST SCREEN (ABOVE THE FOLD FOCUS) */}
       <div className="min-h-[75vh] flex flex-col justify-center items-center text-center space-y-8 py-6">
+        {/* Brand Hero Badge */}
         <div className="flex flex-col items-center space-y-3">
           <img
             src="/janai-logo.jpg"
-            alt="JanAI Official Emblem Logo"
-            className="h-20 w-auto rounded-3xl border border-gray-700 bg-white p-1.5 shadow-2xl"
+            alt="JanAI Logo"
+            className="w-20 h-20 md:w-24 md:h-24 rounded-3xl object-contain shadow-2xl border-2 border-gray-700 bg-white p-1.5 animate-bounce-slow"
           />
-          <span className="text-xs bg-green-500/20 text-green-300 font-extrabold px-4 py-1 rounded-full uppercase border border-green-500/30">
-            AI Powered • Citizen First
-          </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white max-w-2xl leading-tight">
-            Discover & Access Government Welfare with AI
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/30 text-green-400 text-[10px] font-extrabold uppercase tracking-widest font-mono">
+            AI POWERED • CITIZEN FIRST
+          </div>
+        </div>
+
+        {/* Main Headline */}
+        <div className="max-w-3xl space-y-4">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+            Discover & Access <br />
+            <span className="bg-gradient-to-r from-blue-400 via-green-400 to-amber-400 text-transparent bg-clip-text">
+              Government Welfare with AI
+            </span>
           </h1>
-          <p className="text-gray-300 text-sm max-w-lg leading-relaxed">
+          <p className="text-gray-400 text-xs md:text-sm max-w-xl mx-auto font-medium leading-relaxed">
             Helping every Indian citizen find eligible welfare schemes grounded in official government gazette rules.
           </p>
         </div>
@@ -227,281 +169,228 @@ export default function Home() {
 
           {loginMode === "email" && (
             <form onSubmit={handleEmailLogin} className="space-y-3 text-left">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-400">Email Sign-In</span>
-                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back</button>
-              </div>
-
               <div>
-                <label className="text-gray-300 font-semibold block mb-1">Email</label>
+                <label className="text-gray-400 text-[10px] uppercase font-bold block mb-1">Email Address</label>
                 <input
                   type="email"
-                  required
-                  placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[#1b2338] text-white border border-gray-700 outline-none text-xs"
+                  placeholder="citizen@example.com"
+                  className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-green-400 text-xs"
                 />
               </div>
 
               <div>
-                <label className="text-gray-300 font-semibold block mb-1">Password</label>
+                <label className="text-gray-400 text-[10px] uppercase font-bold block mb-1">Password</label>
                 <input
                   type="password"
-                  required
-                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[#1b2338] text-white border border-gray-700 outline-none text-xs"
+                  placeholder="••••••••"
+                  className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-green-400 text-xs"
                 />
               </div>
 
-              <button type="submit" className="w-full bg-green-500 text-black font-extrabold py-3.5 rounded-2xl text-xs">
-                Sign In
+              <button
+                type="submit"
+                className="w-full bg-green-500 hover:bg-green-400 text-black font-extrabold py-3 rounded-xl text-xs transition"
+              >
+                Sign In to Portal
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setLoginMode("options")}
+                className="w-full text-center text-gray-400 hover:text-white text-[11px] pt-1"
+              >
+                ← Back to all sign-in options
               </button>
             </form>
           )}
 
           {loginMode === "otp" && (
             <div className="space-y-3 text-left">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-400">Mobile OTP Sign-In</span>
-                <button type="button" onClick={() => setLoginMode("options")} className="text-green-400 font-bold">← Back</button>
-              </div>
-
-              <div>
-                <label className="text-gray-300 font-semibold block mb-1">Mobile Number (+91)</label>
-                <input
-                  type="text"
-                  placeholder="9876543210"
-                  maxLength={10}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full p-3 rounded-xl bg-[#1b2338] text-white font-mono text-xs border border-gray-700 outline-none"
-                />
-              </div>
-
               {!otpSent ? (
-                <button onClick={handleSendOtp} className="w-full bg-blue-600 text-white font-extrabold py-3.5 rounded-2xl text-xs">
-                  Send Mobile OTP
-                </button>
-              ) : (
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    maxLength={6}
-                    placeholder="904128"
-                    value={otpCode}
-                    onChange={(e) => setOtpCode(e.target.value)}
-                    className="w-full p-3 rounded-xl bg-[#1b2338] text-white text-center font-mono text-lg border border-gray-700 outline-none"
-                  />
-                  <button onClick={handleVerifyOtp} className="w-full bg-green-500 text-black font-extrabold py-3.5 rounded-2xl text-xs">
-                    Verify & Sign In
+                <>
+                  <div>
+                    <label className="text-gray-400 text-[10px] uppercase font-bold block mb-1">Mobile Number (+91)</label>
+                    <input
+                      type="tel"
+                      maxLength={10}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                      placeholder="98765 43210"
+                      className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-400 text-xs font-mono"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3 rounded-xl text-xs transition"
+                  >
+                    Send 6-Digit OTP SMS
                   </button>
-                </div>
+                </>
+              ) : (
+                <>
+                  <div className="p-2.5 bg-blue-500/10 border border-blue-500/30 rounded-xl text-[11px] text-blue-300">
+                    📩 6-digit OTP code sent to <strong>+91 {phone}</strong>
+                  </div>
+
+                  <div>
+                    <label className="text-gray-400 text-[10px] uppercase font-bold block mb-1">Enter 6-Digit OTP</label>
+                    <input
+                      type="text"
+                      maxLength={6}
+                      value={otpCode}
+                      onChange={(e) => setOtpCode(e.target.replace(/\D/g, ""))}
+                      placeholder="881920"
+                      className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-green-400 text-center font-mono font-bold tracking-widest text-sm"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleVerifyOtp}
+                    className="w-full bg-green-500 hover:bg-green-400 text-black font-extrabold py-3 rounded-xl text-xs transition"
+                  >
+                    Verify OTP & Access Portal
+                  </button>
+                </>
               )}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setLoginMode("options")
+                  setOtpSent(false)
+                }}
+                className="w-full text-center text-gray-400 hover:text-white text-[11px] pt-1"
+              >
+                ← Back to all sign-in options
+              </button>
             </div>
           )}
         </div>
 
-        <p className="text-gray-400 text-[11px]">Scroll down to explore features, updates, and AI reasoning ↓</p>
+        <p className="text-[10px] text-gray-500 font-mono">
+          Scroll down to explore features, updates, and AI reasoning. ↓
+        </p>
       </div>
 
-      {/* 🧠 3. BEFORE-LOGIN AI DEMO SANDBOX (WITH SAFETY DISCLAIMER) */}
-      <div className="glass p-6 md:p-8 rounded-3xl border border-purple-500/30 space-y-4">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-800 pb-3">
-          <div>
-            <span className="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-3 py-1 rounded-full uppercase">
-              Interactive Pre-Login AI Sandbox
-            </span>
-            <h3 className="text-xl font-bold text-white mt-1 flex items-center gap-2">
-              <Bot size={20} className="text-purple-400" /> Test JanAI Reasoning Before Creating an Account
-            </h3>
-          </div>
-
-          <span className="text-[11px] text-gray-400 font-mono">
-            Gazette-Grounded Rules Execution
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            type="text"
-            placeholder="Ask a question (e.g., What scholarships are available for B.Pharmacy?)"
-            value={demoQuery}
-            onChange={(e) => setDemoQuery(e.target.value)}
-            className="flex-1 p-3.5 rounded-2xl bg-[#12182b] text-white border border-gray-700 outline-none text-xs"
-          />
-          <button
-            onClick={() => handleRunDemoQuery()}
-            disabled={isDemoLoading}
-            className="bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-6 py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 shrink-0"
-          >
-            {isDemoLoading ? <RotateCw size={14} className="animate-spin" /> : "Ask JanAI Now"}
-          </button>
-        </div>
-
-        {demoResult && (
-          <div className="p-5 bg-[#12182b] rounded-2xl border border-purple-500/40 space-y-3 text-xs">
-            <div className="flex justify-between items-center font-bold">
-              <span className="text-purple-300">JanAI AI Reasoning Result:</span>
-              <span className="text-yellow-400 font-mono text-[10px]">{demoResult.gazetteRef}</span>
-            </div>
-            <p className="text-gray-200 leading-relaxed font-medium">"{demoResult.answer}"</p>
-            <div className="p-3 bg-purple-500/10 border border-purple-500/30 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="text-purple-300 font-bold text-[11px]">
-                Create a free account to save this result and upload documents!
-              </span>
-              <button
-                onClick={() => navigate("/register")}
-                className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-4 py-2 rounded-xl text-xs transition shrink-0"
-              >
-                Create Free Account
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ⚠️ SAFER AI DEMO DISCLAIMER NOTE */}
-        <div className="p-3 bg-gray-800/40 rounded-xl border border-gray-700 text-gray-400 text-[11px] flex items-center gap-2">
-          <Info size={16} className="text-blue-400 shrink-0" />
-          <span>
-            <strong>Note:</strong> Responses are generated from official sources where available. For important decisions, always verify the latest information on the relevant government portal.
-          </span>
-        </div>
-      </div>
-
-      {/* 📢 5. COMPACT RECENT UPDATES SECTION */}
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <CheckCircle2 size={18} className="text-green-400" /> Recent Platform & Policy Updates
-        </h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <strong className="text-green-400 font-bold block">✓ Post-Matric Scholarship Guidelines Updated</strong>
-            <span className="text-gray-400 text-[10px]">Income ceiling & tuition fee reimbursement rates revised for 2026 academic year.</span>
-          </div>
-
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <strong className="text-blue-400 font-bold block">✓ PM-Kisan Schedule & Installments Verified</strong>
-            <span className="text-gray-400 text-[10px]">17th installment disbursement schedule synchronized with agriculture department.</span>
-          </div>
-
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <strong className="text-purple-400 font-bold block">✓ 4 New State Welfare Schemes Added</strong>
-            <span className="text-gray-400 text-[10px]">Expanded coverage across higher education and collateral-free loan categories.</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 🌾 4. OPTIONAL PERSONA SHORTCUT CARDS */}
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3">
-        <div className="flex justify-between items-center">
-          <h3 className="text-base font-bold text-white">Quick Citizen Category Shortcuts (Optional)</h3>
-          <span className="text-gray-400 text-[10px]">You can search freely without self-identification</span>
+      {/* 2. PERSONA SELECTION BANNER */}
+      <div className="glass p-6 md:p-8 rounded-[36px] border border-gray-800 space-y-6 bg-[#12182b]/90">
+        <div className="text-center space-y-2">
+          <h2 className="text-xl md:text-2xl font-black text-white">Who are you looking for today?</h2>
+          <p className="text-gray-400 text-xs">Tailor scheme discovery for yourself or family members</p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {Object.keys(personaGreetings).map((key) => (
+          {Object.entries(personaGreetings).map(([key, val]) => (
             <button
               key={key}
               onClick={() => setSelectedPersona(key)}
-              className={`p-3.5 rounded-2xl text-left transition ${selectedPersona === key ? "bg-green-500 text-black font-bold" : "bg-[#12182b] text-gray-300 hover:bg-white/5 border border-gray-800"}`}
+              className={`p-4 rounded-2xl border text-left transition-all ${
+                selectedPersona === key
+                  ? "bg-green-500/10 border-green-500 text-white font-bold scale-[1.02]"
+                  : "bg-[#1b2338]/50 border-gray-800 text-gray-400 hover:border-gray-700"
+              }`}
             >
-              <strong className="block text-xs">{personaGreetings[key].title}</strong>
-              <span className="text-[10px] opacity-80 block mt-0.5">{personaGreetings[key].subtitle}</span>
+              <h3 className="font-bold text-xs text-white">{val.title}</h3>
+              <p className="text-[10px] text-gray-400 mt-1 line-clamp-2">{val.subtitle}</p>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 🚀 2. VERIFIED TARGET METRICS SECTION */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
-          <p className="text-xs text-gray-400 font-semibold">Citizens Supported Target</p>
-          <h4 className="text-2xl font-extrabold text-white">86,120</h4>
-          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Pilot Target Metrics</span>
+      {/* 3. PRE-LOGIN AI DEMO SANDBOX */}
+      <div className="glass p-6 md:p-8 rounded-[36px] border border-blue-500/30 bg-blue-500/5 space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+            <Bot size={20} />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              Try JanAI Eligibility Sandbox
+              <span className="text-[9px] bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full font-mono">No Sign-in Needed</span>
+            </h2>
+            <p className="text-gray-400 text-xs">Test instant AI scheme evaluation before creating an account</p>
+          </div>
         </div>
 
-        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
-          <p className="text-xs text-gray-400 font-semibold">Indexed Schemes</p>
-          <h4 className="text-2xl font-extrabold text-blue-400">420+</h4>
-          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Central & State</span>
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={demoQuery}
+              onChange={(e) => setDemoQuery(e.target.value)}
+              placeholder="e.g. Am I eligible for B.Tech tuition fee reimbursement in Andhra Pradesh?"
+              className="flex-1 bg-[#12182b] border border-gray-700 rounded-2xl px-4 py-3 text-white text-xs outline-none focus:border-blue-400"
+            />
+            <button
+              onClick={() => handleRunDemoQuery()}
+              disabled={isDemoLoading}
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-2xl text-xs transition flex items-center gap-2 shrink-0"
+            >
+              {isDemoLoading ? <RotateCw size={14} className="animate-spin" /> : "Test AI"}
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-2 text-[10px]">
+            <span className="text-gray-400 self-center">Try sample prompts:</span>
+            <button
+              onClick={() => handleRunDemoQuery("Scholarship for B.Pharmacy student family income 1.8 Lakhs")}
+              className="px-2.5 py-1 bg-[#12182b] hover:bg-white/10 rounded-xl text-gray-300 border border-gray-800"
+            >
+              🎓 B.Pharmacy Scholarship
+            </button>
+            <button
+              onClick={() => handleRunDemoQuery("PM-Kisan land passbook eligibility 2.5 acres farmer")}
+              className="px-2.5 py-1 bg-[#12182b] hover:bg-white/10 rounded-xl text-gray-300 border border-gray-800"
+            >
+              🌾 PM-Kisan Farmer Land
+            </button>
+          </div>
         </div>
 
-        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
-          <p className="text-xs text-gray-400 font-semibold">AI Precision Standard</p>
-          <h4 className="text-2xl font-extrabold text-purple-400">98.8%</h4>
-          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Gazette Grounded</span>
-        </div>
-
-        <div className="glass p-5 rounded-3xl border border-gray-800 text-center space-y-1">
-          <p className="text-xs text-gray-400 font-semibold">Indian Languages</p>
-          <h4 className="text-2xl font-extrabold text-yellow-400">22</h4>
-          <span className="text-[10px] bg-gray-800 text-gray-400 font-mono px-2 py-0.5 rounded">Scheduled Languages</span>
-        </div>
+        {demoResult && (
+          <div className="p-5 rounded-2xl bg-[#12182b] border border-blue-500/40 space-y-3 text-xs animate-fade-in">
+            <div className="flex items-center justify-between border-b border-gray-800 pb-2">
+              <span className="font-bold text-blue-400 flex items-center gap-1.5">
+                <ShieldCheck size={14} /> Grounded AI Evaluation Result:
+              </span>
+              <span className="text-[10px] font-mono text-gray-400">{demoResult.gazetteRef}</span>
+            </div>
+            <p className="text-gray-200 leading-relaxed">{demoResult.answer}</p>
+            <div className="flex items-center justify-between pt-2 text-[11px] font-bold">
+              <span className="text-green-400">Scheme: {demoResult.schemeTitle}</span>
+              <span className="text-amber-300">Benefit: {demoResult.benefit}</span>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* 🏆 TRUSTED INFORMATION SOURCES SECTION */}
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <ShieldCheck size={18} className="text-green-400" /> Trusted Information & Ground-Truth Sources
-        </h3>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-bold text-gray-300">
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-green-400">✓ Official Gazette Notifications</span>
-            <p className="text-gray-400 font-normal text-[10px]">Indexed directly from official central & state gazettes</p>
+      {/* 4. EMERGENCY HELP & CITIZEN RIGHTS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3 bg-[#12182b]/80">
+          <div className="flex items-center gap-3">
+            <PhoneCall size={18} className="text-green-400" />
+            <h3 className="font-bold text-sm text-white">Need Assistance? Emergency Help Desk</h3>
           </div>
-
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-blue-400">✓ Government Department Portals</span>
-            <p className="text-gray-400 font-normal text-[10px]">Verified against pmkisan.gov.in and official ministry sites</p>
-          </div>
-
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-purple-400">✓ Verified Scheme Documents</span>
-            <p className="text-gray-400 font-normal text-[10px]">Rule parsing checked against official guidelines</p>
-          </div>
-
-          <div className="bg-[#12182b] p-3.5 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-yellow-400">✓ Transparent AI Recommendations</span>
-            <p className="text-gray-400 font-normal text-[10px]">Clear rule matching and source citation breakdown</p>
-          </div>
+          <p className="text-gray-400 text-xs">
+            Toll-Free Government Helpline: <strong>1800-11-2026</strong>. Available 24/7 in 22 regional languages.
+          </p>
         </div>
-      </div>
 
-      {/* 📞 EMERGENCY HELP & CITIZEN SUPPORT SECTION */}
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
-          <PhoneCall size={18} className="text-green-400" /> Emergency Help & Citizen Support
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs font-bold">
-          <div className="bg-[#12182b] p-4 rounded-2xl border border-gray-800 space-y-1">
-            <span className="text-gray-400 font-semibold block text-[10px]">Toll-Free Support Line</span>
-            <span className="text-green-400 font-mono text-base block">1800-11-2026</span>
-            <span className="text-gray-500 font-normal text-[10px]">Pilot Setup Phase (Mon-Sat 9 AM - 6 PM)</span>
+        <div className="glass p-6 rounded-3xl border border-gray-800 space-y-3 bg-[#12182b]/80">
+          <div className="flex items-center gap-3">
+            <Info size={18} className="text-blue-400" />
+            <h3 className="font-bold text-sm text-white">Citizen Privacy & Rights</h3>
           </div>
-
-          <button onClick={() => navigate("/chat")} className="bg-[#12182b] hover:bg-white/5 p-4 rounded-2xl border border-gray-800 space-y-1 text-left transition">
-            <span className="text-gray-400 font-semibold block text-[10px]">AI Chat Copilot</span>
-            <span className="text-blue-400 text-sm block">💬 Instant Chat Assistant</span>
-            <span className="text-gray-500 font-normal text-[10px]">Available 24/7 in 22 languages</span>
-          </button>
-
-          <button onClick={() => navigate("/terms")} className="bg-[#12182b] hover:bg-white/5 p-4 rounded-2xl border border-gray-800 space-y-1 text-left transition">
-            <span className="text-gray-400 font-semibold block text-[10px]">User Guide</span>
-            <span className="text-purple-400 text-sm block">📖 Citizen Handbook</span>
-            <span className="text-gray-500 font-normal text-[10px]">Step-by-step application walkthrough</span>
-          </button>
-
-          <button onClick={() => navigate("/status")} className="bg-[#12182b] hover:bg-white/5 p-4 rounded-2xl border border-gray-800 space-y-1 text-left transition">
-            <span className="text-gray-400 font-semibold block text-[10px]">Public Health</span>
-            <span className="text-yellow-400 text-sm block">📊 System Status</span>
-            <span className="text-gray-500 font-normal text-[10px]">100% Operational Status</span>
-          </button>
+          <p className="text-gray-400 text-xs">
+            Compliant with DPDP Act 2023. Encrypted document vault with zero data commercialization.
+          </p>
         </div>
       </div>
     </div>
