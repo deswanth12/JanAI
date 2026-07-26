@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import ExecutiveDashboard from "./ExecutiveDashboard"
 import UserManagement from "./UserManagement"
@@ -26,12 +27,55 @@ import {
 } from "lucide-react"
 
 export default function JanAiOSLayout() {
-  const { user } = useAuth()
+  const { user, login } = useAuth()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("pilot")
   const [activePillar, setActivePillar] = useState("operations") // "operations" | "security" | "executive"
 
-  // Simulate Current User Role (Default to CEO for full demonstration)
-  const [userRole, setUserRole] = useState(user?.role === "Admin" ? "CEO" : "CEO")
+  // Simulate Current User Role
+  const [userRole, setUserRole] = useState(user?.role === "System Admin" || user?.role === "Super Admin" || user?.role === "CEO" ? "CEO" : "CEO")
+
+  // 🔒 RBAC ROLE ACCESS GUARD
+  const isAuthorizedAdmin = user?.role === "System Admin" || user?.role === "Super Admin" || user?.role === "CEO" || user?.role === "Admin"
+
+  if (!isAuthorizedAdmin) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center text-center p-6 space-y-6">
+        <div className="w-16 h-16 rounded-3xl bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center mx-auto text-3xl font-bold shadow-2xl">
+          🔒
+        </div>
+        <div className="max-w-md space-y-2">
+          <h2 className="text-2xl font-black text-white">Admin Access Restricted</h2>
+          <p className="text-xs text-gray-400">
+            JanAI OS Enterprise Command Center is restricted to authorized System Administrators, Nodal Officers, and Platform Engineers.
+          </p>
+        </div>
+
+        <div className="glass p-6 rounded-3xl border border-gray-800 max-w-md w-full space-y-4 text-left bg-[#12182b]">
+          <p className="text-xs text-gray-300 font-bold uppercase tracking-wider">Demo Admin Sign-In Credentials:</p>
+          <div className="bg-[#1b2338] p-3.5 rounded-2xl border border-gray-700 text-xs space-y-1 font-mono text-gray-300">
+            <p>📧 Email: <strong className="text-green-400">admin@janai.in</strong></p>
+            <p>🔑 Password: <strong className="text-amber-300">AdminPass@2026</strong></p>
+            <p>🛡️ Role: <strong className="text-blue-300">System Admin</strong></p>
+          </div>
+
+          <button
+            onClick={() => login({ email: "admin@janai.in", name: "System Administrator", role: "System Admin" })}
+            className="w-full bg-green-500 hover:bg-green-400 text-black font-extrabold py-3 rounded-2xl text-xs transition shadow-xl shadow-green-500/20"
+          >
+            Authenticate as System Admin (Unlock Portal)
+          </button>
+
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="w-full text-center text-gray-400 hover:text-white text-xs pt-1 block"
+          >
+            ← Return to Citizen Dashboard
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   const roleBadges = {
     CEO: { label: "👑 CEO (Full Control)", color: "bg-purple-500/20 text-purple-300 border-purple-500/40" },

@@ -1,22 +1,27 @@
 import { useNavigate, useLocation } from "react-router-dom"
 import { useLanguage } from "../context/LanguageContext"
+import { useAuth } from "../context/AuthContext"
 import {
+  Home,
   LayoutDashboard,
   Search,
   CheckCircle2,
   Bot,
-  FileCheck,
   Scale,
+  FileCheck,
   User,
-  ShieldCheck,
-  Home,
-  Building2
+  Building2,
+  ShieldCheck
 } from "lucide-react"
 
 export default function Sidebar() {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useLanguage()
+  const { user } = useAuth()
+
+  const isElevatedAdmin = user?.role === "System Admin" || user?.role === "Super Admin" || user?.role === "CEO" || user?.role === "Admin"
+  const isPartnerRole = isElevatedAdmin || user?.role === "Partner" || user?.role === "Nodal Officer"
 
   const navItems = [
     { label: t("navHome"), icon: Home, path: "/dashboard" },
@@ -27,8 +32,8 @@ export default function Sidebar() {
     { label: t("navCompare"), icon: Scale, path: "/compare" },
     { label: t("navApplications"), icon: FileCheck, path: "/applications" },
     { label: t("navProfile"), icon: User, path: "/profile" },
-    { label: "Partner Portal", icon: Building2, path: "/partner" },
-    { label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }
+    ...(isPartnerRole ? [{ label: "Partner Portal", icon: Building2, path: "/partner" }] : []),
+    ...(isElevatedAdmin ? [{ label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }] : [])
   ]
 
   return (
