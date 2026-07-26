@@ -68,20 +68,24 @@ export default function Navbar({ onOpenVoice }) {
           <div className="hidden lg:flex items-center gap-2 bg-[#12182b] border border-gray-800 px-3 py-1.5 rounded-xl text-xs">
             <Users size={16} className="text-green-400" />
             <span className="text-gray-400">Active Profile:</span>
-            <select
-              value={activeProfile}
-              onChange={(e) => setActiveProfile(e.target.value)}
-              className="bg-transparent text-white font-medium outline-none cursor-pointer"
-            >
-              <option value="self" className="bg-[#12182b] text-white">
-                {user.name} ({user.role || "Self"})
-              </option>
-              {familyMembers.map((member) => (
-                <option key={member.id} value={member.id} className="bg-[#12182b] text-white">
-                  {member.name} ({member.relation})
+            {familyMembers && familyMembers.length > 0 ? (
+              <select
+                value={activeProfile}
+                onChange={(e) => setActiveProfile(e.target.value)}
+                className="bg-transparent text-white font-medium outline-none cursor-pointer"
+              >
+                <option value="self" className="bg-[#12182b] text-white">
+                  {user.name} ({user.role || "Self"})
                 </option>
-              ))}
-            </select>
+                {familyMembers.map((member) => (
+                  <option key={member.id} value={member.id} className="bg-[#12182b] text-white">
+                    {member.name} ({member.relation})
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <span className="text-white font-bold">{user.name} ({user.role || "Citizen"})</span>
+            )}
           </div>
         )}
       </div>

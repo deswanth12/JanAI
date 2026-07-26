@@ -136,6 +136,7 @@ export function AuthProvider({ children }) {
     }
     setUser(guestUser)
     setFamilyMembers([]) // Clean empty family for guest users
+    setActiveProfile("self")
   }
 
   const loadDemoFamily = () => {
@@ -145,6 +146,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setUser(null)
     setFamilyMembers([])
+    setActiveProfile("self")
     try {
       localStorage.removeItem("janai_user")
       localStorage.removeItem("janai_family")
@@ -171,15 +173,16 @@ export function AuthProvider({ children }) {
     setFamilyMembers(prev => (Array.isArray(prev) ? prev : []).filter(m => m.id !== id))
   }
 
+  const safeFamilyMembers = Array.isArray(familyMembers) ? familyMembers : []
+  const safeActiveProfile = safeFamilyMembers.length === 0 ? "self" : activeProfile
+
   const getCurrentActiveProfileData = () => {
     const currentUser = user || { name: "Citizen", occupation: "Visitor" }
-    if (activeProfile === "self") return currentUser
-    const list = Array.isArray(familyMembers) ? familyMembers : []
-    const found = list.find(m => m.id === activeProfile)
+    if (safeActiveProfile === "self") return currentUser
+    const found = safeFamilyMembers.find(m => m.id === safeActiveProfile)
     return found || currentUser
   }
 
-  const safeFamilyMembers = Array.isArray(familyMembers) ? familyMembers : []
   const safeUser = user && typeof user === "object" ? user : null
 
   return (
@@ -191,7 +194,7 @@ export function AuthProvider({ children }) {
         loadDemoFamily,
         logout,
         familyMembers: safeFamilyMembers,
-        activeProfile: activeProfile || "self",
+        activeProfile: safeActiveProfile,
         setActiveProfile,
         updateUserProfile,
         addFamilyMember,
