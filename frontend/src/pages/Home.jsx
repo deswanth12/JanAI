@@ -9,7 +9,9 @@ import {
   PhoneCall,
   ShieldCheck,
   RotateCw,
-  Info
+  Info,
+  X,
+  UserCheck
 } from "lucide-react"
 
 export default function Home() {
@@ -29,6 +31,11 @@ export default function Home() {
   const [otpSent, setOtpSent] = useState(false)
   const [otpCode, setOtpCode] = useState("")
   const [authError, setAuthError] = useState("")
+
+  // Interactive Google Account Picker Modal State
+  const [showGoogleModal, setShowGoogleModal] = useState(false)
+  const [customGoogleEmail, setCustomGoogleEmail] = useState("")
+  const [customGoogleName, setCustomGoogleName] = useState("")
 
   // Persona Selection State (Optional)
   const [selectedPersona, setSelectedPersona] = useState("student")
@@ -60,7 +67,8 @@ export default function Home() {
       setAuthError("Please enter both email and password.")
       return
     }
-    login({ email, name: email.split("@")[0], role: "Citizen" })
+    const derivedName = email.split("@")[0].charAt(0).toUpperCase() + email.split("@")[0].slice(1)
+    login({ email, name: derivedName, role: "Citizen" })
     navigate("/dashboard")
   }
 
@@ -82,9 +90,20 @@ export default function Home() {
     navigate("/dashboard")
   }
 
-  const handleGoogleSignIn = () => {
-    login({ email: "citizen.google@gmail.com", name: "Google Citizen User", role: "Citizen" })
+  const handleSelectGoogleAccount = (selectedEmail, selectedName) => {
+    const name = selectedName || selectedEmail.split("@")[0].charAt(0).toUpperCase() + selectedEmail.split("@")[0].slice(1)
+    login({ email: selectedEmail, name, role: "Citizen" })
+    setShowGoogleModal(false)
     navigate("/dashboard")
+  }
+
+  const handleCustomGoogleSubmit = (e) => {
+    e.preventDefault()
+    if (!customGoogleEmail || !customGoogleEmail.includes("@")) {
+      setAuthError("Please enter a valid Google email address.")
+      return
+    }
+    handleSelectGoogleAccount(customGoogleEmail, customGoogleName)
   }
 
   const personaGreetings = {
@@ -135,7 +154,7 @@ export default function Home() {
           {loginMode === "options" && (
             <div className="space-y-3">
               <button
-                onClick={handleGoogleSignIn}
+                onClick={() => setShowGoogleModal(true)}
                 className="w-full bg-white hover:bg-gray-100 text-black font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg"
               >
                 <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
@@ -244,7 +263,7 @@ export default function Home() {
                       type="text"
                       maxLength={6}
                       value={otpCode}
-                      onChange={(e) => setOtpCode(e.target.replace(/\D/g, ""))}
+                      onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
                       placeholder="881920"
                       className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-green-400 text-center font-mono font-bold tracking-widest text-sm"
                     />
@@ -278,6 +297,92 @@ export default function Home() {
           Scroll down to explore features, updates, and AI reasoning. ↓
         </p>
       </div>
+
+      {/* 🔴 INTERACTIVE GOOGLE ACCOUNT SELECTOR MODAL */}
+      {showGoogleModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass p-6 md:p-8 rounded-3xl border border-gray-800 max-w-md w-full space-y-5 bg-[#12182b] text-white shadow-2xl text-xs">
+            <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+              <div className="flex items-center gap-2">
+                <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
+                <h3 className="font-bold text-sm">Choose a Google Account</h3>
+              </div>
+              <button
+                onClick={() => setShowGoogleModal(false)}
+                className="text-gray-400 hover:text-white font-bold"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <p className="text-gray-300 text-xs">
+              Select your Google Account to sign in to <strong>JanAI Citizen Welfare Portal</strong>:
+            </p>
+
+            <div className="space-y-2">
+              {/* Account Option 1: Deswanth Baskar */}
+              <button
+                onClick={() => handleSelectGoogleAccount("deswanth12@gmail.com", "Devanth Baskar")}
+                className="w-full text-left p-3.5 rounded-2xl bg-[#1b2338] hover:bg-white/10 border border-gray-700 transition flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm">
+                    D
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Devanth Baskar</p>
+                    <p className="text-[11px] text-gray-400">deswanth12@gmail.com</p>
+                  </div>
+                </div>
+                <UserCheck size={16} className="text-green-400 opacity-0 group-hover:opacity-100 transition" />
+              </button>
+
+              {/* Account Option 2: Citizen Demo */}
+              <button
+                onClick={() => handleSelectGoogleAccount("citizen.demo@gmail.com", "Demo Citizen")}
+                className="w-full text-left p-3.5 rounded-2xl bg-[#1b2338] hover:bg-white/10 border border-gray-700 transition flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-green-500 text-black font-bold flex items-center justify-center text-sm">
+                    C
+                  </div>
+                  <div>
+                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Demo Citizen</p>
+                    <p className="text-[11px] text-gray-400">citizen.demo@gmail.com</p>
+                  </div>
+                </div>
+                <UserCheck size={16} className="text-green-400 opacity-0 group-hover:opacity-100 transition" />
+              </button>
+            </div>
+
+            <div className="pt-2 border-t border-gray-800 space-y-2">
+              <p className="text-[10px] text-gray-400 font-bold uppercase">Or sign in with another Google Email:</p>
+              <form onSubmit={handleCustomGoogleSubmit} className="space-y-2">
+                <input
+                  type="text"
+                  placeholder="Your Full Name (e.g. Devanth Baskar)"
+                  value={customGoogleName}
+                  onChange={(e) => setCustomGoogleName(e.target.value)}
+                  className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-400 text-xs"
+                />
+                <input
+                  type="email"
+                  placeholder="name@gmail.com"
+                  value={customGoogleEmail}
+                  onChange={(e) => setCustomGoogleEmail(e.target.value)}
+                  className="w-full bg-[#1b2338] border border-gray-700 rounded-xl px-3 py-2 text-white outline-none focus:border-blue-400 text-xs"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition"
+                >
+                  Continue with this Account
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 2. PERSONA SELECTION BANNER */}
       <div className="glass p-6 md:p-8 rounded-[36px] border border-gray-800 space-y-6 bg-[#12182b]/90">
