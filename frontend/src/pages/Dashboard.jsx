@@ -118,7 +118,7 @@ export default function Dashboard() {
       <JanAiAutonomousAgent />
 
       {/* 3. AI Active Case Worker Guided Progress */}
-      <AiCaseWorker onLaunchApply={() => setSelectedSchemeForApply(SCHEMES_DATABASE[0])} />
+      <AiCaseWorker onLaunchApply={() => navigate("/finder")} />
 
       {/* 4. Total Household Benefit Impact Engine */}
       <BenefitCalculator />

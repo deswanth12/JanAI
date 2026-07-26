@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { SCHEMES_DATABASE, SCHEME_CATEGORIES, AUDIENCE_TYPES, STATES_LIST, CASTE_CATEGORIES } from "../api/schemesData"
-import ApplicationWizard from "../components/ApplicationWizard"
 import { useSchemes } from "../context/SchemeContext"
-import { Search, Filter, Bookmark, BookmarkCheck, ExternalLink } from "lucide-react"
+import { Search, Bookmark, BookmarkCheck, ExternalLink, BookOpen, CheckCircle2 } from "lucide-react"
 
 export default function SchemeFinder() {
   const [searchParams] = useSearchParams()
@@ -16,73 +15,50 @@ export default function SchemeFinder() {
   const [selectedAudience, setSelectedAudience] = useState("All Roles")
   const [selectedState, setSelectedState] = useState("All India")
   const [selectedCaste, setSelectedCaste] = useState("All")
-  
-  const [selectedSchemeForApply, setSelectedSchemeForApply] = useState(null)
   const [detailSchemeModal, setDetailSchemeModal] = useState(null)
 
   const filteredSchemes = SCHEMES_DATABASE.filter((scheme) => {
-    if (query.trim()) {
-      const q = query.toLowerCase()
-      const matchesTitle = scheme.title.toLowerCase().includes(q)
-      const matchesDesc = scheme.shortDescription.toLowerCase().includes(q) || scheme.fullDescription.toLowerCase().includes(q)
-      const matchesCategory = scheme.category.toLowerCase().includes(q)
-      const matchesState = scheme.state.toLowerCase().includes(q)
-      const matchesAudience = scheme.targetAudience.some(a => a.toLowerCase().includes(q))
-      if (!matchesTitle && !matchesDesc && !matchesCategory && !matchesState && !matchesAudience) {
-        return false
-      }
-    }
+    const matchesQuery =
+      scheme.title.toLowerCase().includes(query.toLowerCase()) ||
+      scheme.shortDescription.toLowerCase().includes(query.toLowerCase()) ||
+      scheme.category.toLowerCase().includes(query.toLowerCase())
 
-    if (selectedCategory !== "All Categories" && scheme.category !== selectedCategory) {
-      return false
-    }
+    const matchesCategory = selectedCategory === "All Categories" || scheme.category === selectedCategory
+    const matchesAudience = selectedAudience === "All Roles" || scheme.targetAudience.includes(selectedAudience)
+    const matchesState = selectedState === "All India" || scheme.state === selectedState || scheme.state === "All India"
+    const matchesCaste = selectedCaste === "All" || scheme.eligibility.caste.includes("All") || scheme.eligibility.caste.includes(selectedCaste)
 
-    if (selectedAudience !== "All Roles" && !scheme.targetAudience.includes(selectedAudience)) {
-      return false
-    }
-
-    if (selectedState !== "All India" && scheme.state !== "All India" && scheme.state !== selectedState) {
-      return false
-    }
-
-    if (selectedCaste !== "All" && !scheme.eligibility.caste.includes("All") && !scheme.eligibility.caste.includes(selectedCaste)) {
-      return false
-    }
-
-    return true
+    return matchesQuery && matchesCategory && matchesAudience && matchesState && matchesCaste
   })
 
   return (
-    <div className="space-y-8 pb-12">
-      <div>
-        <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-          <Search className="text-green-400" size={28} /> AI Scheme Finder & Filter Engine
-        </h1>
-        <p className="text-xs text-gray-400 mt-1">Search in natural language or filter by State, Caste, Role, Category & Income limit.</p>
-      </div>
-
-      <div className="glass p-3 rounded-2xl border border-gray-800 flex items-center gap-3">
-        <Search size={20} className="text-green-400 ml-2" />
-        <input
-          type="text"
-          placeholder="e.g. 'Scholarship for OBC student in Telangana' or 'Farmer land grant'..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 bg-transparent text-white outline-none text-sm placeholder-gray-500"
-        />
-        {query && (
-          <button onClick={() => setQuery("")} className="text-xs text-gray-400 hover:text-white px-2">
-            Clear
-          </button>
-        )}
-      </div>
-
-      <div className="glass p-6 rounded-3xl border border-gray-800 space-y-4">
-        <div className="flex items-center gap-2 text-xs font-bold text-green-400 uppercase tracking-wider">
-          <Filter size={16} /> Advanced Multi-Facet Filters
+    <div className="space-y-6 text-xs pb-12">
+      {/* Search Header */}
+      <div className="glass p-6 md:p-8 rounded-3xl border border-gray-800 space-y-4 bg-gradient-to-r from-[#0e1628] via-[#121c35] to-[#0f182e]">
+        <div className="max-w-xl space-y-1">
+          <span className="text-[10px] bg-green-500/20 text-green-400 font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+            Vernacular Scheme Guidance Engine
+          </span>
+          <h1 className="text-2xl md:text-3xl font-black text-white mt-2">AI Scheme Finder & Application Guidance</h1>
+          <p className="text-gray-400 text-xs">
+            Find eligible welfare schemes grounded in official government gazette rules, learn step-by-step application steps, and open official portals.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+        {/* Main Search Input */}
+        <div className="relative max-w-2xl">
+          <Search size={18} className="absolute left-4 top-3.5 text-gray-400" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by scheme name or keywords e.g. 'Farmer scholarship', 'Health insurance'..."
+            className="w-full bg-[#12182b] border border-gray-700 rounded-2xl pl-11 pr-4 py-3 text-white text-xs outline-none focus:border-green-400 transition"
+          />
+        </div>
+
+        {/* Filter Dropdowns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
           <div>
             <label className="text-gray-400 block mb-1 font-medium">Category</label>
             <select
@@ -134,6 +110,7 @@ export default function SchemeFinder() {
         <span>AI Match Precision: <strong className="text-green-400">High</strong></span>
       </div>
 
+      {/* Scheme Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredSchemes.map((scheme) => {
           const isSaved = savedSchemeIds.includes(scheme.id)
@@ -167,37 +144,33 @@ export default function SchemeFinder() {
                 </div>
               </div>
 
+              {/* Action Buttons: 1. How to Apply Guide | 2. Official Govt Portal */}
               <div className="flex items-center gap-2 pt-2 border-t border-gray-800">
                 <button
                   onClick={() => setDetailSchemeModal(scheme)}
-                  className="flex-1 py-2.5 glass hover:bg-white/10 text-gray-200 font-semibold rounded-xl text-xs transition"
+                  className="flex-1 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 font-extrabold rounded-2xl text-xs transition border border-green-500/40 flex items-center justify-center gap-1.5 shadow-lg"
                 >
-                  View Details
+                  <BookOpen size={15} /> How to Apply Guide
                 </button>
                 <a
                   href={scheme.officialUrl || "https://india.gov.in"}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-3 py-2.5 glass hover:bg-blue-500/20 text-blue-300 font-bold rounded-xl text-xs transition flex items-center gap-1 border border-blue-500/30 shrink-0"
+                  className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
                   title="Open Official Government Application Portal"
                 >
-                  <ExternalLink size={14} /> Govt Portal
+                  <ExternalLink size={15} /> Official Govt Portal
                 </a>
-                <button
-                  onClick={() => setSelectedSchemeForApply(scheme)}
-                  className="flex-1 py-2.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition"
-                >
-                  Apply Wizard
-                </button>
               </div>
             </div>
           )
         })}
       </div>
 
+      {/* Step-by-Step Guidance Modal */}
       {detailSchemeModal && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#12182b] border border-gray-700 w-full max-w-2xl rounded-3xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#12182b] border border-gray-700 w-full max-w-2xl rounded-3xl p-6 md:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-5 text-xs">
             <button
               onClick={() => setDetailSchemeModal(null)}
               className="absolute top-4 right-4 glass p-2 rounded-full text-gray-400 hover:text-white"
@@ -205,56 +178,73 @@ export default function SchemeFinder() {
               ✕
             </button>
 
-            <span className="text-[10px] bg-green-500/20 text-green-300 px-3 py-1 rounded-full font-bold uppercase">
-              {detailSchemeModal.category}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] bg-green-500/20 text-green-300 px-3 py-1 rounded-full font-bold uppercase border border-green-500/30">
+                {detailSchemeModal.category}
+              </span>
+              <span className="text-[10px] bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full font-bold uppercase border border-blue-500/30">
+                Jurisdiction: {detailSchemeModal.state}
+              </span>
+            </div>
 
-            <h3 className="text-2xl font-bold text-white">{detailSchemeModal.title}</h3>
-            <p className="text-xs text-gray-300 leading-relaxed">{detailSchemeModal.fullDescription}</p>
+            <div>
+              <h3 className="text-2xl font-bold text-white">{detailSchemeModal.title}</h3>
+              <p className="text-xs text-gray-400 mt-1">Ministry: {detailSchemeModal.ministry}</p>
+            </div>
 
-            <div className="bg-[#1b2338] p-4 rounded-2xl border border-gray-800 text-xs space-y-2">
-              <h4 className="font-bold text-green-400">Required Documents:</h4>
+            <p className="text-xs text-gray-300 leading-relaxed bg-[#1b2338] p-4 rounded-2xl border border-gray-800">
+              {detailSchemeModal.fullDescription}
+            </p>
+
+            {/* 📋 Step-by-Step Official Application Instructions */}
+            <div className="bg-[#182238] p-5 rounded-2xl border border-amber-500/30 space-y-3">
+              <h4 className="font-bold text-amber-300 text-xs uppercase tracking-wider flex items-center gap-2">
+                <BookOpen size={16} className="text-amber-400" /> Step-by-Step Application Instructions:
+              </h4>
+              <ol className="list-decimal list-inside space-y-2 text-gray-200">
+                {(detailSchemeModal.applicationSteps || [
+                  "Visit the official government web portal using the blue button below.",
+                  "Click on 'New Registration / Citizen Application'.",
+                  "Enter your Aadhaar number and Mobile Number linked with Aadhaar.",
+                  "Fill in land, income, or educational details from your JanAI Profile.",
+                  "Upload verified document copies (Aadhaar, Income, Marksheet).",
+                  "Submit application and save your official Registration Reference Number."
+                ]).map((stepText, idx) => (
+                  <li key={idx} className="text-[11px] leading-relaxed pl-1">{stepText}</li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Required Documents Checklist */}
+            <div className="bg-[#1b2338] p-4 rounded-2xl border border-gray-800 space-y-2">
+              <h4 className="font-bold text-green-400 text-xs flex items-center gap-1.5">
+                <CheckCircle2 size={16} /> Required Documents Checklist:
+              </h4>
               <ul className="list-disc list-inside space-y-1 text-gray-300">
                 {detailSchemeModal.documentsRequired.map((d, i) => <li key={i}>{d}</li>)}
               </ul>
             </div>
 
-            <div className="bg-[#1b2338] p-4 rounded-2xl border border-gray-800 text-xs space-y-2">
-              <h4 className="font-bold text-blue-400">Application Steps:</h4>
-              <ol className="list-decimal list-inside space-y-1 text-gray-300">
-                {detailSchemeModal.applicationSteps.map((s, i) => <li key={i}>{s}</li>)}
-              </ol>
-            </div>
-
-            <div className="flex justify-end gap-2 pt-2">
+            {/* Modal Bottom Action Button: Go to Official Government Website */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3 border-t border-gray-800">
+              <button
+                onClick={() => setDetailSchemeModal(null)}
+                className="w-full sm:w-auto px-5 py-2.5 glass rounded-xl text-xs text-gray-300 font-bold hover:text-white"
+              >
+                Close Guide
+              </button>
               <a
-                href={detailSchemeModal.officialUrl}
+                href={detailSchemeModal.officialUrl || "https://india.gov.in"}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 glass rounded-xl text-xs text-blue-400 font-bold hover:underline"
+                className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs flex items-center justify-center gap-2 shadow-xl shadow-blue-600/30 transition"
               >
-                Official Govt Website ↗
+                <ExternalLink size={16} /> Open Official Government Portal ↗
               </a>
-              <button
-                onClick={() => {
-                  const s = detailSchemeModal
-                  setDetailSchemeModal(null)
-                  setSelectedSchemeForApply(s)
-                }}
-                className="px-6 py-2 bg-green-500 text-black font-bold rounded-xl text-xs hover:bg-green-400"
-              >
-                Launch Application Wizard
-              </button>
             </div>
           </div>
         </div>
       )}
-
-      <ApplicationWizard
-        scheme={selectedSchemeForApply}
-        isOpen={!!selectedSchemeForApply}
-        onClose={() => setSelectedSchemeForApply(null)}
-      />
     </div>
   )
 }
