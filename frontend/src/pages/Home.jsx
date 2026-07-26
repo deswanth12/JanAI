@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import {
@@ -16,7 +16,14 @@ import {
 
 export default function Home() {
   const navigate = useNavigate()
-  const { login, loginAsGuest } = useAuth()
+  const { user, login, loginAsGuest } = useAuth()
+
+  // Redirect authenticated citizens to Dashboard when visiting /
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true })
+    }
+  }, [user, navigate])
 
   const handleGuestExplore = () => {
     loginAsGuest()

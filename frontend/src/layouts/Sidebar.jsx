@@ -19,7 +19,7 @@ export default function Sidebar() {
   const { t } = useLanguage()
 
   const navItems = [
-    { label: t("navHome"), icon: Home, path: "/" },
+    { label: t("navHome"), icon: Home, path: "/dashboard" },
     { label: t("navDashboard"), icon: LayoutDashboard, path: "/dashboard" },
     { label: t("navFinder"), icon: Search, path: "/finder" },
     { label: t("navEligibility"), icon: CheckCircle2, path: "/eligibility" },
