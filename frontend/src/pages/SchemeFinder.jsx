@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import { SCHEMES_DATABASE, SCHEME_CATEGORIES, AUDIENCE_TYPES, STATES_LIST, CASTE_CATEGORIES } from "../api/schemesData"
 import ApplicationWizard from "../components/ApplicationWizard"
 import { useSchemes } from "../context/SchemeContext"
-import { Search, Filter, Bookmark, BookmarkCheck } from "lucide-react"
+import { Search, Filter, Bookmark, BookmarkCheck, ExternalLink } from "lucide-react"
 
 export default function SchemeFinder() {
   const [searchParams] = useSearchParams()
@@ -172,8 +172,17 @@ export default function SchemeFinder() {
                   onClick={() => setDetailSchemeModal(scheme)}
                   className="flex-1 py-2.5 glass hover:bg-white/10 text-gray-200 font-semibold rounded-xl text-xs transition"
                 >
-                  View Details & FAQs
+                  View Details
                 </button>
+                <a
+                  href={scheme.officialUrl || "https://india.gov.in"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-2.5 glass hover:bg-blue-500/20 text-blue-300 font-bold rounded-xl text-xs transition flex items-center gap-1 border border-blue-500/30 shrink-0"
+                  title="Open Official Government Application Portal"
+                >
+                  <ExternalLink size={14} /> Govt Portal
+                </a>
                 <button
                   onClick={() => setSelectedSchemeForApply(scheme)}
                   className="flex-1 py-2.5 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition"
