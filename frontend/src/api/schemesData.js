@@ -35,6 +35,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year (Subject to Seasonal Cutoffs)",
     officialUrl: "https://pmkisan.gov.in",
+    officialFormUrl: "https://pmkisan.gov.in/RegistrationForm.aspx",
     faqs: [
       { q: "Who is eligible for PM-Kisan?", a: "All landholding farmer families who have cultivable landholding in their names are eligible, subject to exclusion criteria." }
     ],
@@ -86,6 +87,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "31st October 2026",
     officialUrl: "https://scholarships.gov.in",
+    officialFormUrl: "https://scholarships.gov.in/fresh/newstdRegfrmInstpowerful",
     faqs: [
       { q: "What is the family income limit?", a: "Annual family income must not exceed ₹2,50,000 per annum as per latest guidelines." }
     ],
@@ -134,6 +136,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year",
     officialUrl: "https://pmjay.gov.in",
+    officialFormUrl: "https://beneficiary.nha.gov.in/",
     faqs: [
       { q: "Is there any age limit for senior citizens?", a: "All senior citizens aged 70+ receive guaranteed ₹5 Lakh cover under PM-JAY Senior Citizen expansion." }
     ],
@@ -184,6 +187,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year",
     officialUrl: "https://www.mudra.org.in",
+    officialFormUrl: "https://www.udyamimitra.in/",
     faqs: [
       { q: "What is Tarun Plus limit?", a: "Tarun Plus limit is extended up to ₹20 Lakhs for borrowers who have successfully repaid previous Tarun loans." }
     ],
@@ -233,6 +237,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "31st December 2026",
     officialUrl: "https://pmaymis.gov.in",
+    officialFormUrl: "https://pmaymis.gov.in/open/online_application.aspx",
     faqs: [
       { q: "Why does PMAY assistance vary?", a: "PMAY assistance varies based on Rural (PMAY-G) vs Urban (PMAY-U) component and EWS/LIG category." }
     ],
@@ -282,6 +287,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year",
     officialUrl: "https://www.indiapost.gov.in",
+    officialFormUrl: "https://www.indiapost.gov.in/Financial/Pages/Content/Sukanya-Samriddhi-Account.aspx",
     faqs: [
       { q: "What is the current interest rate?", a: "8.2% per annum, compounded annually as per Q2 FY2026-27 Ministry of Finance revision." }
     ],
@@ -328,6 +334,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year",
     officialUrl: "https://nsap.nic.in",
+    officialFormUrl: "https://nsap.nic.in/statelogin.do",
     faqs: [
       { q: "Is PMVVY open for new subscriptions?", a: "PMVVY closed to new subscriptions on March 31, 2023. Senior citizens can enroll in IGNOAPS and Ayushman 70+ cover." }
     ],
@@ -375,6 +382,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Seasonal (Kharif / Rabi)",
     officialUrl: "https://dharani.telangana.gov.in",
+    officialFormUrl: "https://dharani.telangana.gov.in/",
     faqs: [
       { q: "How are funds disbursed?", a: "Funds are transferred directly to Aadhaar-linked bank accounts per season." }
     ],
@@ -425,6 +433,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "31st March 2026",
     officialUrl: "https://nos.dosje.gov.in",
+    officialFormUrl: "https://nos.dosje.gov.in/",
     faqs: [
       { q: "Is GRE/IELTS score mandatory?", a: "As per the foreign university's unconditional offer letter requirements." }
     ],
@@ -474,6 +483,7 @@ export const SCHEMES_DATABASE = [
     ],
     deadline: "Open All Year",
     officialUrl: "https://www.kviconline.gov.in",
+    officialFormUrl: "https://www.kviconline.gov.in/pmegpeportal/pmegphome/index.jsp",
     faqs: [
       { q: "What is the subsidy percentage?", a: "35% subsidy in rural areas and 25% in urban areas for special categories including Women, SC, ST, OBC, Minorities." }
     ],
