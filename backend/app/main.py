@@ -34,7 +34,7 @@ app = FastAPI(
 # Strict CORS Policy
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "https://janai.in"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "https://janai.in", "https://jan-ai-sand.vercel.app"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "X-Requested-With", "Accept"],
@@ -79,7 +79,7 @@ async def add_strict_security_headers(request: Request, call_next):
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
         "img-src 'self' data: https:; "
         "font-src 'self' data: https://fonts.gstatic.com; "
-        "connect-src 'self' http://127.0.0.1:8000 http://localhost:8000 https://janai.in; "
+        "connect-src 'self' http://127.0.0.1:8000 http://localhost:8000 https://janai.in https://jan-ai-sand.vercel.app; "
         "frame-ancestors 'none'; "
         "object-src 'none'; "
         "base-uri 'self'; "
@@ -96,7 +96,20 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"error": "An internal security-safeguarded exception occurred. Reference code: ERR-SEC-500."}
     )
 
-# --- OPERATIONAL HEALTH & LIVENESS CHECK ENDPOINTS ---
+# --- OPERATIONAL HEALTH & ROOT GATEWAY WELCOME ENDPOINTS ---
+@app.get("/")
+async def root_gateway_welcome():
+    """Root Gateway Welcome Endpoint"""
+    return {
+        "message": "Welcome to JanAI Enterprise AI Citizen Welfare Platform Gateway",
+        "status": "healthy",
+        "version": "1.0.0",
+        "liveness_probe": "/health",
+        "readiness_probe": "/readiness",
+        "mcp_protocol_info": "/mcp/v1/info",
+        "api_versions": ["/api/v1/citizen/*", "/api/v1/partner/*", "/api/v1/admin/*"]
+    }
+
 @app.get("/health")
 async def health_check():
     """Liveness probe for monitoring tools"""
