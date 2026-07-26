@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useSchemes } from "../context/SchemeContext"
 import { calculateSchemeSuccessProbability } from "../api/gemini"
-import { X, CheckCircle2, Sparkles, FileText, ArrowRight, ArrowLeft } from "lucide-react"
+import { X, CheckCircle2, Sparkles, FileText, ArrowRight, ArrowLeft, ExternalLink, BookOpen } from "lucide-react"
 
 export default function ApplicationWizard({ scheme, isOpen, onClose }) {
   const { user, familyMembers } = useAuth()
@@ -243,7 +243,7 @@ export default function ApplicationWizard({ scheme, isOpen, onClose }) {
         )}
 
         {step === 4 && completedApp && (
-          <div className="text-center py-6 space-y-4">
+          <div className="text-center py-4 space-y-4">
             <div className="w-16 h-16 bg-green-500/20 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto text-green-400">
               <CheckCircle2 size={36} />
             </div>
@@ -259,12 +259,46 @@ export default function ApplicationWizard({ scheme, isOpen, onClose }) {
               <p><span className="text-gray-500">AI Success Score:</span> <span className="text-yellow-400 font-bold">{completedApp.probabilityScore}% Approval Chance</span></p>
             </div>
 
-            <button
-              onClick={onClose}
-              className="px-8 py-3 bg-green-500 text-black font-bold rounded-2xl text-xs hover:bg-green-400 transition"
-            >
-              Go to Application Tracker
-            </button>
+            {/* 🌐 Step-by-Step Official Portal Guidance */}
+            <div className="bg-[#12182b] p-4 rounded-2xl border border-blue-500/30 max-w-md mx-auto text-xs text-left space-y-3">
+              <h5 className="font-bold text-amber-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5 border-b border-gray-800 pb-2">
+                <BookOpen size={14} className="text-amber-400" /> Step-by-Step Official Portal Submission:
+              </h5>
+              <ol className="space-y-2 list-decimal list-inside text-gray-300">
+                {(scheme.applicationSteps || [
+                  "Click the Official Government Portal link below.",
+                  "Select 'New Application / Registration' on the official site.",
+                  "Provide your Aadhaar and JanAI Pre-filled details.",
+                  "Upload verified documents from your JanAI Digital Wallet.",
+                  "Submit application and note down your reference tracking ID."
+                ]).map((st, i) => (
+                  <li key={i} className="text-[11px] leading-relaxed">{st}</li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Official Website Button */}
+            {scheme.officialUrl && (
+              <div className="max-w-md mx-auto">
+                <a
+                  href={scheme.officialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 transition"
+                >
+                  <ExternalLink size={16} /> Open Official Government Portal ({scheme.officialUrl.replace("https://", "")})
+                </a>
+              </div>
+            )}
+
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+              <button
+                onClick={onClose}
+                className="w-full sm:w-auto px-8 py-3 bg-green-500 text-black font-bold rounded-2xl text-xs hover:bg-green-400 transition"
+              >
+                Go to Application Tracker
+              </button>
+            </div>
           </div>
         )}
       </div>
