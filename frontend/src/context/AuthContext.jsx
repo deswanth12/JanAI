@@ -72,7 +72,9 @@ export function AuthProvider({ children }) {
       if (saved && saved !== "undefined") {
         const parsed = JSON.parse(saved)
         if (parsed && typeof parsed === "object") {
-          return { ...DEFAULT_USER, ...parsed }
+          const u = { ...DEFAULT_USER, ...parsed }
+          if (u.name === "Devanth" || u.name === "Devanth Baskar") u.name = "Desvanth"
+          return u
         }
       }
     } catch (err) {
@@ -86,7 +88,11 @@ export function AuthProvider({ children }) {
       const saved = localStorage.getItem("janai_family")
       if (saved && saved !== "undefined") {
         const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed)) return parsed
+        if (Array.isArray(parsed)) {
+          // 🟢 Clear old hardcoded demo family (fam-1, fam-2) so new users start at 0 members
+          const isOldDemo = parsed.some(m => m.id === "fam-1" || m.id === "fam-2" || m.id === "fam-3")
+          if (!isOldDemo) return parsed
+        }
       }
     } catch (err) {
       console.warn("Error parsing janai_family from localStorage:", err)
@@ -120,6 +126,7 @@ export function AuthProvider({ children }) {
 
   const login = (userData) => {
     const updated = { ...DEFAULT_USER, ...userData }
+    if (updated.name === "Devanth" || updated.name === "Devanth Baskar") updated.name = "Desvanth"
     setUser(updated)
   }
 
@@ -157,7 +164,11 @@ export function AuthProvider({ children }) {
   }
 
   const updateUserProfile = (updatedFields) => {
-    setUser(prev => ({ ...(prev || DEFAULT_USER), ...updatedFields }))
+    setUser(prev => {
+      const updated = { ...(prev || DEFAULT_USER), ...updatedFields }
+      if (updated.name === "Devanth" || updated.name === "Devanth Baskar") updated.name = "Desvanth"
+      return updated
+    })
   }
 
   const addFamilyMember = (member) => {

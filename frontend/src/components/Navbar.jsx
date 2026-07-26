@@ -21,14 +21,12 @@ import {
 
 export default function Navbar({ onOpenVoice }) {
   const navigate = useNavigate()
-  const { user, logout, familyMembers, activeProfile, setActiveProfile, getCurrentActiveProfileData } = useAuth()
+  const { user, logout, familyMembers, activeProfile, setActiveProfile } = useAuth()
   const { lang, changeLanguage } = useLanguage()
   const { highContrast, toggleHighContrast, textSize, cycleTextSize } = useAccessibility()
   const [showLangMenu, setShowLangMenu] = useState(false)
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const [mcpStatus, setMcpStatus] = useState("MCP 2.0 Connected")
-
-  const activeData = getCurrentActiveProfileData()
 
   useEffect(() => {
     fetchHealthStatus().then(data => {
@@ -39,34 +37,34 @@ export default function Navbar({ onOpenVoice }) {
   }, [])
 
   return (
-    <header className="sticky top-0 z-40 bg-[#0b1020]/90 backdrop-blur-md border-b border-gray-800 px-4 md:px-8 py-3 flex items-center justify-between">
-      <div className="flex items-center gap-4">
+    <header className="sticky top-0 z-40 bg-[#090d19]/95 backdrop-blur-xl border-b border-gray-800 px-3 md:px-8 py-2.5 flex items-center justify-between">
+      <div className="flex items-center gap-3">
         {/* Official Brand Logo */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
+        <div className="flex items-center gap-2.5 cursor-pointer shrink-0" onClick={() => navigate("/")}>
           <img
             src="/janai-logo.jpg"
-            alt="JanAI - AI Powered Citizen First Logo"
-            className="h-10 w-auto rounded-xl object-contain shadow-md border border-gray-700/50 bg-white p-0.5"
+            alt="JanAI Logo"
+            className="h-8 md:h-10 w-auto rounded-xl object-contain shadow-md border border-gray-700/50 bg-white p-0.5"
           />
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-extrabold bg-gradient-to-r from-blue-400 via-green-400 to-amber-400 text-transparent bg-clip-text">
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-lg md:text-xl font-black bg-gradient-to-r from-blue-400 via-green-400 to-amber-400 text-transparent bg-clip-text leading-none">
                 JanAI
               </h1>
-              <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20 font-mono font-bold flex items-center gap-1">
-                <Server size={10} /> {mcpStatus}
+              <span className="hidden sm:inline-flex text-[9px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20 font-mono font-bold items-center gap-1">
+                <Server size={9} /> {mcpStatus}
               </span>
             </div>
-            <span className="text-[10px] text-green-400 font-bold tracking-tight block">
+            <span className="hidden sm:block text-[9px] text-green-400 font-bold tracking-tight mt-0.5">
               AI POWERED. CITIZEN FIRST.
             </span>
           </div>
         </div>
 
-        {/* Active Profile Selector (Only shown when logged in) */}
+        {/* Active Profile Selector (Desktop Only) */}
         {user && (
           <div className="hidden lg:flex items-center gap-2 bg-[#12182b] border border-gray-800 px-3 py-1.5 rounded-xl text-xs">
-            <Users size={16} className="text-green-400" />
+            <Users size={15} className="text-green-400" />
             <span className="text-gray-400">Active Profile:</span>
             {familyMembers && familyMembers.length > 0 ? (
               <select
@@ -90,128 +88,133 @@ export default function Navbar({ onOpenVoice }) {
         )}
       </div>
 
-      <div className="flex items-center gap-2 md:gap-3">
+      <div className="flex items-center gap-1.5 md:gap-2.5">
+        {/* Voice Assistant Button */}
         <button
           onClick={onOpenVoice}
-          className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-black px-3 py-1.5 rounded-xl font-semibold text-xs md:text-sm hover:opacity-90 transition shadow-md"
+          className="flex items-center gap-1.5 bg-gradient-to-r from-green-500 to-emerald-600 text-black px-2.5 py-1.5 md:px-3.5 md:py-2 rounded-xl font-extrabold text-xs hover:opacity-90 transition shadow-lg shadow-green-500/20"
         >
-          <Mic size={16} />
+          <Mic size={15} />
           <span className="hidden sm:inline">Voice Assistant</span>
         </button>
 
-        {/* WhatsApp & SMS Notification Center */}
+        {/* Notification Center */}
         <NotificationCenter />
 
-        {/* 22 Official Languages Selector */}
+        {/* Language Selector Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowLangMenu(!showLangMenu)}
-            className="glass p-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-xs"
-            title="Select 22 Indian Regional Languages"
+            className="flex items-center gap-1 bg-[#12182b] hover:bg-gray-800 text-gray-300 px-2.5 py-1.5 md:px-3 md:py-2 rounded-xl border border-gray-800 text-xs transition"
           >
-            <Globe size={18} className="text-blue-400" />
-            <span className="hidden md:inline uppercase font-bold">{lang}</span>
+            <Globe size={15} />
+            <span className="uppercase font-bold text-[11px]">{lang}</span>
           </button>
 
           {showLangMenu && (
-            <div className="absolute right-0 mt-2 w-64 bg-[#12182b] border border-gray-700 rounded-2xl shadow-2xl p-2 z-50">
-              <p className="text-[11px] text-gray-400 px-3 py-1 font-semibold uppercase border-b border-gray-800 flex justify-between items-center">
-                <span>22 Scheduled Languages</span>
-                <span className="text-[9px] text-green-400 font-mono">MCP Ready</span>
-              </p>
-              <div className="max-h-72 overflow-y-auto mt-1 space-y-1">
-                {LANGUAGES_LIST.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => {
-                      changeLanguage(l.code)
-                      setShowLangMenu(false)
-                    }}
-                    className={`w-full text-left px-3 py-1.5 text-xs rounded-xl transition flex justify-between items-center ${
-                      lang === l.code ? "bg-green-500 text-black font-bold" : "text-gray-300 hover:bg-white/10"
-                    }`}
-                  >
-                    <span>{l.name}</span>
-                    <span className="text-[9px] opacity-60 font-mono">{l.script}</span>
-                  </button>
-                ))}
-              </div>
+            <div className="absolute right-0 mt-2 w-48 bg-[#12182b] border border-gray-800 rounded-2xl shadow-2xl z-50 p-1.5 space-y-1 text-xs">
+              {LANGUAGES_LIST.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => {
+                    changeLanguage(l.code)
+                    setShowLangMenu(false)
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-xl transition flex items-center justify-between ${
+                    lang === l.code ? "bg-green-500/20 text-green-400 font-bold" : "text-gray-300 hover:bg-white/5"
+                  }`}
+                >
+                  <span>{l.name}</span>
+                  <span className="text-[10px] text-gray-500 uppercase">{l.code}</span>
+                </button>
+              ))}
             </div>
           )}
         </div>
 
-        <button
-          onClick={toggleHighContrast}
-          className={`p-2 rounded-xl transition text-xs flex items-center ${
-            highContrast ? "bg-yellow-400 text-black font-bold" : "glass text-gray-300 hover:bg-white/10"
-          }`}
-          title="Toggle High Contrast Mode"
-        >
-          <Eye size={18} />
-        </button>
+        {/* Accessibility Tools (Desktop Only) */}
+        <div className="hidden md:flex items-center gap-1 border-l border-gray-800 pl-2">
+          <button
+            onClick={toggleHighContrast}
+            title="Toggle High Contrast Mode"
+            className={`p-2 rounded-xl border transition ${
+              highContrast ? "bg-amber-500/20 text-amber-300 border-amber-500/40" : "bg-[#12182b] text-gray-400 border-gray-800 hover:text-white"
+            }`}
+          >
+            <Eye size={15} />
+          </button>
 
-        <button
-          onClick={cycleTextSize}
-          className="glass p-2 rounded-xl text-gray-300 hover:bg-white/10 transition text-xs flex items-center gap-1 font-bold"
-          title={`Text Size: ${textSize}`}
-        >
-          <Type size={18} />
-          <span className="uppercase text-[10px]">{textSize[0]}</span>
-        </button>
+          <button
+            onClick={cycleTextSize}
+            title="Cycle Text Size"
+            className="p-2 rounded-xl bg-[#12182b] text-gray-400 border border-gray-800 hover:text-white transition flex items-center gap-0.5 text-[10px] font-bold"
+          >
+            <Type size={15} />
+            <span className="uppercase">{textSize.slice(0, 1)}</span>
+          </button>
+        </div>
 
-        {/* User Account / Profile Controls */}
+        {/* Profile Dropdown Menu */}
         {user ? (
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 glass p-1.5 rounded-xl hover:bg-white/10 transition"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-green-500 to-emerald-400 text-black font-extrabold flex items-center justify-center text-xs shadow-md border border-green-400/50"
             >
-              <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-black font-bold text-sm">
-                {activeData.name ? activeData.name[0] : "U"}
-              </div>
+              {user.name ? user.name.charAt(0).toUpperCase() : "U"}
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-[#12182b] border border-gray-700 rounded-2xl shadow-2xl p-3 z-50">
-                <div className="border-b border-gray-800 pb-2 mb-2">
-                  <p className="font-bold text-sm text-white">{activeData.name}</p>
-                  <p className="text-xs text-gray-400">{activeData.occupation || "Citizen"}</p>
+              <div className="absolute right-0 mt-2 w-60 bg-[#12182b] border border-gray-800 rounded-2xl shadow-2xl z-50 p-4 space-y-3 text-xs">
+                <div className="border-b border-gray-800 pb-2.5">
+                  <p className="font-bold text-white text-sm">{user.name}</p>
+                  <p className="text-[11px] text-gray-400">{user.email || user.phone}</p>
+                  <span className="inline-block bg-green-500/20 text-green-400 px-2 py-0.5 rounded-md text-[10px] font-bold mt-1 uppercase">
+                    {user.role || "Citizen"}
+                  </span>
                 </div>
-                <button
-                  onClick={() => {
-                    navigate("/profile")
-                    setShowProfileMenu(false)
-                  }}
-                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-gray-200 flex items-center gap-2"
-                >
-                  <User size={16} /> Profile & Family Manager
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/admin")
-                    setShowProfileMenu(false)
-                  }}
-                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-green-400 flex items-center gap-2 font-medium"
-                >
-                  <Sparkles size={16} /> Admin & MCP Portal
-                </button>
-                <button
-                  onClick={() => {
-                    logout()
-                    setShowProfileMenu(false)
-                    navigate("/")
-                  }}
-                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-red-500/20 text-red-400 flex items-center gap-2 font-bold mt-1 border-t border-gray-800 pt-2"
-                >
-                  <LogOut size={16} /> Sign Out
-                </button>
+
+                <div className="space-y-1">
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false)
+                      navigate("/profile")
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition flex items-center gap-2"
+                  >
+                    <User size={15} /> Profile & Family Manager
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false)
+                      navigate("/admin")
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white transition flex items-center gap-2"
+                  >
+                    <Sparkles size={15} className="text-amber-400" /> Admin & MCP Portal
+                  </button>
+                </div>
+
+                <div className="border-t border-gray-800 pt-2">
+                  <button
+                    onClick={() => {
+                      setShowProfileMenu(false)
+                      logout()
+                      navigate("/")
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 font-bold transition flex items-center gap-2"
+                  >
+                    <LogOut size={15} /> Sign Out
+                  </button>
+                </div>
               </div>
             )}
           </div>
         ) : (
           <button
-            onClick={() => navigate("/")}
-            className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow-md"
+            onClick={() => navigate("/login")}
+            className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-xl font-bold text-xs transition"
           >
             <LogIn size={15} /> Sign In
           </button>
