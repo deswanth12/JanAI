@@ -32,7 +32,7 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="w-64 bg-[#0d1326] border-r border-gray-800 hidden md:flex flex-col p-4 space-y-2 text-xs">
+    <aside className="w-64 bg-[#0d1326] border-r border-gray-800 hidden md:flex flex-col p-4 space-y-2 text-xs sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto shrink-0">
       <div className="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
         Navigation
       </div>
