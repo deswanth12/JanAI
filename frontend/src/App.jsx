@@ -63,6 +63,15 @@ class ErrorBoundary extends React.Component {
             <p className="text-xs text-gray-400">
               The application encountered a display exception. Click below to clear cache and reload.
             </p>
+            {this.state.error && (
+              <div className="text-left bg-black/60 p-3 rounded-xl border border-red-500/30 overflow-x-auto max-h-48 text-[11px] font-mono text-red-300">
+                <strong>Error: {this.state.error.name || "Error"}</strong>
+                <p className="mt-1">{this.state.error.message || String(this.state.error)}</p>
+                {this.state.error.stack && (
+                  <pre className="mt-2 text-[9px] text-gray-400 whitespace-pre-wrap">{this.state.error.stack.slice(0, 500)}</pre>
+                )}
+              </div>
+            )}
             <button
               onClick={this.handleReset}
               className="w-full py-3 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition"
