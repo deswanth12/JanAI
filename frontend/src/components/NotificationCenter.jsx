@@ -65,7 +65,7 @@ export default function NotificationCenter() {
 
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-gray-300">
-                <MessageSquare size={14} className="text-green-400" /> WhatsApp Alerts (+91 9876543210)
+                <MessageSquare size={14} className="text-green-400" /> WhatsApp Alerts (+91 7702256073)
               </span>
               <input
                 type="checkbox"
@@ -105,7 +105,7 @@ export default function NotificationCenter() {
           <div className="pt-2 border-t border-gray-800">
             {testSent ? (
               <div className="bg-green-500/20 text-green-300 p-2 rounded-xl text-xs text-center font-bold flex items-center justify-center gap-1.5">
-                <Check size={14} /> Test WhatsApp Alert Sent to +91 9876543210!
+                <Check size={14} /> Test WhatsApp Alert Sent to +91 7702256073!
               </div>
             ) : (
               <button

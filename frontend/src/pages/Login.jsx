@@ -9,7 +9,7 @@ export default function Login() {
   const [authMethod, setAuthMethod] = useState("email")
   const [email, setEmail] = useState("devanth@gmail.com")
   const [password, setPassword] = useState("••••••••")
-  const [phone, setPhone] = useState("9876543210")
+  const [phone, setPhone] = useState("7702256073")
   const [otp, setOtp] = useState("")
   const [otpSent, setOtpSent] = useState(false)
 

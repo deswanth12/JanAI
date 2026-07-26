@@ -7,7 +7,7 @@ const DEFAULT_USER = {
   id: "user-1",
   name: "Desvanth",
   email: "desvanth@example.com",
-  phone: "+91 9876543210",
+  phone: "+91 7702256073",
   role: "Student",
   age: 21,
   gender: "Male",
@@ -74,6 +74,7 @@ export function AuthProvider({ children }) {
         if (parsed && typeof parsed === "object") {
           const u = { ...DEFAULT_USER, ...parsed }
           if (u.name === "Devanth" || u.name === "Devanth Baskar") u.name = "Desvanth"
+          if (!u.phone || u.phone === "+91 9876543210" || u.phone === "+919876543210") u.phone = "+91 7702256073"
           return u
         }
       }

@@ -78,7 +78,7 @@ export default function Register() {
               <Phone size={16} className="text-gray-400 ml-1" />
               <input
                 type="tel"
-                placeholder="9876543210"
+                placeholder="7702256073"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full bg-transparent text-white outline-none"

@@ -204,7 +204,7 @@ export default function PartnerPortalLayout() {
               <input
                 type="tel"
                 required
-                placeholder="9876543210"
+                placeholder="7702256073"
                 value={newApplication.mobile}
                 onChange={(e) => setNewApplication({ ...newApplication, mobile: e.target.value })}
                 className="w-full p-3 rounded-xl bg-[#12182b] text-white border border-gray-700 outline-none focus:border-amber-400 font-mono"
