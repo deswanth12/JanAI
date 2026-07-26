@@ -63,9 +63,13 @@ export default function Dashboard() {
               Active Case ID: JAN-2026-9041
             </span>
           </div>
-          <h1 className="text-3xl font-bold text-white mt-1">Welcome Back, {user.name}! 🚀</h1>
+          <h1 className="text-3xl font-bold text-white mt-1">
+            {user.role === "Guest" ? "Welcome, Guest Explorer! 🚀" : `Welcome Back, ${user.name}! 🚀`}
+          </h1>
           <p className="text-xs text-gray-400 mt-1">
-            Managing benefits for <strong className="text-white">Devanth</strong>, <strong className="text-white">Baskar (Father)</strong>, <strong className="text-white">Lalitha (Mother)</strong>, and <strong className="text-white">Pavani (Sister)</strong>.
+            {user.role === "Guest"
+              ? "Exploring government welfare schemes, eligibility rules, and AI guidance in Guest Mode."
+              : `Managing benefits for ${user.name}${familyMembers && familyMembers.length > 0 ? ` and family (${familyMembers.map(m => m.name).join(", ")})` : ""}.`}
           </p>
         </div>
 
