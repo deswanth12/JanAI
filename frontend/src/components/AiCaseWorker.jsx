@@ -42,7 +42,9 @@ export default function AiCaseWorker({ onLaunchApply }) {
     {
       step: 5,
       title: "Application Pre-Flight Submission",
-      description: `${applications.length} applications submitted to Nodal Officer.`,
+      description: applications.length > 0
+        ? `${applications.length} application${applications.length > 1 ? "s" : ""} submitted to Nodal Officer.`
+        : "No applications submitted yet — Apply via AI Scheme Finder.",
       status: applications.length > 0 ? "completed" : "pending"
     },
     {

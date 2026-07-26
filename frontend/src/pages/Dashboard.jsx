@@ -131,7 +131,9 @@ export default function Dashboard() {
             <Users size={18} className="text-green-400" />
           </div>
           <p className="text-4xl font-extrabold text-white">{1 + familyMembers.length}</p>
-          <p className="text-[11px] text-gray-500">Devanth, Baskar, Lalitha, Pavani</p>
+          <p className="text-[11px] text-gray-500">
+            {user?.name || "Desvanth"}{familyMembers.length > 0 ? `, ${familyMembers.map(m => m.name).join(", ")}` : ""}
+          </p>
         </div>
 
         <div className="glass p-6 rounded-3xl border border-gray-800 space-y-2 hover:border-blue-500/50 transition">
