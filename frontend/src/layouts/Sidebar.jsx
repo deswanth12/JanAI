@@ -11,7 +11,9 @@ import {
   FileCheck,
   User,
   Building2,
-  ShieldCheck
+  ShieldCheck,
+  BookOpen,
+  Shield
 } from "lucide-react"
 
 export default function Sidebar() {
@@ -32,6 +34,8 @@ export default function Sidebar() {
     { label: t("navCompare"), icon: Scale, path: "/compare" },
     { label: t("navApplications"), icon: FileCheck, path: "/applications" },
     { label: t("navProfile"), icon: User, path: "/profile" },
+    { label: "Official Gazette Rules", icon: BookOpen, path: "/status" },
+    { label: "Privacy & Data Rights", icon: Shield, path: "/privacy" },
     ...(isPartnerRole ? [{ label: "Partner Portal", icon: Building2, path: "/partner" }] : []),
     ...(isElevatedAdmin ? [{ label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }] : [])
   ]
