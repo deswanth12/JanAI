@@ -1,16 +1,22 @@
 {
+  "name": "JanAI — AI Powered Citizen First Portal",
   "short_name": "JanAI",
-  "name": "JanAI — Indian Government Scheme & Student Assistance Platform",
+  "description": "Discover & Access Government Welfare Schemes Grounded in Official Gazette Rules",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090d19",
+  "theme_color": "#090d19",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "512x512"
+      "src": "/janai-logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/janai-logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
     }
-  ],
-  "start_url": "/",
-  "background_color": "#0b1020",
-  "theme_color": "#22c55e",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }

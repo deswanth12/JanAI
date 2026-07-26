@@ -1,15 +1,15 @@
-import React, { useState } from "react"
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
+import React, { useState, useEffect } from "react"
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
 import { LanguageProvider } from "./context/LanguageContext"
 import { AccessibilityProvider } from "./context/AccessibilityContext"
 import { SchemeProvider } from "./context/SchemeContext"
-
 import Navbar from "./components/Navbar"
 import Sidebar from "./layouts/Sidebar"
 import VoiceAssistant from "./components/VoiceAssistant"
-import BuildMetadataFooter from "./components/BuildMetadataFooter"
 import MaintenanceModeBanner from "./components/MaintenanceModeBanner"
+import BuildMetadataFooter from "./components/BuildMetadataFooter"
+import { LayoutDashboard, Search, Bot, FileCheck, User } from "lucide-react"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -25,7 +25,7 @@ import Compare from "./pages/Compare"
 import Applications from "./pages/Applications"
 import Profile from "./pages/Profile"
 import Admin from "./pages/Admin"
-import PartnerPortal from "./pages/PartnerPortal"
+import PartnerPortal from "./partner/PartnerPortalLayout"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
 import TermsOfService from "./pages/TermsOfService"
 import SystemStatus from "./pages/SystemStatus"
@@ -67,14 +67,11 @@ class ErrorBoundary extends React.Component {
               <div className="text-left bg-black/60 p-3 rounded-xl border border-red-500/30 overflow-x-auto max-h-48 text-[11px] font-mono text-red-300">
                 <strong>Error: {this.state.error.name || "Error"}</strong>
                 <p className="mt-1">{this.state.error.message || String(this.state.error)}</p>
-                {this.state.error.stack && (
-                  <pre className="mt-2 text-[9px] text-gray-400 whitespace-pre-wrap">{this.state.error.stack.slice(0, 500)}</pre>
-                )}
               </div>
             )}
             <button
               onClick={this.handleReset}
-              className="w-full py-3 bg-green-500 hover:bg-green-400 text-black font-bold rounded-xl text-xs transition"
+              className="w-full bg-green-500 hover:bg-green-400 text-black font-bold py-3 rounded-xl text-xs transition"
             >
               Reset App Cache & Reload
             </button>
@@ -82,21 +79,21 @@ class ErrorBoundary extends React.Component {
         </div>
       )
     }
-
     return this.props.children
   }
 }
 
 function AppContent() {
-  const location = useLocation()
   const [isVoiceOpen, setIsVoiceOpen] = useState(false)
   const [apiUnavailable, setApiUnavailable] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  // Hide sidebar navigation on initial entry & authentication pages
+  // Hide sidebar on landing and unauthenticated pages
   const hideSidebarRoutes = ["/", "/login", "/register", "/verify-email", "/forgot-password"]
   const showSidebar = !hideSidebarRoutes.includes(location.pathname)
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Lightweight API Startup Health Probe
     fetch(import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, "")}/health` : "http://localhost:8000/health")
       .then(res => {
@@ -105,20 +102,28 @@ function AppContent() {
       .catch(() => setApiUnavailable(true))
   }, [])
 
+  const mobileNavItems = [
+    { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+    { label: "Finder", icon: Search, path: "/finder" },
+    { label: "AI Chat", icon: Bot, path: "/chat" },
+    { label: "Track", icon: FileCheck, path: "/applications" },
+    { label: "Profile", icon: User, path: "/profile" }
+  ]
+
   return (
-    <div className="min-h-screen bg-[#0b1020] text-white flex flex-col font-sans">
+    <div className="min-h-screen bg-[#090d19] text-white flex flex-col font-sans pb-16 md:pb-0">
       <MaintenanceModeBanner isMaintenanceActive={false} />
 
       {/* ⚠️ API UNAVAILABLE BANNER */}
       {apiUnavailable && (
         <div className="bg-red-500/20 border-b border-red-500/40 p-2.5 text-center text-red-300 text-xs font-bold">
-          ⚠️ JanAI services are temporarily unavailable. Please try again in a few minutes.
+          ⚠️ JanAI services are operating in local offline mode.
         </div>
       )}
 
       <Navbar onOpenVoice={() => setIsVoiceOpen(true)} />
 
-      <div className="flex-1 flex max-w-7xl w-full mx-auto">
+      <div className="flex-1 flex max-w-7xl w-full mx-auto relative">
         {showSidebar && <Sidebar />}
 
         <main className="flex-1 p-4 md:p-8 overflow-y-auto">
@@ -144,6 +149,28 @@ function AppContent() {
           </Routes>
         </main>
       </div>
+
+      {/* 📱 MOBILE BOTTOM NAVIGATION BAR (Android & iPhone Native App Bar) */}
+      {showSidebar && (
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0d1326]/95 backdrop-blur-xl border-t border-gray-800 px-2 py-2 flex items-center justify-around text-[10px]">
+          {mobileNavItems.map((item) => {
+            const Icon = item.icon
+            const isActive = location.pathname === item.path
+            return (
+              <button
+                key={item.path}
+                onClick={() => navigate(item.path)}
+                className={`flex flex-col items-center gap-1 px-3 py-1 rounded-xl transition ${
+                  isActive ? "text-green-400 font-extrabold" : "text-gray-400 hover:text-white"
+                }`}
+              >
+                <Icon size={18} className={isActive ? "text-green-400 animate-pulse" : "text-gray-400"} />
+                <span>{item.label}</span>
+              </button>
+            )
+          })}
+        </nav>
+      )}
 
       <VoiceAssistant isOpen={isVoiceOpen} onClose={() => setIsVoiceOpen(false)} />
       <BuildMetadataFooter />
