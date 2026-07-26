@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
 import { LanguageProvider } from "./context/LanguageContext"
 import { AccessibilityProvider } from "./context/AccessibilityContext"
@@ -88,8 +88,13 @@ class ErrorBoundary extends React.Component {
 }
 
 function AppContent() {
+  const location = useLocation()
   const [isVoiceOpen, setIsVoiceOpen] = useState(false)
   const [apiUnavailable, setApiUnavailable] = useState(false)
+
+  // Hide sidebar navigation on initial entry & authentication pages
+  const hideSidebarRoutes = ["/", "/login", "/register", "/verify-email", "/forgot-password"]
+  const showSidebar = !hideSidebarRoutes.includes(location.pathname)
 
   React.useEffect(() => {
     // Lightweight API Startup Health Probe
@@ -114,7 +119,7 @@ function AppContent() {
       <Navbar onOpenVoice={() => setIsVoiceOpen(true)} />
 
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
-        <Sidebar />
+        {showSidebar && <Sidebar />}
 
         <main className="flex-1 p-4 md:p-8 overflow-y-auto">
           <Routes>
