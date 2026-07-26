@@ -1,11 +1,27 @@
 import { useState } from "react"
+import { useAuth } from "../context/AuthContext"
+import { useSchemes } from "../context/SchemeContext"
 
 export default function DocumentVerificationHub() {
-  const [documents, setDocuments] = useState([
-    { id: "doc-901", citizen: "Desvanth", docType: "Income Certificate 2026", issuedBy: "Tahsildar Visakhapatnam", status: "Pending Manager Review", date: "24 Jul 2026" },
-    { id: "doc-902", citizen: "Father", docType: "Pattadar Passbook", issuedBy: "Revenue Dept AP", status: "Pending Manager Review", date: "23 Jul 2026" },
-    { id: "doc-903", citizen: "Pavani (Sister)", docType: "Caste Certificate (OBC)", issuedBy: "MRO Office", status: "Approved ✓", date: "20 Jul 2026" }
-  ])
+  const { user } = useAuth()
+  const { documentWallet } = useSchemes()
+
+  // Dynamically map document wallet items or provide verified citizen documents queue
+  const initialDocs = (documentWallet && documentWallet.length > 0)
+    ? documentWallet.map((doc, i) => ({
+        id: `doc-${901 + i}`,
+        citizen: user?.name || "Desvanth",
+        docType: doc.name,
+        issuedBy: doc.docNumber || "Verified Authority",
+        status: doc.verified ? "Approved ✓" : "Pending Manager Review",
+        date: doc.dateUploaded || "2026-07-26"
+      }))
+    : [
+        { id: "doc-901", citizen: user?.name || "Desvanth", docType: "Income Certificate (₹1.8 Lakh)", issuedBy: "Tahsildar Visakhapatnam", status: "Approved ✓", date: "26 Jul 2026" },
+        { id: "doc-902", citizen: user?.name || "Desvanth", docType: "Aadhaar e-KYC Card", issuedBy: "UIDAI / DigiLocker", status: "Approved ✓", date: "25 Jul 2026" }
+      ]
+
+  const [documents, setDocuments] = useState(initialDocs)
 
   const handleAction = (id, newStatus) => {
     setDocuments(documents.map(d => d.id === id ? { ...d, status: newStatus } : d))
@@ -16,11 +32,11 @@ export default function DocumentVerificationHub() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass p-6 rounded-3xl border border-gray-800">
         <div>
           <h3 className="text-xl font-bold text-white">Citizen Document Verification Hub</h3>
-          <p className="text-gray-400 text-xs">Manager verification workflow for Aadhaar, Income, Caste, and Disability certificates</p>
+          <p className="text-gray-400 text-xs">Manager verification workflow for Aadhaar, Income, Caste, and Educational certificates</p>
         </div>
 
-        <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-3 py-1 rounded-full uppercase">
-          Manager Verification Queue
+        <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-3 py-1 rounded-full uppercase border border-green-500/30">
+          Manager Verification Queue ({documents.length} Records)
         </span>
       </div>
 
@@ -51,7 +67,7 @@ export default function DocumentVerificationHub() {
                   </span>
                 </td>
                 <td className="py-3.5 text-right space-x-2">
-                  {d.status.includes("Pending") && (
+                  {d.status.includes("Pending") ? (
                     <>
                       <button
                         onClick={() => handleAction(d.id, "Approved ✓")}
@@ -66,6 +82,8 @@ export default function DocumentVerificationHub() {
                         Reject
                       </button>
                     </>
+                  ) : (
+                    <span className="text-gray-500 font-bold text-[11px] italic">Verification Complete</span>
                   )}
                 </td>
               </tr>
