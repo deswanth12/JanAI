@@ -2,7 +2,8 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { SCHEMES_DATABASE, SCHEME_CATEGORIES, AUDIENCE_TYPES, STATES_LIST, CASTE_CATEGORIES } from "../api/schemesData"
 import { useSchemes } from "../context/SchemeContext"
-import { Search, Bookmark, BookmarkCheck, ExternalLink, BookOpen, CheckCircle2, FileText } from "lucide-react"
+import PdfFormModal from "../components/PdfFormModal"
+import { Search, Bookmark, BookmarkCheck, ExternalLink, BookOpen, CheckCircle2, FileText, Printer } from "lucide-react"
 
 export default function SchemeFinder() {
   const [searchParams] = useSearchParams()
@@ -16,6 +17,7 @@ export default function SchemeFinder() {
   const [selectedState, setSelectedState] = useState("All India")
   const [selectedCaste, setSelectedCaste] = useState("All")
   const [detailSchemeModal, setDetailSchemeModal] = useState(null)
+  const [pdfSchemeModal, setPdfSchemeModal] = useState(null)
 
   const filteredSchemes = SCHEMES_DATABASE.filter((scheme) => {
     const matchesQuery =
@@ -159,8 +161,15 @@ export default function SchemeFinder() {
                   className="flex-1 min-w-[120px] py-2.5 glass hover:bg-white/10 text-amber-300 font-extrabold rounded-2xl text-xs transition border border-amber-500/30 flex items-center justify-center gap-1.5 shadow-lg"
                   title="Open Official Government Application Form"
                 >
-                  <FileText size={14} className="text-amber-400" /> Official Application Form
+                  <FileText size={14} className="text-amber-400" /> Official Form (Online)
                 </a>
+                <button
+                  onClick={() => setPdfSchemeModal(scheme)}
+                  className="flex-1 min-w-[120px] py-2.5 glass hover:bg-white/10 text-purple-300 font-extrabold rounded-2xl text-xs transition border border-purple-500/30 flex items-center justify-center gap-1.5 shadow-lg"
+                  title="Open Printable Application Form"
+                >
+                  <Printer size={14} className="text-purple-400" /> Printable Form
+                </button>
                 <a
                   href={scheme.officialUrl || "https://india.gov.in"}
                   target="_blank"
@@ -256,6 +265,13 @@ export default function SchemeFinder() {
           </div>
         </div>
       )}
+
+      {/* Printable Official Application Form Modal */}
+      <PdfFormModal
+        scheme={pdfSchemeModal}
+        isOpen={!!pdfSchemeModal}
+        onClose={() => setPdfSchemeModal(null)}
+      />
     </div>
   )
 }
