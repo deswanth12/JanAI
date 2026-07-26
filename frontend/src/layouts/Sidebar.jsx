@@ -32,28 +32,40 @@ export default function Sidebar() {
   ]
 
   return (
-    <aside className="w-64 bg-[#0d1326] border-r border-gray-800 hidden md:flex flex-col p-4 space-y-2 text-xs sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto shrink-0">
-      <div className="px-3 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-        Navigation
+    <aside className="w-64 bg-[#0d1326]/95 backdrop-blur-xl border-r border-gray-800 hidden md:flex flex-col p-4 justify-between text-xs sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto shrink-0 space-y-4">
+      <div className="space-y-1.5">
+        <div className="px-3 py-1.5 text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center justify-between">
+          <span>Navigation</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+        </div>
+        {navItems.map((item) => {
+          const Icon = item.icon
+          const isActive = location.pathname === item.path
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl font-bold transition-all ${
+                isActive
+                  ? "bg-gradient-to-r from-green-500/15 to-blue-500/10 text-white border border-green-500/40 shadow-lg shadow-green-500/10"
+                  : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
+              }`}
+            >
+              <Icon size={16} className={isActive ? "text-green-400" : "text-gray-400"} />
+              <span className="text-xs">{item.label}</span>
+            </button>
+          )
+        })}
       </div>
-      {navItems.map((item) => {
-        const Icon = item.icon
-        const isActive = location.pathname === item.path
-        return (
-          <button
-            key={item.path}
-            onClick={() => navigate(item.path)}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition ${
-              isActive
-                ? "bg-green-500/10 text-green-400 border border-green-500/20 font-bold"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Icon size={16} className={isActive ? "text-green-400" : "text-gray-400"} />
-            <span>{item.label}</span>
-          </button>
-        )
-      })}
+
+      {/* Bottom Citizen Support Quick Card */}
+      <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#131b31] to-[#0e1526] border border-gray-800 space-y-2 text-[11px]">
+        <div className="flex items-center gap-2 text-green-400 font-extrabold text-[10px] uppercase tracking-wider">
+          <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" /> 24/7 Citizen Helpline
+        </div>
+        <p className="text-gray-300 font-bold">Toll-Free: 1800-11-2026</p>
+        <p className="text-[10px] text-gray-400">Regional support in 22 languages</p>
+      </div>
     </aside>
   )
 }

@@ -53,43 +53,45 @@ export default function Dashboard() {
       <GuestModeBanner isGuest={false} />
 
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass p-6 md:p-8 rounded-3xl border border-gray-800">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] bg-green-500/20 text-green-300 font-bold px-3 py-1 rounded-full uppercase">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 glass p-6 md:p-8 rounded-[32px] border border-gray-800/80 bg-gradient-to-r from-[#0d162a] via-[#13203c] to-[#0f1a33] relative overflow-hidden shadow-2xl">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[10px] bg-green-500/20 text-green-300 font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5 border border-green-500/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               India's AI Citizen Assistant v1.0
             </span>
-            <span className="text-[10px] bg-blue-500/20 text-blue-300 font-mono px-2 py-0.5 rounded-full font-bold">
+            <span className="text-[10px] bg-blue-500/20 text-blue-300 font-mono px-2.5 py-1 rounded-full font-bold border border-blue-500/30">
               Active Case ID: JAN-2026-9041
             </span>
           </div>
-          <h1 className="text-3xl font-bold text-white mt-1">
+          <h1 className="text-2xl md:text-4xl font-black text-white tracking-tight mt-2">
             {user.role === "Guest" ? "Welcome, Guest Explorer! 🚀" : `Welcome Back, ${user.name}! 🚀`}
           </h1>
-          <p className="text-xs text-gray-400 mt-1">
+          <p className="text-xs md:text-sm text-gray-300 mt-1 font-medium">
             {user.role === "Guest"
               ? "Exploring government welfare schemes, eligibility rules, and AI guidance in Guest Mode."
-              : `Managing benefits for ${user.name}${familyMembers && familyMembers.length > 0 ? ` and family (${familyMembers.map(m => m.name).join(", ")})` : ""}.`}
+              : `Managing welfare benefits for ${user.name}${familyMembers && familyMembers.length > 0 ? ` and family (${familyMembers.map(m => m.name).join(", ")})` : ""}.`}
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 relative z-10">
           <button
             onClick={() => setShowPreFlightModal(true)}
-            className="glass hover:bg-white/10 text-yellow-400 font-bold px-4 py-3 rounded-2xl text-xs transition flex items-center gap-1.5"
+            className="glass glass-hover text-amber-300 font-bold px-4 py-3 rounded-2xl text-xs transition flex items-center gap-2 border border-amber-500/30 hover:border-amber-400"
           >
-            <ShieldCheck size={16} /> Pre-Flight AI Validator
+            <ShieldCheck size={16} className="text-amber-400" /> Pre-Flight AI Validator
           </button>
 
           <button
             onClick={() => setShowDigiLocker(true)}
-            className="glass hover:bg-white/10 text-blue-400 font-bold px-4 py-3 rounded-2xl text-xs transition flex items-center gap-2"
+            className="glass glass-hover text-blue-300 font-bold px-4 py-3 rounded-2xl text-xs transition flex items-center gap-2 border border-blue-500/30 hover:border-blue-400"
           >
-            <ShieldCheck size={16} /> DigiLocker e-KYC
+            <ShieldCheck size={16} className="text-blue-400" /> DigiLocker e-KYC
           </button>
           <button
             onClick={() => navigate("/finder")}
-            className="bg-green-500 hover:bg-green-400 text-black font-bold px-5 py-3 rounded-2xl text-xs transition flex items-center gap-2 shadow-lg shadow-green-500/20"
+            className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-6 py-3 rounded-2xl text-xs transition flex items-center gap-2 shadow-xl shadow-green-500/25 hover:shadow-green-500/40 hover:scale-[1.02]"
           >
             <Sparkles size={16} /> AI Scheme Finder
           </button>
