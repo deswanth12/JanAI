@@ -14,12 +14,14 @@ import {
   Users,
   User,
   Sparkles,
-  Server
+  Server,
+  LogOut,
+  LogIn
 } from "lucide-react"
 
 export default function Navbar({ onOpenVoice }) {
   const navigate = useNavigate()
-  const { user, familyMembers, activeProfile, setActiveProfile, getCurrentActiveProfileData } = useAuth()
+  const { user, logout, familyMembers, activeProfile, setActiveProfile, getCurrentActiveProfileData } = useAuth()
   const { lang, changeLanguage } = useLanguage()
   const { highContrast, toggleHighContrast, textSize, cycleTextSize } = useAccessibility()
   const [showLangMenu, setShowLangMenu] = useState(false)
@@ -61,24 +63,27 @@ export default function Navbar({ onOpenVoice }) {
           </div>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 bg-[#12182b] border border-gray-800 px-3 py-1.5 rounded-xl text-xs">
-          <Users size={16} className="text-green-400" />
-          <span className="text-gray-400">Active Profile:</span>
-          <select
-            value={activeProfile}
-            onChange={(e) => setActiveProfile(e.target.value)}
-            className="bg-transparent text-white font-medium outline-none cursor-pointer"
-          >
-            <option value="self" className="bg-[#12182b] text-white">
-              {user.name} (Self - {user.occupation})
-            </option>
-            {familyMembers.map((member) => (
-              <option key={member.id} value={member.id} className="bg-[#12182b] text-white">
-                {member.name} ({member.relation} - {member.occupation})
+        {/* Active Profile Selector (Only shown when logged in) */}
+        {user && (
+          <div className="hidden lg:flex items-center gap-2 bg-[#12182b] border border-gray-800 px-3 py-1.5 rounded-xl text-xs">
+            <Users size={16} className="text-green-400" />
+            <span className="text-gray-400">Active Profile:</span>
+            <select
+              value={activeProfile}
+              onChange={(e) => setActiveProfile(e.target.value)}
+              className="bg-transparent text-white font-medium outline-none cursor-pointer"
+            >
+              <option value="self" className="bg-[#12182b] text-white">
+                {user.name} ({user.role || "Self"})
               </option>
-            ))}
-          </select>
-        </div>
+              {familyMembers.map((member) => (
+                <option key={member.id} value={member.id} className="bg-[#12182b] text-white">
+                  {member.name} ({member.relation})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-2 md:gap-3">
@@ -98,7 +103,7 @@ export default function Navbar({ onOpenVoice }) {
           <button
             onClick={() => setShowLangMenu(!showLangMenu)}
             className="glass p-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition flex items-center gap-1.5 text-xs"
-            title="Select 22 Indian Regional Languages or Code-mixed Mode"
+            title="Select 22 Indian Regional Languages"
           >
             <Globe size={18} className="text-blue-400" />
             <span className="hidden md:inline uppercase font-bold">{lang}</span>
@@ -150,43 +155,63 @@ export default function Navbar({ onOpenVoice }) {
           <span className="uppercase text-[10px]">{textSize[0]}</span>
         </button>
 
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2 glass p-1.5 rounded-xl hover:bg-white/10 transition"
-          >
-            <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-black font-bold text-sm">
-              {activeData.name ? activeData.name[0] : "U"}
-            </div>
-          </button>
-
-          {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-56 bg-[#12182b] border border-gray-700 rounded-2xl shadow-2xl p-3 z-50">
-              <div className="border-b border-gray-800 pb-2 mb-2">
-                <p className="font-bold text-sm text-white">{activeData.name}</p>
-                <p className="text-xs text-gray-400">{activeData.occupation} • {user.state}</p>
+        {/* User Account / Profile Controls */}
+        {user ? (
+          <div className="relative">
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center gap-2 glass p-1.5 rounded-xl hover:bg-white/10 transition"
+            >
+              <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center text-black font-bold text-sm">
+                {activeData.name ? activeData.name[0] : "U"}
               </div>
-              <button
-                onClick={() => {
-                  navigate("/profile")
-                  setShowProfileMenu(false)
-                }}
-                className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-gray-200 flex items-center gap-2"
-              >
-                <User size={16} /> Profile & Family Manager
-              </button>
-              <button
-                onClick={() => {
-                  navigate("/admin")
-                  setShowProfileMenu(false)
-                }}
-                className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-green-400 flex items-center gap-2 font-medium"
-              >
-                <Sparkles size={16} /> Admin & MCP Portal
-              </button>
-            </div>
-          )}
-        </div>
+            </button>
+
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-56 bg-[#12182b] border border-gray-700 rounded-2xl shadow-2xl p-3 z-50">
+                <div className="border-b border-gray-800 pb-2 mb-2">
+                  <p className="font-bold text-sm text-white">{activeData.name}</p>
+                  <p className="text-xs text-gray-400">{activeData.occupation || "Citizen"}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    navigate("/profile")
+                    setShowProfileMenu(false)
+                  }}
+                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-gray-200 flex items-center gap-2"
+                >
+                  <User size={16} /> Profile & Family Manager
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/admin")
+                    setShowProfileMenu(false)
+                  }}
+                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-white/10 text-green-400 flex items-center gap-2 font-medium"
+                >
+                  <Sparkles size={16} /> Admin & MCP Portal
+                </button>
+                <button
+                  onClick={() => {
+                    logout()
+                    setShowProfileMenu(false)
+                    navigate("/")
+                  }}
+                  className="w-full text-left p-2 text-xs rounded-xl hover:bg-red-500/20 text-red-400 flex items-center gap-2 font-bold mt-1 border-t border-gray-800 pt-2"
+                >
+                  <LogOut size={16} /> Sign Out
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button
+            onClick={() => navigate("/")}
+            className="bg-green-500 hover:bg-green-400 text-black font-extrabold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition shadow-md"
+          >
+            <LogIn size={15} /> Sign In
+          </button>
+        )}
       </div>
     </header>
   )

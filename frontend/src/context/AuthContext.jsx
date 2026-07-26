@@ -72,13 +72,13 @@ export function AuthProvider({ children }) {
       if (saved && saved !== "undefined") {
         const parsed = JSON.parse(saved)
         if (parsed && typeof parsed === "object") {
-          return { ...DEFAULT_USER, ...parsed, name: parsed.name && parsed.name !== "Deshu" ? parsed.name : "Devanth" }
+          return { ...DEFAULT_USER, ...parsed }
         }
       }
     } catch (err) {
       console.warn("Error parsing janai_user from localStorage:", err)
     }
-    return DEFAULT_USER
+    return null // 🟢 Null by default for new unauthenticated visitors
   })
 
   const [familyMembers, setFamilyMembers] = useState(() => {
@@ -98,7 +98,11 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
-      if (user) localStorage.setItem("janai_user", JSON.stringify(user))
+      if (user) {
+        localStorage.setItem("janai_user", JSON.stringify(user))
+      } else {
+        localStorage.removeItem("janai_user")
+      }
     } catch (e) {
       console.error(e)
     }
@@ -115,11 +119,20 @@ export function AuthProvider({ children }) {
   const login = (userData) => {
     const updated = { ...DEFAULT_USER, ...userData }
     setUser(updated)
-    try {
-      localStorage.setItem("janai_user", JSON.stringify(updated))
-    } catch (e) {
-      console.error(e)
+  }
+
+  const loginAsGuest = () => {
+    const guestUser = {
+      id: `guest-${Date.now()}`,
+      name: "Guest Citizen",
+      email: "guest@janai.in",
+      phone: "+91 9000000000",
+      role: "Guest",
+      occupation: "Citizen",
+      state: "Andhra Pradesh",
+      isVerified: false
     }
+    setUser(guestUser)
   }
 
   const logout = () => {
@@ -150,7 +163,7 @@ export function AuthProvider({ children }) {
   }
 
   const getCurrentActiveProfileData = () => {
-    const currentUser = user || DEFAULT_USER
+    const currentUser = user || { name: "Citizen", occupation: "Visitor" }
     if (activeProfile === "self") return currentUser
     const list = Array.isArray(familyMembers) ? familyMembers : DEFAULT_FAMILY
     const found = list.find(m => m.id === activeProfile)
@@ -158,13 +171,14 @@ export function AuthProvider({ children }) {
   }
 
   const safeFamilyMembers = Array.isArray(familyMembers) ? familyMembers : DEFAULT_FAMILY
-  const safeUser = user && typeof user === "object" ? user : DEFAULT_USER
+  const safeUser = user && typeof user === "object" ? user : null
 
   return (
     <AuthContext.Provider
       value={{
         user: safeUser,
         login,
+        loginAsGuest,
         logout,
         familyMembers: safeFamilyMembers,
         activeProfile: activeProfile || "self",

@@ -16,7 +16,12 @@ import {
 
 export default function Home() {
   const navigate = useNavigate()
-  const { user, login } = useAuth()
+  const { user, login, loginAsGuest } = useAuth()
+
+  const handleGuestExplore = () => {
+    loginAsGuest()
+    navigate("/dashboard")
+  }
 
   // Login Mode: "options" | "email" | "otp"
   const [loginMode, setLoginMode] = useState("options")
@@ -211,7 +216,7 @@ export default function Home() {
 
               <div className="pt-2 border-t border-gray-800">
                 <button
-                  onClick={() => navigate("/finder")}
+                  onClick={handleGuestExplore}
                   className="w-full bg-green-500 hover:bg-green-400 text-black font-extrabold py-3.5 rounded-2xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-green-500/20"
                 >
                   Explore as Guest (No Account Required) <ArrowRight size={16} />
