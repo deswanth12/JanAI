@@ -23,7 +23,7 @@ const DEFAULT_USER = {
   isVerified: true
 }
 
-const DEFAULT_FAMILY = [
+const SAMPLE_DEMO_FAMILY = [
   {
     id: "fam-1",
     relation: "Father",
@@ -86,12 +86,12 @@ export function AuthProvider({ children }) {
       const saved = localStorage.getItem("janai_family")
       if (saved && saved !== "undefined") {
         const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed
+        if (Array.isArray(parsed)) return parsed
       }
     } catch (err) {
       console.warn("Error parsing janai_family from localStorage:", err)
     }
-    return DEFAULT_FAMILY
+    return [] // 🟢 Empty array by default for new users (no hardcoded family)
   })
 
   const [activeProfile, setActiveProfile] = useState("self")
@@ -110,7 +110,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
-      if (familyMembers) localStorage.setItem("janai_family", JSON.stringify(familyMembers))
+      if (familyMembers) {
+        localStorage.setItem("janai_family", JSON.stringify(familyMembers))
+      }
     } catch (e) {
       console.error(e)
     }
@@ -133,12 +135,19 @@ export function AuthProvider({ children }) {
       isVerified: false
     }
     setUser(guestUser)
+    setFamilyMembers([]) // Clean empty family for guest users
+  }
+
+  const loadDemoFamily = () => {
+    setFamilyMembers(SAMPLE_DEMO_FAMILY)
   }
 
   const logout = () => {
     setUser(null)
+    setFamilyMembers([])
     try {
       localStorage.removeItem("janai_user")
+      localStorage.removeItem("janai_family")
       localStorage.removeItem("janai_tokens")
     } catch (e) {
       console.error(e)
@@ -151,26 +160,26 @@ export function AuthProvider({ children }) {
 
   const addFamilyMember = (member) => {
     const newMem = { id: `fam-${Date.now()}`, ...member }
-    setFamilyMembers(prev => [...(Array.isArray(prev) ? prev : DEFAULT_FAMILY), newMem])
+    setFamilyMembers(prev => [...(Array.isArray(prev) ? prev : []), newMem])
   }
 
   const updateFamilyMember = (id, updatedFields) => {
-    setFamilyMembers(prev => (Array.isArray(prev) ? prev : DEFAULT_FAMILY).map(m => (m.id === id ? { ...m, ...updatedFields } : m)))
+    setFamilyMembers(prev => (Array.isArray(prev) ? prev : []).map(m => (m.id === id ? { ...m, ...updatedFields } : m)))
   }
 
   const removeFamilyMember = (id) => {
-    setFamilyMembers(prev => (Array.isArray(prev) ? prev : DEFAULT_FAMILY).filter(m => m.id !== id))
+    setFamilyMembers(prev => (Array.isArray(prev) ? prev : []).filter(m => m.id !== id))
   }
 
   const getCurrentActiveProfileData = () => {
     const currentUser = user || { name: "Citizen", occupation: "Visitor" }
     if (activeProfile === "self") return currentUser
-    const list = Array.isArray(familyMembers) ? familyMembers : DEFAULT_FAMILY
+    const list = Array.isArray(familyMembers) ? familyMembers : []
     const found = list.find(m => m.id === activeProfile)
     return found || currentUser
   }
 
-  const safeFamilyMembers = Array.isArray(familyMembers) ? familyMembers : DEFAULT_FAMILY
+  const safeFamilyMembers = Array.isArray(familyMembers) ? familyMembers : []
   const safeUser = user && typeof user === "object" ? user : null
 
   return (
@@ -179,6 +188,7 @@ export function AuthProvider({ children }) {
         user: safeUser,
         login,
         loginAsGuest,
+        loadDemoFamily,
         logout,
         familyMembers: safeFamilyMembers,
         activeProfile: activeProfile || "self",
