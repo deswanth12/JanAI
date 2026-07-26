@@ -112,6 +112,26 @@ export function AuthProvider({ children }) {
     }
   }, [familyMembers])
 
+  const login = (userData) => {
+    const updated = { ...DEFAULT_USER, ...userData }
+    setUser(updated)
+    try {
+      localStorage.setItem("janai_user", JSON.stringify(updated))
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const logout = () => {
+    setUser(null)
+    try {
+      localStorage.removeItem("janai_user")
+      localStorage.removeItem("janai_tokens")
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const updateUserProfile = (updatedFields) => {
     setUser(prev => ({ ...(prev || DEFAULT_USER), ...updatedFields }))
   }
@@ -144,6 +164,8 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user: safeUser,
+        login,
+        logout,
         familyMembers: safeFamilyMembers,
         activeProfile: activeProfile || "self",
         setActiveProfile,
