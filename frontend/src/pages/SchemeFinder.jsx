@@ -2,7 +2,8 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { SCHEMES_DATABASE, SCHEME_CATEGORIES, AUDIENCE_TYPES, STATES_LIST, CASTE_CATEGORIES } from "../api/schemesData"
 import { useSchemes } from "../context/SchemeContext"
-import { Search, Bookmark, BookmarkCheck, ExternalLink, BookOpen, CheckCircle2 } from "lucide-react"
+import PdfFormModal from "../components/PdfFormModal"
+import { Search, Bookmark, BookmarkCheck, ExternalLink, BookOpen, CheckCircle2, FileText } from "lucide-react"
 
 export default function SchemeFinder() {
   const [searchParams] = useSearchParams()
@@ -16,6 +17,7 @@ export default function SchemeFinder() {
   const [selectedState, setSelectedState] = useState("All India")
   const [selectedCaste, setSelectedCaste] = useState("All")
   const [detailSchemeModal, setDetailSchemeModal] = useState(null)
+  const [pdfSchemeModal, setPdfSchemeModal] = useState(null)
 
   const filteredSchemes = SCHEMES_DATABASE.filter((scheme) => {
     const matchesQuery =
@@ -41,7 +43,7 @@ export default function SchemeFinder() {
           </span>
           <h1 className="text-2xl md:text-3xl font-black text-white mt-2">AI Scheme Finder & Application Guidance</h1>
           <p className="text-gray-400 text-xs">
-            Find eligible welfare schemes grounded in official government gazette rules, learn step-by-step application steps, and open official portals.
+            Find eligible welfare schemes grounded in official government gazette rules, download printable PDF application forms, and open official portals.
           </p>
         </div>
 
@@ -144,22 +146,29 @@ export default function SchemeFinder() {
                 </div>
               </div>
 
-              {/* Action Buttons: 1. How to Apply Guide | 2. Official Govt Portal */}
-              <div className="flex items-center gap-2 pt-2 border-t border-gray-800">
+              {/* Action Buttons: 1. How to Apply | 2. Printable PDF Form | 3. Official Govt Portal */}
+              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-800">
                 <button
                   onClick={() => setDetailSchemeModal(scheme)}
-                  className="flex-1 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 font-extrabold rounded-2xl text-xs transition border border-green-500/40 flex items-center justify-center gap-1.5 shadow-lg"
+                  className="flex-1 min-w-[120px] py-2.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 font-extrabold rounded-2xl text-xs transition border border-green-500/40 flex items-center justify-center gap-1.5 shadow-lg"
                 >
-                  <BookOpen size={15} /> How to Apply Guide
+                  <BookOpen size={14} /> How to Apply
+                </button>
+                <button
+                  onClick={() => setPdfSchemeModal(scheme)}
+                  className="flex-1 min-w-[120px] py-2.5 glass hover:bg-white/10 text-amber-300 font-extrabold rounded-2xl text-xs transition border border-amber-500/30 flex items-center justify-center gap-1.5 shadow-lg"
+                  title="Print / Save Official Application Form PDF"
+                >
+                  <FileText size={14} className="text-amber-400" /> Printable Form PDF
                 </button>
                 <a
                   href={scheme.officialUrl || "https://india.gov.in"}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
+                  className="flex-1 min-w-[120px] py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
                   title="Open Official Government Application Portal"
                 >
-                  <ExternalLink size={15} /> Official Govt Portal
+                  <ExternalLink size={14} /> Govt Portal
                 </a>
               </div>
             </div>
@@ -225,13 +234,17 @@ export default function SchemeFinder() {
               </ul>
             </div>
 
-            {/* Modal Bottom Action Button: Go to Official Government Website */}
+            {/* Modal Bottom Action Buttons */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-end gap-3 border-t border-gray-800">
               <button
-                onClick={() => setDetailSchemeModal(null)}
-                className="w-full sm:w-auto px-5 py-2.5 glass rounded-xl text-xs text-gray-300 font-bold hover:text-white"
+                onClick={() => {
+                  const s = detailSchemeModal
+                  setDetailSchemeModal(null)
+                  setPdfSchemeModal(s)
+                }}
+                className="w-full sm:w-auto px-5 py-3 glass hover:bg-white/10 text-amber-300 font-extrabold rounded-2xl text-xs flex items-center justify-center gap-1.5 border border-amber-500/30"
               >
-                Close Guide
+                <FileText size={15} /> Printable Form PDF
               </button>
               <a
                 href={detailSchemeModal.officialUrl || "https://india.gov.in"}
@@ -239,12 +252,19 @@ export default function SchemeFinder() {
                 rel="noreferrer"
                 className="w-full sm:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs flex items-center justify-center gap-2 shadow-xl shadow-blue-600/30 transition"
               >
-                <ExternalLink size={16} /> Open Official Government Portal ↗
+                <ExternalLink size={16} /> Open Official Govt Portal ↗
               </a>
             </div>
           </div>
         </div>
       )}
+
+      {/* Printable PDF Application Form Modal */}
+      <PdfFormModal
+        scheme={pdfSchemeModal}
+        isOpen={!!pdfSchemeModal}
+        onClose={() => setPdfSchemeModal(null)}
+      />
     </div>
   )
 }
