@@ -181,22 +181,30 @@ export default function Profile() {
           <Lock size={20} className="text-yellow-400" /> Verified Document Wallet ({documentWallet.length} Files)
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {documentWallet.map((doc) => (
-            <div key={doc.id} className="bg-[#12182b] p-4 rounded-2xl border border-gray-800 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-3">
-                <FileText size={24} className="text-green-400" />
-                <div>
-                  <h4 className="font-bold text-white">{doc.name}</h4>
-                  <p className="text-gray-400 font-mono text-[11px]">{doc.docNumber}</p>
+        {documentWallet.length === 0 ? (
+          <div className="bg-[#12182b] p-8 rounded-2xl border border-dashed border-gray-800 text-center space-y-2">
+            <FileText size={32} className="text-gray-500 mx-auto" />
+            <p className="text-gray-300 font-bold text-xs">No Verified Documents Uploaded Yet</p>
+            <p className="text-gray-500 text-[11px]">Upload your Aadhaar, Income, or Caste certificate above using the OCR Scanner to add them to your wallet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {documentWallet.map((doc) => (
+              <div key={doc.id} className="bg-[#12182b] p-4 rounded-2xl border border-gray-800 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-3">
+                  <FileText size={24} className="text-green-400" />
+                  <div>
+                    <h4 className="font-bold text-white">{doc.name}</h4>
+                    <p className="text-gray-400 font-mono text-[11px]">{doc.docNumber}</p>
+                  </div>
                 </div>
+                <span className="bg-green-500/20 text-green-400 px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1">
+                  <CheckCircle2 size={12} /> Verified
+                </span>
               </div>
-              <span className="bg-green-500/20 text-green-400 px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1">
-                <CheckCircle2 size={12} /> Verified
-              </span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <FamilyModal isOpen={showFamilyModal} onClose={() => setShowFamilyModal(false)} />

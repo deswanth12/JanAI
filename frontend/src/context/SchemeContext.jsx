@@ -41,7 +41,7 @@ export function SchemeProvider({ children }) {
     } catch (e) {
       console.warn("Error parsing janai_saved_schemes:", e)
     }
-    return [] // 🟢 Empty by default for new users
+    return []
   })
 
   const [applications, setApplications] = useState(() => {
@@ -54,7 +54,7 @@ export function SchemeProvider({ children }) {
     } catch (e) {
       console.warn("Error parsing janai_applications:", e)
     }
-    return [] // 🟢 Empty by default for new users
+    return []
   })
 
   const [documentWallet, setDocumentWallet] = useState(() => {
@@ -62,7 +62,11 @@ export function SchemeProvider({ children }) {
       const saved = localStorage.getItem("janai_documents")
       if (saved && saved !== "undefined") {
         const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed)) return parsed
+        if (Array.isArray(parsed)) {
+          // 🟢 Filter out old hardcoded demo documents (doc-1, doc-2, etc) so only user-uploaded documents show!
+          const isOldDemo = parsed.some(d => d.id === "doc-1" || d.id === "doc-2" || d.id === "doc-3" || d.id === "doc-4")
+          if (!isOldDemo) return parsed
+        }
       }
     } catch (e) {
       console.warn("Error parsing janai_documents:", e)
