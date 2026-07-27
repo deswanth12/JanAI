@@ -11,7 +11,7 @@ export default function UserManagement() {
     {
       id: "user-1",
       name: user?.name || "Desvanth",
-      email: user?.email || "deswanth12@gmail.com",
+      email: user?.email || "citizen@janai.in",
       phone: user?.phone || "+91 7702256073",
       role: user?.role || "Citizen",
       state: user?.state || "Andhra Pradesh",

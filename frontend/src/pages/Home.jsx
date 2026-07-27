@@ -319,18 +319,18 @@ export default function Home() {
             </p>
 
             <div className="space-y-2">
-              {/* Account Option 1: Desvanth */}
+              {/* Account Option 1: Student Citizen */}
               <button
-                onClick={() => handleSelectGoogleAccount("deswanth12@gmail.com", "Desvanth")}
+                onClick={() => handleSelectGoogleAccount("student.citizen@gmail.com", "Student Citizen")}
                 className="w-full text-left p-3.5 rounded-2xl bg-[#1b2338] hover:bg-white/10 border border-gray-700 transition flex items-center justify-between group"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm">
-                    D
+                    S
                   </div>
                   <div>
-                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Desvanth</p>
-                    <p className="text-[11px] text-gray-400">deswanth12@gmail.com</p>
+                    <p className="font-bold text-white text-xs group-hover:text-green-400 transition">Student Citizen</p>
+                    <p className="text-[11px] text-gray-400">student.citizen@gmail.com</p>
                   </div>
                 </div>
                 <UserCheck size={16} className="text-green-400 opacity-0 group-hover:opacity-100 transition" />
