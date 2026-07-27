@@ -49,7 +49,10 @@ export default function NotificationCenter() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 md:w-96 bg-[#12182b] border border-gray-700 rounded-3xl shadow-2xl p-4 z-50 space-y-4">
+        <>
+          {/* Mobile backdrop */}
+          <div className="fixed inset-0 bg-black/60 z-40 md:hidden" onClick={() => setIsOpen(false)} />
+          <div className="fixed inset-x-3 top-16 bottom-auto md:absolute md:right-0 md:left-auto md:top-auto md:mt-2 w-auto md:w-96 bg-[#12182b] border border-gray-700 rounded-3xl shadow-2xl p-4 z-50 space-y-4 max-h-[80vh] overflow-y-auto">
           <div className="flex items-center justify-between border-b border-gray-800 pb-2">
             <h4 className="font-bold text-sm text-white flex items-center gap-2">
               <Bell size={16} className="text-yellow-400" /> WhatsApp & SMS Alert Center
@@ -117,6 +120,7 @@ export default function NotificationCenter() {
             )}
           </div>
         </div>
+        </>
       )}
     </div>
   )

@@ -146,38 +146,38 @@ export default function SchemeFinder() {
                 </div>
               </div>
 
-              {/* Action Buttons: 1. How to Apply | 2. Printable PDF Form | 3. Official Govt Portal */}
-              <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-800">
+              {/* Action Buttons: 1. How to Apply | 2. Official Form | 3. Printable | 4. Govt Portal */}
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gray-800">
                 <button
                   onClick={() => setDetailSchemeModal(scheme)}
-                  className="flex-1 min-w-[120px] py-2.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 font-extrabold rounded-2xl text-xs transition border border-green-500/40 flex items-center justify-center gap-1.5 shadow-lg"
+                  className="py-2.5 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 text-green-300 font-bold rounded-2xl text-[11px] transition border border-green-500/40 flex items-center justify-center gap-1.5"
                 >
-                  <BookOpen size={14} /> How to Apply
+                  <BookOpen size={13} /> How to Apply
                 </button>
                 <a
                   href={scheme.officialFormUrl || scheme.officialUrl || "https://india.gov.in"}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 min-w-[120px] py-2.5 glass hover:bg-white/10 text-amber-300 font-extrabold rounded-2xl text-xs transition border border-amber-500/30 flex items-center justify-center gap-1.5 shadow-lg"
+                  className="py-2.5 glass hover:bg-white/10 text-amber-300 font-bold rounded-2xl text-[11px] transition border border-amber-500/30 flex items-center justify-center gap-1.5"
                   title="Open Official Government Application Form"
                 >
-                  <FileText size={14} className="text-amber-400" /> Official Form (Online)
+                  <FileText size={13} className="text-amber-400" /> Official Form
                 </a>
                 <button
                   onClick={() => setPdfSchemeModal(scheme)}
-                  className="flex-1 min-w-[120px] py-2.5 glass hover:bg-white/10 text-purple-300 font-extrabold rounded-2xl text-xs transition border border-purple-500/30 flex items-center justify-center gap-1.5 shadow-lg"
+                  className="py-2.5 glass hover:bg-white/10 text-purple-300 font-bold rounded-2xl text-[11px] transition border border-purple-500/30 flex items-center justify-center gap-1.5"
                   title="Open Printable Application Form"
                 >
-                  <Printer size={14} className="text-purple-400" /> Printable Form
+                  <Printer size={13} className="text-purple-400" /> Printable Form
                 </button>
                 <a
                   href={scheme.officialUrl || "https://india.gov.in"}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 min-w-[120px] py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-extrabold rounded-2xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
+                  className="py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl text-[11px] transition flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
                   title="Open Official Government Application Portal"
                 >
-                  <ExternalLink size={14} /> Govt Portal
+                  <ExternalLink size={13} /> Govt Portal
                 </a>
               </div>
             </div>
