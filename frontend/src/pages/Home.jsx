@@ -100,7 +100,7 @@ export default function Home() {
     const name = selectedName || selectedEmail.split("@")[0].charAt(0).toUpperCase() + selectedEmail.split("@")[0].slice(1)
     login({ email: selectedEmail, name, role: "Citizen" })
     setShowGoogleModal(false)
-    navigate("/dashboard")
+    navigate("/complete-profile")
   }
 
   const handleCustomGoogleSubmit = (e) => {

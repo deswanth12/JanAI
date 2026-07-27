@@ -26,7 +26,7 @@ export default function Login() {
       annualIncome,
       isVerified: true
     })
-    navigate("/dashboard")
+    navigate("/complete-profile")
   }
 
   const handlePhoneSubmit = (e) => {
@@ -41,7 +41,7 @@ export default function Login() {
         annualIncome,
         isVerified: true
       })
-      navigate("/dashboard")
+      navigate("/complete-profile")
     }
   }
 
@@ -54,7 +54,7 @@ export default function Login() {
       annualIncome,
       isVerified: true
     })
-    navigate("/dashboard")
+    navigate("/complete-profile")
   }
 
   return (
