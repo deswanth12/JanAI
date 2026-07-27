@@ -29,6 +29,7 @@ import PartnerPortal from "./partner/PartnerPortalLayout"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
 import TermsOfService from "./pages/TermsOfService"
 import SystemStatus from "./pages/SystemStatus"
+import GovOfficeLocator from "./pages/GovOfficeLocator"
 
 // React Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -146,6 +147,7 @@ function AppContent() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/status" element={<SystemStatus />} />
+            <Route path="/offices" element={<GovOfficeLocator />} />
           </Routes>
         </main>
       </div>

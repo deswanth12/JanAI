@@ -14,7 +14,8 @@ import {
   ShieldCheck,
   BookOpen,
   Shield,
-  Activity
+  Activity,
+  Landmark
 } from "lucide-react"
 
 export default function Sidebar() {
@@ -34,7 +35,8 @@ export default function Sidebar() {
     { label: t("navChat"), icon: Bot, path: "/chat" },
     { label: t("navCompare"), icon: Scale, path: "/compare" },
     { label: t("navApplications"), icon: FileCheck, path: "/applications" },
-    { label: t("navProfile"), icon: User, path: "/profile" }
+    { label: t("navProfile"), icon: User, path: "/profile" },
+    { label: "Govt Office Locator", icon: Landmark, path: "/offices" }
   ]
 
   const governanceServices = [
