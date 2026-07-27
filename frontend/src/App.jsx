@@ -30,6 +30,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy"
 import TermsOfService from "./pages/TermsOfService"
 import SystemStatus from "./pages/SystemStatus"
 import GovOfficeLocator from "./pages/GovOfficeLocator"
+import SecurityPrivacy from "./pages/SecurityPrivacy"
 
 // React Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -148,6 +149,7 @@ function AppContent() {
             <Route path="/terms" element={<TermsOfService />} />
             <Route path="/status" element={<SystemStatus />} />
             <Route path="/offices" element={<GovOfficeLocator />} />
+            <Route path="/security" element={<SecurityPrivacy />} />
           </Routes>
         </main>
       </div>

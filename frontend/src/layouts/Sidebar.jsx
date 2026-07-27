@@ -41,7 +41,7 @@ export default function Sidebar() {
 
   const governanceServices = [
     { label: "Official Gazette Rules", icon: BookOpen, path: "/status" },
-    { label: "Privacy & Data Rights", icon: Shield, path: "/privacy" },
+    { label: "Security & Crypto Ledger", icon: Shield, path: "/security" },
     { label: "System Health & SLA", icon: Activity, path: "/status" },
     ...(isPartnerRole ? [{ label: "Partner Portal", icon: Building2, path: "/partner" }] : []),
     ...(isElevatedAdmin ? [{ label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }] : [])
