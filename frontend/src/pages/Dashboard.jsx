@@ -98,8 +98,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Data Freshness Engine */}
-      <DataFreshnessEngine />
+      {/* Data Freshness Engine (Admin / Nodal Officer Only — Hidden from Regular Public Citizens) */}
+      {(user?.role === "System Admin" || user?.role === "Super Admin" || user?.role === "CEO" || user?.role === "Admin" || user?.role === "Nodal Officer") && (
+        <DataFreshnessEngine />
+      )}
 
       {/* Official Source Grounded Disclaimer Banner */}
       <div className="p-3.5 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-between gap-3 text-xs text-blue-300">
