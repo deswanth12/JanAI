@@ -112,7 +112,7 @@ export default function Navbar({ onOpenVoice }) {
           </button>
 
           {showLangMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-[#12182b] border border-gray-800 rounded-2xl shadow-2xl z-50 p-1.5 space-y-1 text-xs">
+            <div className="absolute right-0 mt-2 w-56 max-h-80 overflow-y-auto bg-[#12182b] border border-gray-800 rounded-2xl shadow-2xl z-50 p-1.5 space-y-1 text-xs">
               {LANGUAGES_LIST.map((l) => (
                 <button
                   key={l.code}
