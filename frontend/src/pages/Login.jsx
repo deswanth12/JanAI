@@ -1,240 +1,264 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
-import { Mail, Phone, Lock, Sparkles, ArrowRight, Briefcase, IndianRupee } from "lucide-react"
+import { STATES_LIST, CASTE_CATEGORIES } from "../api/schemesData"
+import { Sparkles, Mail, Lock, User, Phone, Briefcase, IndianRupee, MapPin, ArrowRight } from "lucide-react"
 
 export default function Login() {
   const navigate = useNavigate()
   const { updateUserProfile } = useAuth()
-  const [authMethod, setAuthMethod] = useState("email")
-  const [email, setEmail] = useState("desvanth@gmail.com")
-  const [password, setPassword] = useState("••••••••")
-  const [phone, setPhone] = useState("7702256073")
-  const [otp, setOtp] = useState("")
-  const [otpSent, setOtpSent] = useState(false)
 
-  // Basic profile details on login
-  const [occupation, setOccupation] = useState("Student")
-  const [annualIncome, setAnnualIncome] = useState("180000")
+  const [formData, setFormData] = useState({
+    full_name: "Desvanth",
+    email: "desvanth@gmail.com",
+    phone: "7702256073",
+    password: "••••••••",
+    occupation: "Student",
+    annualIncome: "180000",
+    state: "Andhra Pradesh",
+    district: "Visakhapatnam",
+    caste: "OBC",
+    age: "21"
+  })
 
-  const handleEmailSubmit = (e) => {
+  const [error, setError] = useState("")
+
+  const handleLoginSubmit = (e) => {
     e.preventDefault()
+    if (!formData.full_name || !formData.email || !formData.password) {
+      setError("Full Name, Email, and Password are required.")
+      return
+    }
+    setError("")
+    // Save basic profile details to user context
     updateUserProfile({
-      email,
-      occupation,
-      role: occupation,
-      annualIncome,
+      name: formData.full_name,
+      email: formData.email,
+      phone: formData.phone ? `+91 ${formData.phone}` : "+91 7702256073",
+      occupation: formData.occupation,
+      role: formData.occupation,
+      annualIncome: formData.annualIncome,
+      state: formData.state,
+      district: formData.district,
+      caste: formData.caste,
+      age: parseInt(formData.age, 10) || 21,
       isVerified: true
     })
-    navigate("/complete-profile")
-  }
 
-  const handlePhoneSubmit = (e) => {
-    e.preventDefault()
-    if (!otpSent) {
-      setOtpSent(true)
-    } else {
-      updateUserProfile({
-        phone: `+91 ${phone}`,
-        occupation,
-        role: occupation,
-        annualIncome,
-        isVerified: true
-      })
-      navigate("/complete-profile")
-    }
+    navigate("/dashboard")
   }
 
   const handleGoogleLogin = () => {
     updateUserProfile({
-      name: "Desvanth (Google Workspace)",
-      email: "desvanth.google@gmail.com",
-      occupation,
-      role: occupation,
-      annualIncome,
+      name: formData.full_name || "Desvanth",
+      email: formData.email || "desvanth@gmail.com",
+      phone: "+91 7702256073",
+      occupation: formData.occupation,
+      role: formData.occupation,
+      annualIncome: formData.annualIncome,
+      state: formData.state,
+      district: formData.district,
+      caste: formData.caste,
       isVerified: true
     })
-    navigate("/complete-profile")
+    navigate("/dashboard")
   }
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-10 px-4">
-      <div className="bg-[#12182b] border border-gray-800 w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-5 text-xs">
-        {/* Brand Header */}
+    <div className="min-h-[85vh] flex items-center justify-center p-4 py-8">
+      <div className="bg-[#12182b] border border-gray-800 w-full max-w-xl rounded-3xl p-6 md:p-8 shadow-2xl space-y-6 text-xs relative overflow-hidden">
         <div className="text-center space-y-2">
           <img
             src="/janai-logo.jpg"
             alt="JanAI - AI Powered Citizen First Logo"
             className="h-16 w-auto rounded-xl object-contain mx-auto border border-gray-700 bg-white p-0.5"
           />
-          <h1 className="text-2xl font-bold text-white mt-1">Welcome Back to JanAI</h1>
-          <p className="text-xs text-gray-400">Sign in to access eligible government schemes & live tracking</p>
+          <h2 className="text-2xl font-bold text-white mt-1">Sign In to Your Citizen Account</h2>
+          <p className="text-gray-400 text-xs">Enter your basic profile details for instant AI scheme eligibility matching</p>
         </div>
 
-        {/* Method Selector */}
-        <div className="flex bg-[#1b2338] p-1 rounded-2xl border border-gray-800 text-xs font-semibold">
-          <button
-            onClick={() => { setAuthMethod("email"); setOtpSent(false); }}
-            className={`flex-1 py-2 rounded-xl transition ${authMethod === "email" ? "bg-green-500 text-black font-bold" : "text-gray-400 hover:text-white"}`}
-          >
-            Email Login
-          </button>
-          <button
-            onClick={() => { setAuthMethod("phone"); setOtpSent(false); }}
-            className={`flex-1 py-2 rounded-xl transition ${authMethod === "phone" ? "bg-green-500 text-black font-bold" : "text-gray-400 hover:text-white"}`}
-          >
-            Mobile OTP
-          </button>
-        </div>
-
-        {/* Basic Eligibility Profile (Role & Family Income) */}
-        <div className="p-3 bg-[#1b2338] border border-blue-500/30 rounded-2xl space-y-2">
-          <div className="flex items-center gap-1.5 text-blue-300 font-bold text-[11px]">
-            <Sparkles size={14} className="text-blue-400" />
-            <span>Select Citizen Role & Income (For AI Scheme Matching)</span>
+        {error && (
+          <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 font-medium">
+            {error}
           </div>
+        )}
 
-          <div className="grid grid-cols-2 gap-2">
+        <form onSubmit={handleLoginSubmit} className="space-y-4">
+          {/* Personal Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-[10px] text-gray-400 font-semibold block mb-1">Primary Role</label>
-              <div className="glass p-1.5 rounded-xl flex items-center gap-1.5 border border-gray-700">
-                <Briefcase size={13} className="text-green-400 shrink-0" />
-                <select
-                  value={occupation}
-                  onChange={(e) => setOccupation(e.target.value)}
-                  className="w-full bg-transparent text-white text-[11px] outline-none cursor-pointer"
-                >
-                  <option value="Student" className="bg-[#12182b]">Student 🎓</option>
-                  <option value="Farmer" className="bg-[#12182b]">Farmer 🌾</option>
-                  <option value="Senior Citizen" className="bg-[#12182b]">Senior Citizen (60+) 👴</option>
-                  <option value="Women Entrepreneur" className="bg-[#12182b]">Women / Homemaker 👩</option>
-                  <option value="MSME" className="bg-[#12182b]">MSME / Business 🏬</option>
-                  <option value="Self-Employed" className="bg-[#12182b]">Self-Employed 💻</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="text-[10px] text-gray-400 font-semibold block mb-1">Family Income (₹)</label>
-              <div className="glass p-1.5 rounded-xl flex items-center gap-1.5 border border-gray-700">
-                <IndianRupee size={13} className="text-amber-400 shrink-0" />
+              <label className="text-gray-400 block mb-1 font-semibold">Full Name</label>
+              <div className="glass p-2.5 rounded-xl flex items-center gap-2 border border-gray-700">
+                <User size={15} className="text-gray-400 shrink-0" />
                 <input
-                  type="number"
+                  type="text"
                   required
-                  value={annualIncome}
-                  onChange={(e) => setAnnualIncome(e.target.value)}
-                  className="w-full bg-transparent text-white text-[11px] outline-none font-mono"
+                  placeholder="e.g. Desvanth"
+                  value={formData.full_name}
+                  onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
+                  className="w-full bg-transparent text-white outline-none"
                 />
               </div>
             </div>
-          </div>
-        </div>
 
-        {authMethod === "email" && (
-          <form onSubmit={handleEmailSubmit} className="space-y-4">
             <div>
-              <label className="text-xs text-gray-400 font-semibold">Email Address</label>
-              <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-2.5 rounded-xl mt-1 text-xs">
-                <Mail size={16} className="text-gray-400" />
+              <label className="text-gray-400 block mb-1 font-semibold">Email Address</label>
+              <div className="glass p-2.5 rounded-xl flex items-center gap-2 border border-gray-700">
+                <Mail size={15} className="text-gray-400 shrink-0" />
                 <input
                   type="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-transparent text-white outline-none w-full"
+                  placeholder="desvanth@gmail.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-transparent text-white outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="text-gray-400 block mb-1 font-semibold">Mobile Number (+91)</label>
+              <div className="glass p-2.5 rounded-xl flex items-center gap-2 border border-gray-700">
+                <Phone size={15} className="text-gray-400 shrink-0" />
+                <input
+                  type="tel"
+                  placeholder="7702256073"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full bg-transparent text-white outline-none"
                 />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between items-center">
-                <label className="text-xs text-gray-400 font-semibold">Password</label>
-                <button
-                  type="button"
-                  onClick={() => navigate("/forgot-password")}
-                  className="text-[11px] text-yellow-400 hover:underline font-semibold"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-              <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-2.5 rounded-xl mt-1 text-xs">
-                <Lock size={16} className="text-gray-400" />
+              <label className="text-gray-400 block mb-1 font-semibold">Password</label>
+              <div className="glass p-2.5 rounded-xl flex items-center gap-2 border border-gray-700">
+                <Lock size={15} className="text-gray-400 shrink-0" />
                 <input
                   type="password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-transparent text-white outline-none w-full"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full bg-transparent text-white outline-none"
                 />
               </div>
             </div>
+          </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-400 hover:opacity-90 text-black font-extrabold rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2"
-            >
-              Sign In & Launch Dashboard <ArrowRight size={14} />
-            </button>
-          </form>
-        )}
-
-        {authMethod === "phone" && (
-          <form onSubmit={handlePhoneSubmit} className="space-y-4">
-            <div>
-              <label className="text-xs text-gray-400 font-semibold">Indian Mobile Number (+91)</label>
-              <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-2.5 rounded-xl mt-1 text-xs">
-                <Phone size={16} className="text-gray-400" />
-                <input
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="bg-transparent text-white outline-none w-full font-mono"
-                />
-              </div>
+          {/* Key Eligibility Details Required for Scheme Matching */}
+          <div className="p-4 bg-[#1b2338] border border-blue-500/30 rounded-2xl space-y-3">
+            <div className="flex items-center gap-2 text-blue-300 font-bold text-xs">
+              <Sparkles size={15} className="text-blue-400" />
+              <span>Basic Eligibility Profile (Required for AI Matching)</span>
             </div>
 
-            {otpSent && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-gray-400 font-semibold">Enter 6-Digit OTP</label>
-                <div className="flex items-center gap-2 bg-[#1b2338] border border-gray-700 px-3 py-2.5 rounded-xl mt-1 text-xs">
-                  <Sparkles size={16} className="text-green-400" />
+                <label className="text-gray-400 block mb-1 font-semibold">Primary Role / Occupation</label>
+                <div className="glass p-2 rounded-xl flex items-center gap-2 border border-gray-700">
+                  <Briefcase size={15} className="text-green-400 shrink-0" />
+                  <select
+                    value={formData.occupation}
+                    onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
+                    className="w-full bg-transparent text-white outline-none cursor-pointer"
+                  >
+                    <option value="Student" className="bg-[#12182b]">Student 🎓</option>
+                    <option value="Farmer" className="bg-[#12182b]">Farmer 🌾</option>
+                    <option value="Senior Citizen" className="bg-[#12182b]">Senior Citizen (60+) 👴</option>
+                    <option value="Women Entrepreneur" className="bg-[#12182b]">Women Entrepreneur / Homemaker 👩</option>
+                    <option value="MSME" className="bg-[#12182b]">MSME / Business Owner 🏬</option>
+                    <option value="Self-Employed" className="bg-[#12182b]">Self-Employed / Freelancer 💻</option>
+                    <option value="Unemployed" className="bg-[#12182b]">Unemployed Youth 👤</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-gray-400 block mb-1 font-semibold">Annual Family Income (₹)</label>
+                <div className="glass p-2 rounded-xl flex items-center gap-2 border border-gray-700">
+                  <IndianRupee size={15} className="text-amber-400 shrink-0" />
                   <input
-                    type="text"
+                    type="number"
                     required
-                    placeholder="904128"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    className="bg-transparent text-white outline-none w-full font-mono tracking-widest text-center text-sm"
+                    placeholder="e.g. 180000"
+                    value={formData.annualIncome}
+                    onChange={(e) => setFormData({ ...formData, annualIncome: e.target.value })}
+                    className="w-full bg-transparent text-white outline-none font-mono"
                   />
                 </div>
               </div>
-            )}
+            </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-400 hover:opacity-90 text-black font-extrabold rounded-xl text-xs transition shadow-lg flex items-center justify-center gap-2"
-            >
-              {otpSent ? "Verify 6-Digit OTP & Sign In" : "Send 6-Digit Mobile OTP"} <ArrowRight size={14} />
-            </button>
-          </form>
-        )}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label className="text-gray-400 block mb-1 font-semibold">State</label>
+                <select
+                  value={formData.state}
+                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                  className="w-full p-2.5 rounded-xl bg-[#12182b] text-white border border-gray-700 outline-none"
+                >
+                  {STATES_LIST.filter(s => s !== "All India").map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-gray-400 block mb-1 font-semibold">District</label>
+                <div className="glass p-2 rounded-xl flex items-center gap-2 border border-gray-700">
+                  <MapPin size={15} className="text-blue-400 shrink-0" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="Visakhapatnam"
+                    value={formData.district}
+                    onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                    className="w-full bg-transparent text-white outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-gray-400 block mb-1 font-semibold">Category (Caste)</label>
+                <select
+                  value={formData.caste}
+                  onChange={(e) => setFormData({ ...formData, caste: e.target.value })}
+                  className="w-full p-2.5 rounded-xl bg-[#12182b] text-white border border-gray-700 outline-none"
+                >
+                  {CASTE_CATEGORIES.filter(c => c !== "All").map(c => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3.5 bg-gradient-to-r from-green-500 to-emerald-400 text-black font-extrabold rounded-xl text-xs hover:opacity-90 transition flex items-center justify-center gap-2 shadow-lg"
+          >
+            <Sparkles size={16} /> Save Details & Launch Dashboard <ArrowRight size={14} />
+          </button>
+        </form>
 
         <div className="relative border-t border-gray-800 my-3 text-center">
           <span className="bg-[#12182b] px-3 text-[10px] text-gray-500 font-semibold uppercase relative -top-2">
-            Or Continue With
+            Or Sign In With
           </span>
         </div>
 
         <button
           onClick={handleGoogleLogin}
-          className="w-full py-2.5 glass hover:bg-white/10 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-2 transition border border-gray-700"
+          className="w-full py-3 glass hover:bg-white/10 rounded-xl text-xs font-semibold text-white flex items-center justify-center gap-2 transition border border-gray-700"
         >
           <span className="font-bold text-blue-400 text-sm">G</span> Continue with Google Workspace
         </button>
 
         <div className="text-center text-gray-400 border-t border-gray-800 pt-3">
-          Don't have a JanAI account?{" "}
+          Need a new account?{" "}
           <button onClick={() => navigate("/register")} className="text-green-400 font-bold hover:underline">
             Create Account
           </button>
