@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useLanguage } from "../context/LanguageContext"
+import { useLanguage, BCP47_LANG_MAP } from "../context/LanguageContext"
 import { askAI } from "../api/gemini"
 import { Mic, MicOff, Volume2, X, Sparkles, Send, AlertTriangle } from "lucide-react"
 
@@ -34,8 +34,7 @@ export default function VoiceAssistant({ isOpen, onClose }) {
 
     try {
       const recognition = new SpeechRecognition()
-      const langMap = { en: "en-IN", hi: "hi-IN", te: "te-IN", ta: "ta-IN", kn: "kn-IN", bn: "bn-IN", mr: "mr-IN", ml: "ml-IN", gu: "gu-IN", pa: "pa-IN" }
-      recognition.lang = langMap[lang] || "en-IN"
+      recognition.lang = BCP47_LANG_MAP[lang] || "en-IN"
       recognition.interimResults = false
 
       recognition.onstart = () => {

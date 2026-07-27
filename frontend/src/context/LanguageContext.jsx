@@ -4,6 +4,33 @@ import { TRANSLATIONS } from "../api/translations"
 
 const LanguageContext = createContext()
 
+export const BCP47_LANG_MAP = {
+  en: "en-IN",
+  hi: "hi-IN",
+  te: "te-IN",
+  ta: "ta-IN",
+  kn: "kn-IN",
+  bn: "bn-IN",
+  mr: "mr-IN",
+  ml: "ml-IN",
+  gu: "gu-IN",
+  pa: "pa-IN",
+  or: "or-IN",
+  as: "as-IN",
+  mai: "mai-IN",
+  sat: "sat-IN",
+  ks: "ks-IN",
+  ne: "ne-NP",
+  kok: "kok-IN",
+  doi: "doi-IN",
+  mni: "mni-IN",
+  brx: "brx-IN",
+  sa: "sa-IN",
+  sd: "sd-IN",
+  hinglish: "hi-IN",
+  teluglish: "te-IN"
+}
+
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
     try {
@@ -22,7 +49,9 @@ export function LanguageProvider({ children }) {
   }
 
   const t = (key) => {
-    const dict = TRANSLATIONS[lang] || TRANSLATIONS.en
+    if (!key) return ""
+    const targetLang = lang || "en"
+    const dict = TRANSLATIONS[targetLang] || TRANSLATIONS.en
     return dict[key] || TRANSLATIONS.en[key] || key
   }
 
@@ -40,8 +69,7 @@ export function LanguageProvider({ children }) {
       }
 
       const utterance = new SpeechSynthesisUtterance(text)
-      const langMap = { en: "en-IN", hi: "hi-IN", te: "te-IN", ta: "ta-IN", kn: "kn-IN", bn: "bn-IN", mr: "mr-IN", ml: "ml-IN", gu: "gu-IN", pa: "pa-IN" }
-      utterance.lang = langMap[lang] || "en-IN"
+      utterance.lang = BCP47_LANG_MAP[lang] || "en-IN"
       
       utterance.onend = () => setIsSpeaking(false)
       utterance.onerror = () => setIsSpeaking(false)

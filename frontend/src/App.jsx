@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom"
 import { AuthProvider } from "./context/AuthContext"
-import { LanguageProvider } from "./context/LanguageContext"
+import { LanguageProvider, useLanguage } from "./context/LanguageContext"
 import { AccessibilityProvider } from "./context/AccessibilityContext"
 import { SchemeProvider } from "./context/SchemeContext"
 import Navbar from "./components/Navbar"
@@ -104,12 +104,14 @@ function AppContent() {
       .catch(() => setApiUnavailable(true))
   }, [])
 
+  const { t } = useLanguage()
+
   const mobileNavItems = [
-    { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-    { label: "Finder", icon: Search, path: "/finder" },
-    { label: "AI Chat", icon: Bot, path: "/chat" },
-    { label: "Track", icon: FileCheck, path: "/applications" },
-    { label: "Profile", icon: User, path: "/profile" }
+    { label: t("navDashboard"), icon: LayoutDashboard, path: "/dashboard" },
+    { label: t("navFinder"), icon: Search, path: "/finder" },
+    { label: t("navChat"), icon: Bot, path: "/chat" },
+    { label: t("navApplications"), icon: FileCheck, path: "/applications" },
+    { label: t("navProfile"), icon: User, path: "/profile" }
   ]
 
   return (

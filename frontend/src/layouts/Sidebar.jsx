@@ -36,13 +36,13 @@ export default function Sidebar() {
     { label: t("navCompare"), icon: Scale, path: "/compare" },
     { label: t("navApplications"), icon: FileCheck, path: "/applications" },
     { label: t("navProfile"), icon: User, path: "/profile" },
-    { label: "Govt Office Locator", icon: Landmark, path: "/offices" }
+    { label: t("navOffices") || "Govt Office Locator", icon: Landmark, path: "/offices" }
   ]
 
   const governanceServices = [
-    { label: "Official Gazette Rules", icon: BookOpen, path: "/status" },
-    { label: "Security & Crypto Ledger", icon: Shield, path: "/security" },
-    { label: "System Health & SLA", icon: Activity, path: "/status" },
+    { label: t("navGazette") || "Official Gazette Rules", icon: BookOpen, path: "/status" },
+    { label: t("navSecurity") || "Security & Crypto Ledger", icon: Shield, path: "/security" },
+    { label: t("navStatus") || "System Health & SLA", icon: Activity, path: "/status" },
     ...(isPartnerRole ? [{ label: "Partner Portal", icon: Building2, path: "/partner" }] : []),
     ...(isElevatedAdmin ? [{ label: t("navAdmin"), icon: ShieldCheck, path: "/admin" }] : [])
   ]

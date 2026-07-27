@@ -26,7 +26,11 @@ export const TRANSLATIONS = {
     highContrast: "High Contrast Mode",
     textSize: "Text Size",
     mcpBadge: "MCP Protocol Server 2.0 Connected",
-    dialectMode: "Vernacular Village Mode"
+    dialectMode: "Vernacular Village Mode",
+    navOffices: "Govt Office Locator",
+    navSecurity: "Security & Crypto Ledger",
+    navGazette: "Official Gazette Rules",
+    navStatus: "System Health & SLA"
   },
   te: {
     title: "జన్ AI (JanAI)",
@@ -55,7 +59,11 @@ export const TRANSLATIONS = {
     highContrast: "హై కాంట్రాస్ట్ మోడ్",
     textSize: "టెక్స్ట్ సైజ్",
     mcpBadge: "MCP సర్వర్ కనెక్ట్ చేయబడింది",
-    dialectMode: "గ్రామీణ సులభ శైలి"
+    dialectMode: "గ్రామీణ సులభ శైలి",
+    navOffices: "ప్రభుత్వ కార్యాలయాల శోధన",
+    navSecurity: "భద్రత & క్రిప్టో లెడ్జర్",
+    navGazette: "అధికారిక గెజెట్ నిబంధనలు",
+    navStatus: "సిస్టమ్ హెల్త్ & SLA"
   },
   hi: {
     title: "जन AI (JanAI)",
@@ -84,7 +92,11 @@ export const TRANSLATIONS = {
     highContrast: "उच्च कंट्रास्ट मोड",
     textSize: "फ़ॉन्ट आकार",
     mcpBadge: "MCP सर्वर 2.0 कनेक्टेड",
-    dialectMode: "ग्रामीण सरल भाषा"
+    dialectMode: "ग्रामीण सरल भाषा",
+    navOffices: "सरकारी कार्यालय खोज",
+    navSecurity: "सुरक्षा एवं क्रिप्टो लेजर",
+    navGazette: "आधिकारिक गजट नियम",
+    navStatus: "सिस्टम स्वास्थ्य एवं SLA"
   },
   ta: {
     title: "ஜன AI (JanAI)",
