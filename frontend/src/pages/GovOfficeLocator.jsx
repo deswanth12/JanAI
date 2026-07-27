@@ -3,6 +3,212 @@ import { MapPin, Phone, Clock, Navigation, Search, Building2, Landmark, ChevronD
 
 // Verified real government office locations & contact details
 const GOVT_OFFICES = [
+  // 🏛️ TIRUPATI DISTRICT OFFICES
+  {
+    id: "tpt-1",
+    name: "District Collectorate — Tirupati",
+    type: "District Administration",
+    address: "New Collectorate Complex, Padmavathi Puram, Tirupati, Andhra Pradesh 517501",
+    phone: "+91 877 2233500",
+    hours: "Mon–Fri: 10:00 AM – 5:00 PM (Spandana Grievance: Mon 10:00 AM)",
+    services: [
+      "Revenue & Land Administration",
+      "Housing Scheme Approvals (PMAY)",
+      "Social Welfare Pension Approvals",
+      "Spandana Public Grievance Redressal",
+      "Chief Minister's Relief Fund (CMRF)"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+Padmavathi+Puram+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-2",
+    name: "Mandal Revenue Office (MRO) / Tahsildar — Tirupati Urban",
+    type: "Revenue & Certificates",
+    address: "MRO Office, Revenue Office Road, Near Municipal Corporation, Tirupati, AP 517501",
+    phone: "+91 877 2225432",
+    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
+    services: [
+      "Income Certificate Issue",
+      "Integrated Caste & OBC Certificate",
+      "Residence / Domicile Certificate",
+      "Pattadar Passbook / Land Record Mutation",
+      "Legal Heir & Family Member Certificate"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Tahsildar+Office+Tirupati+Urban",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-3",
+    name: "Mandal Revenue Office (MRO) / Tahsildar — Tirupati Rural",
+    type: "Revenue & Certificates",
+    address: "MRO Office Building, MR Palli Circle, Tirupati, AP 517502",
+    phone: "+91 877 2248900",
+    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
+    services: [
+      "Rural Land Records & Adangal Extract",
+      "Agriculture PM-Kisan Verification",
+      "Income & Caste Certificates",
+      "House Site Allotment Verification"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Tahsildar+Office+MR+Palli+Tirupati+Rural",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-4",
+    name: "Tirupati Municipal Corporation (MCT) Office",
+    type: "Municipal & Local Body",
+    address: "MCT Main Building, Tilak Road, Near Gandhi Road, Tirupati, AP 517501",
+    phone: "1800 425 0099 (Toll Free) / +91 877 2256169",
+    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
+    services: [
+      "Property Tax Payment & Assessment",
+      "Birth & Death Certificate Registration",
+      "Building Plan Sanction / Approval",
+      "Water Supply Connection & Trade License",
+      "Civic Infrastructure Grievances"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Tirupati+Municipal+Corporation+Tilak+Road",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-5",
+    name: "MeeSeva / AP Online Main Centre — Tirupati Central",
+    type: "Citizen Service Centre",
+    address: "RTC Bus Stand Road, Opposite Srinivasa Pilgrim Complex, Tirupati, AP 517501",
+    phone: "+91 877 2227800",
+    hours: "Mon–Sat: 9:00 AM – 6:30 PM",
+    services: [
+      "Aadhaar Update & Mobile Linking",
+      "AP Income / Caste / Residence Certificate Online Application",
+      "Encumbrance Certificate (EC) Search",
+      "Post-Matric Scholarship NSP Application",
+      "Electricity & Water Bill Payment"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=MeeSeva+Center+RTC+Bus+Stand+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-6",
+    name: "Sub-Registrar Office (SRO) — Tirupati",
+    type: "Registration & Stamps",
+    address: "SRO Building, Near Balaji Colony, Tirupati, AP 517502",
+    phone: "+91 877 2231200",
+    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
+    services: [
+      "Property Registration & Sale Deed",
+      "Encumbrance Certificate (EC)",
+      "Certified Copy of Registered Documents",
+      "Marriage Registration (Special & Hindu Marriage Act)",
+      "Non-Judicial Stamp Paper Verification"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sub+Registrar+Office+Balaji+Colony+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-7",
+    name: "Regional Transport Office (RTO) — Tirupati",
+    type: "Transport & Licensing",
+    address: "RTO Office, Korlagunta Main Road, Tirupati, AP 517501",
+    phone: "+91 877 2230400",
+    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
+    services: [
+      "Learner's License (LLR) & Permanent DL Test",
+      "Vehicle Registration (RC) & Transfer",
+      "Vehicle Fitness Certificate (FC)",
+      "International Driving Permit (IDP)"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=RTO+Office+Korlagunta+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-8",
+    name: "Post Office Passport Seva Kendra (POPSK) — Tirupati",
+    type: "Passport & Visa",
+    address: "Head Post Office Complex, Gandhi Road, Tirupati, AP 517501",
+    phone: "1800 258 1800 (National Helpline)",
+    hours: "Mon–Fri: 9:30 AM – 5:30 PM (Prior Online Appointment Required)",
+    services: [
+      "Fresh Passport Biometrics & Verification",
+      "Passport Renewal & Reissue",
+      "Police Clearance Certificate (PCC)",
+      "National Overseas Scholarship Verification"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Post+Office+Passport+Seva+Kendra+Gandhi+Road+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-9",
+    name: "District Employment Office — Tirupati",
+    type: "Employment & Skill",
+    address: "Government ITI Campus, Alipiri Road, Tirupati, AP 517507",
+    phone: "+91 877 2284500",
+    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
+    services: [
+      "Employment Exchange Card Registration",
+      "APSSDC Skill Training Program Enrollment",
+      "Job Mela / Job Fair Registration",
+      "Unemployed Youth Career Counseling"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Employment+Office+Alipiri+Road+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-10",
+    name: "Tirumala Tirupati Devasthanams (TTD) Administrative Building",
+    type: "Pilgrimage & Welfare",
+    address: "TTD Administrative Building, K.T. Road, Tirupati, AP 517501",
+    phone: "1800 425 4141 / +91 877 2277777",
+    hours: "Mon–Sat: 9:00 AM – 6:00 PM",
+    services: [
+      "TTD Employee & Public Welfare Schemes",
+      "Veda Pathasala & Educational Grant Applications",
+      "Darshan & Accommodation Grievances",
+      "Charitable Trust Beneficiary Schemes"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=TTD+Administrative+Building+KT+Road+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+  {
+    id: "tpt-11",
+    name: "Ward Secretariat (Ward No. 12) — Tirupati Urban",
+    type: "Village Secretariat",
+    address: "Ward Secretariat, AIR Bypass Road, Near Iskcon Temple, Tirupati, AP 517501",
+    phone: "1902 (AP Citizen Helpline)",
+    hours: "Mon–Sat: 9:30 AM – 5:30 PM",
+    services: [
+      "Social Welfare Pension (NTR Bharosa) Verification",
+      "Arogyasri Health Card e-KYC",
+      "Ration Card Addition & Correction",
+      "Birth & Death Certificate Verification"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ward+Secretariat+AIR+Bypass+Road+Tirupati",
+    state: "Andhra Pradesh",
+    district: "Tirupati",
+    verified: true
+  },
+
+  // 🏛️ VISAKHAPATNAM DISTRICT OFFICES
   {
     id: "go-1",
     name: "District Collectorate — Visakhapatnam",
@@ -23,61 +229,6 @@ const GOVT_OFFICES = [
     verified: true
   },
   {
-    id: "go-2",
-    name: "District Collectorate — NTR District (Vijayawada)",
-    type: "District Administration",
-    address: "Collectorate Office, MG Road, Labbipet, Vijayawada, Andhra Pradesh 520010",
-    phone: "+91 866 2474411",
-    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
-    services: [
-      "District Level Welfare Approvals",
-      "Land Records & Revenue",
-      "Pattadar Passbook Issue",
-      "Public Grievance Cell",
-      "EBC Nestham & Pension Monitoring"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+NTR+District+Vijayawada",
-    state: "Andhra Pradesh",
-    district: "NTR (Vijayawada)",
-    verified: true
-  },
-  {
-    id: "go-3",
-    name: "District Collectorate — Tirupati",
-    type: "District Administration",
-    address: "New Collectorate Complex, Padmavathi Puram, Tirupati, Andhra Pradesh 517501",
-    phone: "+91 877 2233500",
-    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
-    services: [
-      "Revenue & Land Administration",
-      "Housing Scheme Approvals (PMAY)",
-      "Social Welfare Pension Approvals",
-      "District Grievance Redressal"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+Tirupati",
-    state: "Andhra Pradesh",
-    district: "Tirupati",
-    verified: true
-  },
-  {
-    id: "go-4",
-    name: "District Collectorate — Guntur",
-    type: "District Administration",
-    address: "Collectorate Complex, Collectorate Road, Nagarampalem, Guntur, Andhra Pradesh 522004",
-    phone: "+91 863 2234070",
-    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
-    services: [
-      "Revenue & Agriculture Scheme Monitoring",
-      "PM-Kisan Land Verification",
-      "Social Welfare & Caste Verification",
-      "Grievance Redressal Cell"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+Guntur",
-    state: "Andhra Pradesh",
-    district: "Guntur",
-    verified: true
-  },
-  {
     id: "go-5",
     name: "Mandal Revenue Office (MRO) / Tahsildar — Pendurthi",
     type: "Revenue & Certificates",
@@ -94,24 +245,6 @@ const GOVT_OFFICES = [
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Tahsildar+Office+Pendurthi+Visakhapatnam",
     state: "Andhra Pradesh",
     district: "Visakhapatnam",
-    verified: true
-  },
-  {
-    id: "go-6",
-    name: "Mandal Revenue Office (MRO) — Vijayawada Urban",
-    type: "Revenue & Certificates",
-    address: "Revenue Bhavan, Near Benz Circle, Vijayawada, Andhra Pradesh 520010",
-    phone: "+91 866 2475588",
-    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
-    services: [
-      "Income & Family Member Certificate",
-      "OBC / EWS Certificate Issue",
-      "Non-Creamy Layer Certificate",
-      "Legal Heir Certificate"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Tahsildar+Office+Vijayawada+Urban",
-    state: "Andhra Pradesh",
-    district: "NTR (Vijayawada)",
     verified: true
   },
   {
@@ -173,24 +306,6 @@ const GOVT_OFFICES = [
     verified: true
   },
   {
-    id: "go-10",
-    name: "Passport Seva Kendra (PSK) — Vijayawada",
-    type: "Passport & Visa",
-    address: "Bus Route No 5 Road, Opposite Executive Club, Vijayawada, AP 520008",
-    phone: "1800 258 1800",
-    hours: "Mon–Fri: 9:30 AM – 5:30 PM (Online Appointment)",
-    services: [
-      "Fresh Passport Biometrics",
-      "Passport Renewal & Name Change",
-      "Police Clearance Certificate (PCC)",
-      "ECNR Status Endorsement"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Passport+Seva+Kendra+Vijayawada",
-    state: "Andhra Pradesh",
-    district: "NTR (Vijayawada)",
-    verified: true
-  },
-  {
     id: "go-11",
     name: "Regional Transport Office (RTO) — Visakhapatnam Central",
     type: "Transport & Licensing",
@@ -209,25 +324,47 @@ const GOVT_OFFICES = [
     district: "Visakhapatnam",
     verified: true
   },
+
+  // 🏛️ VIJAYAWADA & GUNTUR DISTRICT OFFICES
   {
-    id: "go-12",
-    name: "Sub-Registrar Office (SRO) — Seethammadhara",
-    type: "Registration & Stamps",
-    address: "Registration Department Complex, Seethammadhara North Extension, Visakhapatnam, AP 530013",
-    phone: "+91 891 2543200",
-    hours: "Mon–Sat: 10:00 AM – 5:00 PM (Slot Booking)",
+    id: "go-2",
+    name: "District Collectorate — NTR District (Vijayawada)",
+    type: "District Administration",
+    address: "Collectorate Office, MG Road, Labbipet, Vijayawada, Andhra Pradesh 520010",
+    phone: "+91 866 2474411",
+    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
     services: [
-      "Property Sale Deed & Gift Deed Registration",
-      "Encumbrance Certificate (EC) Issuance",
-      "Certified Copy (CC) of Registered Title Deeds",
-      "Hindu & Special Marriage Registration",
-      "Non-Judicial Stamp Paper Verification"
+      "District Level Welfare Approvals",
+      "Land Records & Revenue",
+      "Pattadar Passbook Issue",
+      "Public Grievance Cell",
+      "EBC Nestham & Pension Monitoring"
     ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sub+Registrar+Office+Seethammadhara+Visakhapatnam",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+NTR+District+Vijayawada",
     state: "Andhra Pradesh",
-    district: "Visakhapatnam",
+    district: "NTR (Vijayawada)",
     verified: true
   },
+  {
+    id: "go-4",
+    name: "District Collectorate — Guntur",
+    type: "District Administration",
+    address: "Collectorate Complex, Collectorate Road, Nagarampalem, Guntur, Andhra Pradesh 522004",
+    phone: "+91 863 2234070",
+    hours: "Mon–Fri: 10:00 AM – 5:00 PM",
+    services: [
+      "Revenue & Agriculture Scheme Monitoring",
+      "PM-Kisan Land Verification",
+      "Social Welfare & Caste Verification",
+      "Grievance Redressal Cell"
+    ],
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=District+Collectorate+Guntur",
+    state: "Andhra Pradesh",
+    district: "Guntur",
+    verified: true
+  },
+
+  // 🏛️ HYDERABAD DISTRICT OFFICES
   {
     id: "go-13",
     name: "District Collectorate — Hyderabad (Telangana)",
@@ -264,30 +401,12 @@ const GOVT_OFFICES = [
     state: "Telangana",
     district: "Hyderabad",
     verified: true
-  },
-  {
-    id: "go-15",
-    name: "Mandal Revenue Office (MRO) — Secunderabad",
-    type: "Revenue & Certificates",
-    address: "Mandal Revenue Office, Near Passport Seva Kendra, Secunderabad, Telangana 500003",
-    phone: "+91 40 2770 1234",
-    hours: "Mon–Sat: 10:00 AM – 5:00 PM",
-    services: [
-      "Income & Residence Certificate Issue",
-      "Caste Certificate Verification (SC/ST/BC)",
-      "Pahani & ROR Extracts (Dharani Portal)",
-      "Legal Heir Certificate"
-    ],
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mandal+Revenue+Office+Secunderabad",
-    state: "Telangana",
-    district: "Hyderabad",
-    verified: true
   }
 ]
 
-const OFFICE_TYPES = ["All Types", "District Administration", "Revenue & Certificates", "Citizen Service Centre", "Village Secretariat", "Registration & Stamps", "Passport & Visa", "Transport & Licensing"]
+const OFFICE_TYPES = ["All Types", "District Administration", "Revenue & Certificates", "Citizen Service Centre", "Village Secretariat", "Registration & Stamps", "Passport & Visa", "Transport & Licensing", "Municipal & Local Body", "Pilgrimage & Welfare"]
 const STATES = ["All States", "Andhra Pradesh", "Telangana"]
-const DISTRICTS = ["All Districts", "Visakhapatnam", "NTR (Vijayawada)", "Tirupati", "Guntur", "Hyderabad"]
+const DISTRICTS = ["All Districts", "Tirupati", "Visakhapatnam", "NTR (Vijayawada)", "Guntur", "Hyderabad"]
 
 export default function GovOfficeLocator() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -316,6 +435,8 @@ export default function GovOfficeLocator() {
       case "Registration & Stamps": return "📋"
       case "Passport & Visa": return "🛂"
       case "Transport & Licensing": return "🚗"
+      case "Municipal & Local Body": return "🏙️"
+      case "Pilgrimage & Welfare": return "🛕"
       default: return "🏢"
     }
   }
@@ -329,6 +450,8 @@ export default function GovOfficeLocator() {
       case "Registration & Stamps": return "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
       case "Passport & Visa": return "bg-red-500/20 text-red-300 border-red-500/30"
       case "Transport & Licensing": return "bg-orange-500/20 text-orange-300 border-orange-500/30"
+      case "Municipal & Local Body": return "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+      case "Pilgrimage & Welfare": return "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
       default: return "bg-gray-500/20 text-gray-300 border-gray-500/30"
     }
   }
@@ -350,7 +473,7 @@ export default function GovOfficeLocator() {
             <Landmark size={28} className="text-blue-400" /> Government Office Locator
           </h1>
           <p className="text-gray-400 text-xs">
-            Locate verified government offices — District Collectorates, MRO / Tahsildar Offices, MeeSeva / CSC Centres, Village Secretariats, RTOs, and Passport Seva Kendras with exact Google Maps directions and real phone numbers.
+            Locate verified government offices — District Collectorates, MRO / Tahsildar Offices, MeeSeva / CSC Centres, Tirupati Municipal Corporation, Ward Secretariats, RTOs, TTD Admin, and Passport Seva Kendras with exact Google Maps directions and real phone numbers.
           </p>
         </div>
 
@@ -361,7 +484,7 @@ export default function GovOfficeLocator() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by office name, service, or area e.g. 'Income Certificate', 'Passport', 'Vijayawada'..."
+            placeholder="Search by office name, service, or area e.g. 'Tirupati', 'Income Certificate', 'Passport'..."
             className="w-full bg-[#12182b] border border-gray-700 rounded-2xl pl-11 pr-4 py-3 text-white text-xs outline-none focus:border-blue-400 transition"
           />
         </div>
